@@ -1,0 +1,85 @@
+<div class="profile_holder">
+	<div class="container-flow" align="center">
+		<span class="vendor_heading text-center">Vendor Details</span>
+		<md-button class="md-fab md-primary pull-right" aria-label="Edit" style="right:1vw;" ng-click="show_editor=true;show_details=false;">
+          <span class="glyphicon glyphicon-pencil" style="font-size:3vh;"></span>
+        </md-button>
+	</div>
+	<hr>
+	<div class="container-flow">
+		<span ng-show="show_details">
+			<div class="col-md-5 col-sm-5 col-xs-12">
+				<img class="img-responsive" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" height="300" width="300">
+			</div>
+			<div class="col-md-7 col-sm-7 col-xs-7">
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-5">
+						<div class="vendor_profile_label"><b>Name:</b></div><br>
+					</div>
+					<div class="col-md-8 col-sm-8 col-xs-7">
+						<div class="vendor_profile_label">{{vendor.name}}</div><br>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-5">
+						<div class="vendor_profile_label"><b>Company:</b></div><br>
+					</div>
+					<div class="col-md-8 col-sm-8 col-xs-7">
+						<div class="vendor_profile_label">{{vendor.company}}</div><br>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-5">
+						<div class="vendor_profile_label"><b>E-mail:</b></div><br>
+					</div>
+					<div class="col-md-8 col-sm-8 col-xs-7">
+						<div class="vendor_profile_label">{{vendor.email}}</div><br>
+					</div>
+				</div>
+			</div>
+		</span>
+		<span ng-show="show_editor">
+			<div class="col-md-5 col-md-offset-1 col-sm-6 col-xs-12">
+				<form name="vendorForm">
+					<md-input-container class="md-block">
+				        <label>Vendor Name*</label>
+				        <input required ng-model="vendor.name">
+				        <div ng-messages="vendorForm.clientName.$error">
+				          <div ng-message="required">Enter your name.</div>
+				        </div>
+					</md-input-container>
+					<md-input-container class="md-block">
+				        <label>Company*</label>
+				        <input required ng-model="vendor.company">
+				        <div ng-messages="vendorForm.clientName.$error">
+				          <div ng-message="required">Enter your Company name.</div>
+				        </div>
+					</md-input-container>
+					<md-input-container class="md-block">
+				        <label>E-mail*</label>
+				        <input required ng-model="vendor.email">
+				        <div ng-messages="vendorForm.clientName.$error">
+				          <div ng-message="required">Enter your E-mail.</div>
+				        </div>
+					</md-input-container>
+					<md-input-container class="md-block">
+				        <label>About the Shop</label>
+				        <input ng-model="vendor.about">
+				        <div ng-messages="vendorForm.clientName.$error">
+				          <div>Details about the shop</div>
+				        </div>
+					</md-input-container>
+					<br>
+					<md-button class="md-raised md-primary" style="width:48%;">Done</md-button>
+					<md-button class="md-raised md-warn pull-right" style="width:48%;" ng-click="show_editor=false;show_details=true;">Cancel</md-button>
+				</form>
+		      </div>
+		      <div class="col-md-6 col-sm-6 col-xs-12">
+		      	<div  class="fileUpload btn btn-primary">
+		      		<div ng-file-reader class="upload" accept="image/jpeg, image/png" on-selected="onSelected( files )" on-readed="onReaded( event, file )" read-method="readMethod" multiple debug-mode="true"></div>
+		      	<span>Upload Photo</span></div>
+		      	<loaded-img src="imgData" height="300" width="300" alt="Profile Picture" ng-show="show_image"></loaded-img>
+		      </div>
+		</span>
+	</div>
+</div>

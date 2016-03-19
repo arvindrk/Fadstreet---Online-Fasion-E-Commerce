@@ -1,0 +1,75 @@
+.navbar-nav{
+	font-size: 2.5vh;
+}
+
+/*Equally divide navigation bar links*/
+.collapse ul li{
+	min-width: 15vw;
+	text-align: center;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover { 
+	outline: 0;
+}
+.nav-tabs{
+	font-size: 1em;
+}
+/*area to display fadstreet Brand*/
+.brand{
+	max-width: 100vw;
+	text-align: center;
+}
+.nav-right{
+	display: block;
+	float: right;
+	margin: 3px 5px;
+}
+cartbutton{
+	display:inline-block;
+	position: relative;
+	padding: 0 1vw;
+	top: 3px;
+	-ms-touch-action:manipulation;
+	touch-action:manipulation;
+	cursor:pointer;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+	background-color: #fff;
+	color: #000;
+	/*border:1px solid #000;*/
+	/*-moz-border-radius: 50px;*/
+	/*-webkit-border-radius: 50px;*/
+	border-radius: 5px;
+	font-size: 3vh;
+}
+cartbutton:hover{
+	/*background-color: #4CD3AB;*/
+	color: #4CD3AB;
+	/*box-shadow: 3px 3px 3px #888888;*/
+}
+loginbutton{
+	display:inline-block;
+	padding:5px 2vw;
+	margin:0 5vw;
+	font-size:1em;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align:middle;
+	-ms-touch-action:manipulation;
+	touch-action:manipulation;
+	cursor:pointer;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+	background-color: #fff;
+	color: #000;
+	border:1px solid #000;
+	border-radius:5px;
+}
+loginbutton:hover{
+	background-color: #4CD3AB;
+	color: #000;
+	box-shadow: 3px 3px 3px #888888;
+}
