@@ -1,15 +1,59 @@
-.navbar-nav{
-	font-size: 2.5vh;
+.overflow_scroll {
+    border-bottom: 1px solid #000;
+    border-bottom-width: 25%; 
+}
+/*brings navbar on scrollup*/
+header {
+  z-index: 1000;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+}
+.default {
+  top: 0;
+}
+.fixed {
+  top: -180px;
 }
 
 /*Equally divide navigation bar links*/
-.collapse ul li{
-	min-width: 15vw;
-	text-align: center;
+.customnavbar{
+	font-size: 2.5vh;
+	background-color: #daf6ed;
 }
+.customnavbar ul a li{
+	display: inline-block;
+	width: 18%;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	margin: 10px 0px 5px 0px;
+}
+.customnavbar ul a li:hover{
+	color: #4CD3AB;
+}
+
+.search_area{
+	min-height: 13vh;
+	background-color: #daf6ed;
+	font-size: 2.5vh;
+}
+
+.search_filter{
+	display: inline-block;
+	min-width: 7vw;
+}
+.search_filter img:hover{
+	cursor: pointer;
+}
+
 .nav-tabs > .active > a, .nav-tabs > .active > a:hover { 
 	outline: 0;
 }
+
 .nav-tabs{
 	font-size: 1em;
 }
@@ -51,7 +95,7 @@ cartbutton:hover{
 loginbutton{
 	display:inline-block;
 	padding:5px 2vw;
-	margin:0 5vw;
+	margin:0 3vw;
 	font-size:1em;
 	text-align:center;
 	white-space:nowrap;
@@ -72,4 +116,14 @@ loginbutton:hover{
 	background-color: #4CD3AB;
 	color: #000;
 	box-shadow: 3px 3px 3px #888888;
+}
+.selected_filter{
+	display: inline-block;
+	min-width: 5vw;
+}
+.hide-button {
+    float: right;
+    font-size: 15px;
+    display: inline-block;
+    cursor: pointer;
 }

@@ -99,7 +99,7 @@ app.controller('landingController', ['$scope','$cookieStore','$http','$location'
     "https://ak0.scstatic.net/1/cdn2-cont7.sweetcouch.com/142621814719913094-calvin-klein-jeans-white-printed-top.jpg",
     "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339568-calvin-klein-jeans-women-white-printed.jpg"];
 
-    $scope.fiters = ["https://static.donde-app.com/icons/NEWICONS/Domain_dress.png",
+    $scope.filters = ["https://static.donde-app.com/icons/NEWICONS/Domain_dress.png",
     "https://static.donde-app.com/icons/NEWICONS/Domain_top.png",
     "https://static.donde-app.com/icons/NEWICONS/Domain_sweater.png",
     "https://static.donde-app.com/icons/NEWICONS/Domain_pants.png",
@@ -108,12 +108,27 @@ app.controller('landingController', ['$scope','$cookieStore','$http','$location'
     "https://static.donde-app.com/icons/NEWICONS/Domain_swimsuit.png",
     "https://static.donde-app.com/icons/NEWICONS/Domain_shoes.png",
     "https://static.donde-app.com/icons/NEWICONS/Domain_bag.png"];
-
+    
+    $scope.selected_filters = [];
+    $scope.select = function(data){
+      $scope.selected_filters.push($scope.filters[data]);
+      $scope.filter_selected = true;
+      $scope.filter_close = true;
+    }
+    $scope.remove = function(data){
+      console.log($scope.selected_filters[data]);
+      $scope.selected_filters.splice(data,1);
+    }
+    $scope.removeAll = function(){
+      $scope.selected_filters = [];
+      $scope.filter_selected = false;
+      $scope.filter_close = false;
+    }
     $scope.women_active = "active";
     $scope.men_active = "inactive";
-    $scope.heart = false;
     $scope.unlike = true;
     $scope.like = false;
+
     $scope.login = function(){
       $window.location.assign('/fadstreet/login.html');
     }

@@ -97,13 +97,10 @@
 .green{
 	color: #4CD3AB;
 }
-
-.search_area{
-	height: 25vh;
-	background-color: #daf6ed;
-	font-size: 2.5vh;
+.products{
+	position: relative;
+	top: 40vh;
 }
-
 /*----------------------*/
 /***** Hover Effect *****/
 /*----------------------*/
