@@ -16,12 +16,13 @@
   </head>
   <body ng-controller="landingController">
     <header class="default">
-      <div class="container-flow" style="background-color:white;">
+      <div class="container-flow">
         <ul class="nav nav-tabs">
           <li role="presentation" ng-class="women_active"><a href="#" ng-click="women_active='active';men_active='inactive'">SHOP WOMEN</a></li>
           <li role="presentation" ng-class="men_active"><a href="#" ng-click="women_active='inactive';men_active='active'">SHOP MEN</a></li>
           <div class="brand">
-            <span style="font-size:2em;cursor:default;position:relative;left:2.5vw;"><span style="color:#4CD3AB">Fad</span>Street</span>
+            <img src="/fadstreet/files/logo.png" height="30" width="30">
+            <span class="logo">FAD<span style="color:#1C5ECF">STREET</span></span>
             <div class="nav-right">
               <!-- <loginbutton>Download our App</loginbutton> -->
               <loginbutton ng-click="login()">LOGIN</loginbutton>
@@ -33,7 +34,7 @@
       </div>
       <div class="container-flow customnavbar">
         <div class="container">
-          <ul class="overflow_scroll">
+          <ul class="seperator">
             <a href=""><li>HOME</li></a>
             <a href=""><li>EXPLORE</li></a>
             <a href=""><li>NEARBY</li></a>
@@ -43,8 +44,8 @@
         </div>
       </div>
       <div class="container-flow search_area">
-        <div class="container">
-          <div align="center">
+        <div class="container scrolls">
+          <div align="center" class="">
             <!-- <p><strong>Choose an Item</strong></p> -->
             <!-- <hr style="border-color:black;margin:5px 0px 10px 0px;" width="10%"> -->
             <div ng-repeat="filter in filters" class="search_filter">
@@ -60,6 +61,39 @@
         </div>
       </div>
     </header>
+    <br>
+    <div class="container deals">
+      <div class="col-md-8 col-sm-12 col-xs-12">
+        <img src="http://www.wonderlandmagazine.com/wp-content/uploads/2014/07/10217223-Levis-F14-Spread-511-1024x704.jpg">
+      </div>
+      <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="deals_right">
+          <div class="deal_card" style="border-top:1px solid #000;">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <img src="https://s-media-cache-ak0.pinimg.com/236x/6c/dd/87/6cdd874be770cbd72555f0aaf62dc365.jpg">
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <!-- <h1 align="center">Deals on Watches</h1> -->
+            </div>
+          </div>
+          <div class="deal_card">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <img src="http://futurefashion1.yolasite.com/resources/Shoe-Models2.jpg" height="150" width="150">
+            </div>
+          </div>
+          <div class="deal_card" style="border:none">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <img src="http://1.bp.blogspot.com/-6aRa-tFQYbg/UU3IEtYD8kI/AAAAAAAAAHs/_0hV65KkANY/s1600/model-holding-bag.jpg" height="170" width="120">
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
     <div class="container products">
       <div ng-repeat="src in sources">
         <div class="col-md-3 col-sm-4 col-xs-6">
@@ -76,46 +110,11 @@
               </figcaption>     
             </figure>
             <div class="row">
-              <div class="display_info">Sample</div>
+              <div class="display_info">BRAND NAME</div>
             </div>
           </div>
         </div>
       </div>
-      <!-- <div flex layout="column">
-        <div class="grid" data-masonry='{ "itemSelector" : ".grid-item", "columnWidth" : ".grid-sizer", "percentPosition" : false}' flex>
-          <div class="grid-sizer"/>
-          <div class="grid-item" ng-repeat="src in sources">
-            <md-card>
-            <div class="hover_grid">
-              <figure class="effect-zoe">
-                <md-card-title>
-                  <md-card-title-media>
-                    <div class="md-media-lg card-media">
-                      <img ng-src="{{src}}" alt="" / imageonload>
-                      <figcaption>
-                        <h2 align="center">Creative <span>Zoe</span></h2>
-                        <p class="icon-links">
-                          <a href="#"><span class="icon-heart"></span></a>
-                          <a href="#"><span class="icon-eye"></span></a>
-                          <a href="#"><span class="icon-paper-clip"></span></a>
-                        </p>
-                        <p class="description">Zoe never had the patience of her sisters. She deliberately punched the bear in his face.</p>
-                      </figcaption>
-                    </div>
-                  </md-card-title-media>
-                </md-card-title>
-              </figure>
-            </div>
-              <md-card-actions layout="row" layout-align="end center" class="layout-align-end-center layout-row">
-                <a href="#">
-                  <i class="glyphicon glyphicon-file text-bigger"></i> More Related
-                  <i class="glyphicon glyphicon-chevron-right"></i>
-                </a>
-              </md-card-actions>
-            </md-card>
-          </div>
-        </div>
-      </div> -->
     </div>
 
     <!-- Jquery is required for angular to execute -->
@@ -138,22 +137,5 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script> 
     <script type="text/javascript" src="/fadstreet/files/js/ngFileReader.js"></script>
     <script>new WOW().init();</script>
-    <script>
-      (function($) {
-        var ost = 0;
-        $(window).scroll(function() {
-          var cOst = $(this).scrollTop();
-
-          if(cOst > 200 && cOst > ost) {
-             $('header').addClass('fixed').removeClass('default');
-          }
-          else {
-             $('header').addClass('default').removeClass('fixed');
-          }
-
-          ost = cOst;
-        });
-      })(jQuery);
-    </script>
   </body>
 </html>

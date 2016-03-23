@@ -12,7 +12,11 @@
     width: 50%;
   }
 }*/
-
+.scrolls { 
+	overflow-x: scroll;
+	overflow-y: hidden;
+    white-space:nowrap
+} 
 .grid {
 	position: relative;
 	margin: 0 auto;
@@ -91,15 +95,12 @@
 	font-size: 68.5%;
 }
 
-.display_info{
-	/*border: 1px solid #000;*/
-}
 .green{
-	color: #4CD3AB;
+	color: #1C5ECF;
 }
 .products{
 	position: relative;
-	top: 40vh;
+	/*top: 30vh;*/
 }
 /*----------------------*/
 /***** Hover Effect *****/
@@ -208,4 +209,34 @@ figure.effect-zoe:hover p.icon-links a:nth-child(2) {
 figure.effect-zoe:hover p.icon-links a:first-child {
 	-webkit-transition-delay: 0.2s;
 	transition-delay: 0.2s;
+}
+.deals{
+	height:75vh;
+}
+.deals_right{
+	height: 75vh;
+	border-radius: 5px;
+	position: relative;
+	display: block;
+	margin-top:25vh;
+}
+.deal_card{
+	min-height: 22vh;
+	border-bottom: 1px solid #000;
+}
+.deals > div > img{
+	position: relative;
+	display: block;
+	margin-top:25vh;
+	min-height: 100%;
+	max-width: 100%;
+	/*z-index: 1;*/
+}
+.deal_card > div > img{
+	position: relative;
+	/*margin: 1vh;*/
+	left: -2vh;
+	top:1vh;
+	max-height: 100%;
+	max-width: 100%;
 }

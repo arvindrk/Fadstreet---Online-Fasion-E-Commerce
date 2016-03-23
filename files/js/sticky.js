@@ -1,14 +1,15 @@
-function sticky_relocate() {
-    var window_top = $(window).scrollTop();
-    var div_top = $('#sticky-anchor').offset().top;
-    if (window_top > div_top) {
-        $('#sticky').addClass('stick');
-    } else {
-        $('#sticky').removeClass('stick');
-    }
-}
+(function($) {
+    var ost = 0;
+    $(window).scroll(function() {
+      var cOst = $(this).scrollTop();
 
-$(function () {
-    $(window).scroll(sticky_relocate);
-    sticky_relocate();
-});
+      if(cOst > 200 && cOst > ost) {
+         $('header').addClass('fixed').removeClass('default');
+      }
+      else {
+         $('header').addClass('default').removeClass('fixed');
+      }
+
+      ost = cOst;
+    });
+})(jQuery);

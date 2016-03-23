@@ -118,6 +118,10 @@ app.controller('landingController', ['$scope','$cookieStore','$http','$location'
     $scope.remove = function(data){
       console.log($scope.selected_filters[data]);
       $scope.selected_filters.splice(data,1);
+      if($scope.selected_filters.length == 0){
+        $scope.filter_selected = false;
+        $scope.filter_close = false;
+      }
     }
     $scope.removeAll = function(){
       $scope.selected_filters = [];
