@@ -1,10 +1,10 @@
-var app = angular.module('fadStreetApp',['ngCookies','ngRoute','ui.router','ngMaterial','ngFileReader']);
+var app = angular.module('fadStreetApp',['ngCookies','ngRoute','ui.router','ngMaterial','ngFileReader', 'ngMessages', 'material.svgAssetsCache']);
 
 ////////////////////////////////////////////////////////ROUTE CONFIGURATION////////////////////////////////////////////////////////////////
 app.config(function($stateProvider, $urlRouterProvider){
 
   // For any unmatched url, send to /login
-  $urlRouterProvider.otherwise("/IncomingLists")
+  // $urlRouterProvider.otherwise("/IncomingLists")
 
   $stateProvider
   .state('login', {
@@ -39,22 +39,6 @@ app.config(function($stateProvider, $urlRouterProvider){
   })
 });
 
-///////////////////////////////////////////////////////////ADJUST LAYOUT ON IMAGE LOAD///////////////////////////////////////////////////////////////////
-
-app.directive('imageonload', function() {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-            element.bind('load', function() {
-                var $grid = $('.grid').masonry();
-                $(window).on("load", function() {
-                  $grid.masonry('layout');
-                });
-            });
-        }
-    };
-});
-
 ///////////////////////////////////////////////////////////LOGIN CONTROLLER///////////////////////////////////////////////////////////////////
 
 app.controller('loginController', ['$scope','$cookieStore','$http','$location','$window',
@@ -63,31 +47,24 @@ app.controller('loginController', ['$scope','$cookieStore','$http','$location','
     	$myElementInkRipple.attach($scope, angular.element(ev.target), { center: true });
   	}
     $scope.login = {};
-    $scope.url = "";
+    
     $scope.show_login = true;
     
     $scope.loginForm = function(payload){
-		if(payload.email == 'admin' && payload.password == 'admin'){
-			$window.location.assign('/fadstreet/vendor/vendor.html');
-		}
-		// $http.post($scope.url,payload)
-		// .then(function successCallback(response) {
-		//     // this callback will be called asynchronously
-		//     // when the response is available
-		//   }, function errorCallback(response) {
-		//     // called asynchronously if an error occurs
-		//     // or server returns response with an error status.
-		//   });
+  		if(payload.email == 'admin' && payload.password == 'admin'){
+  			$window.location.assign('/fadstreet/vendor/vendor.html');
+  		}
     }
     $scope.clearForm = function(){
       $scope.login = {};
       $scope.signup= {};
     }
   }]);
+
 ///////////////////////////////////////////////////////////LANDING CONTROLLER///////////////////////////////////////////////////////////////////
 
-app.controller('landingController', ['$scope','$cookieStore','$http','$location','$window',
-  function($scope,$cookieStore,$http,$location,$window) {
+app.controller('landingController', ['$scope','$cookieStore','$http','$location','$mdDialog','$window',
+  function($scope,$cookieStore,$http,$location,$mdDialog,$window) {
 
   	$scope.sources = ["https://ak0.scstatic.net/1/cdn2-cont6.sweetcouch.com/141379493210628436-calvin-klein-jeans-man-grey-casual.jpg",
     "https://ak2.scstatic.net/1/cdn2-cont13.sweetcouch.com/145595475706736181-calvinklein-innerwear-white-purple-checked-long.jpg",
@@ -99,16 +76,42 @@ app.controller('landingController', ['$scope','$cookieStore','$http','$location'
     "https://ak0.scstatic.net/1/cdn2-cont7.sweetcouch.com/142621814719913094-calvin-klein-jeans-white-printed-top.jpg",
     "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339568-calvin-klein-jeans-women-white-printed.jpg"];
 
-    $scope.filters = ["https://static.donde-app.com/icons/NEWICONS/Domain_dress.png",
-    "https://static.donde-app.com/icons/NEWICONS/Domain_top.png",
-    "https://static.donde-app.com/icons/NEWICONS/Domain_sweater.png",
-    "https://static.donde-app.com/icons/NEWICONS/Domain_pants.png",
-    "https://static.donde-app.com/icons/NEWICONS/Domain_coat.png",
-    "https://static.donde-app.com/icons/NEWICONS/Domain_skirt.png",
-    "https://static.donde-app.com/icons/NEWICONS/Domain_swimsuit.png",
-    "https://static.donde-app.com/icons/NEWICONS/Domain_shoes.png",
-    "https://static.donde-app.com/icons/NEWICONS/Domain_bag.png"];
+   // $scope.sources = ["/fadstreet/files/images/File1.jpg",
+   // "/fadstreet/files/images/File2.jpg",
+   // "/fadstreet/files/images/File3.jpg",
+   // "/fadstreet/files/images/File4.jpg",
+   // "/fadstreet/files/images/File5.jpg",
+   // "/fadstreet/files/images/File6.jpg",
+   // "/fadstreet/files/images/File7.jpg",
+   // "/fadstreet/files/images/File8.jpg",
+   // "/fadstreet/files/images/File9.jpg",
+   // "/fadstreet/files/images/File10.jpg",
+   // "/fadstreet/files/images/File11.jpg",
+   // "/fadstreet/files/images/File12.jpg",
+   // "/fadstreet/files/images/File13.jpg"];
     
+    $scope.filters = ["/fadstreet/files/images/1a.png",
+    "/fadstreet/files/images/2a.png",
+    "/fadstreet/files/images/3a.png",
+    "/fadstreet/files/images/4a.png",
+    "/fadstreet/files/images/5a.png",
+    "/fadstreet/files/images/6a.png"];
+    
+    // $scope.loginForm = function(payload){
+    //   // if(payload.email == 'admin' && payload.password == 'admin'){
+    //   //  $window.location.assign('/fadstreet/vendor/vendor.html');
+    //   // }
+    //   $http({
+    //     method: 'GET',
+    //     url: 'http://127.0.0.1:8081/1'
+    //   }).then(function successCallback(response) {
+    //       console.log(response.data);
+    //       $scope.sampleImage = "http://127.0.0.1:8081/"+response.data.image1;
+    //       console.log($scope.sampleImage);
+    //     }, function errorCallback(response) {
+    //       console.log(response);
+    //     });
+    // }
     $scope.selected_filters = [];
     $scope.select = function(data){
       $scope.selected_filters.push($scope.filters[data]);
@@ -133,10 +136,8 @@ app.controller('landingController', ['$scope','$cookieStore','$http','$location'
     $scope.unlike = true;
     $scope.like = false;
 
-    $scope.login = function(){
-      $window.location.assign('/fadstreet/login.html');
-    }
   }]);
+
 ///////////////////////////////////////////////////////////VENDOR CONTROLLER///////////////////////////////////////////////////////////////////
 
 app.controller('vendorController', ['$scope','$cookieStore','$http','$location','$mdDialog','$window',
@@ -167,7 +168,7 @@ app.controller('vendorController', ['$scope','$cookieStore','$http','$location',
     		console.log($scope.image);
     		$scope.show_image = true;
 	    }
-	});
+	}); 
 	$scope.logout = function(){
 		$window.location.assign('/fadstreet/login.html');
 	}

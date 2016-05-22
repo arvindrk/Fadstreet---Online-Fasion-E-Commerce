@@ -1,0 +1,114 @@
+<!doctype html>
+<html ng-app="productPage">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_navbar.css">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_product.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css">
+    <title>FadStreet</title>
+  </head>
+  <body ng-controller="productController" style="background-color: #FAFAFA;" ng-init="women_active='active';men_active='inactive';info()">
+    <div class="default">
+      <div class="container-flow">
+        <ul class="nav nav-tabs">
+          <li role="presentation" ng-class="women_active"><a href="#" ng-click="women_active='active';men_active='inactive'">SHOP WOMEN</a></li>
+          <li role="presentation" ng-class="men_active"><a href="#" ng-click="women_active='inactive';men_active='active'">SHOP MEN</a></li>
+          <div class="brand">
+            <img src="/fadstreet/files/newlogo.png" height="40" width="150">
+            <!-- <span class="logo">AD<span style="color:#482E8B">STREET</span></span> -->
+            <div class="nav-right">
+              <!-- <loginbutton>Download our App</loginbutton> -->
+              <loginbutton  ng-click="loginForm()">LOGIN</loginbutton>
+              <cartbutton><i class="fa fa-globe"></i></span></cartbutton>
+              <cartbutton><i class="fa fa-heart-o"></i></span></cartbutton>
+            </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <br>
+    <div class="container-flow">
+      <div class="single_product">
+        <div class="col-md-5">
+          <div class="large_pic">
+
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="large_pic">
+            <div class="product_brand">{{product_info.brand | uppercase}}</div>
+            <div class="product_name">{{product_info.type | uppercase}} - {{product_info.color | uppercase}}</div>
+            <div class="product_price">&#8377;2499.00</div>
+            <product-button><i class="fa fa-shopping-bag" aria-hidden="true"></i>BUY</product-button>
+            <similar-button><i class="fa fa-search" aria-hidden="true"></i>FIND SIMILAR</similar-button>
+            <wishlist-button><i class="fa fa-heart-o" aria-hidden="true"></i>WISH IT</wishlist-button>
+          </div>
+        </div>
+      </div>
+      <div class="mixNmatch">
+        <div class="col-md-7">
+          <div class="col-md-7">
+            <div class="similarMix"></div>
+          </div>
+          <div class="col-md-5">
+            <div class="similarMix_1"></div>
+            <div class="similarMix_1"></div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="scroll">
+            Mix n Match
+            <div class="smallMix"></div>
+            <div class="smallMix"></div>
+            <div class="smallMix"></div>
+            <div class="smallMix"></div>
+            <div class="smallMix"></div>
+            <div class="smallMix"></div>
+            <div class="smallMix"></div>
+            <div class="smallMix"></div>
+          </div>
+        </div>
+      </div>
+      <div class="similar_images">
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+      </div>
+    </div>
+
+    <!-- Jquery is required for angular to execute -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!-- Contains the controllers for each webpage -->
+    <script type="text/javascript" src="/fadstreet/files/js/app_product.js"></script>
+    <!-- Script to delay the animation based on time -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <!-- Stick navbar to the TOP -->
+    <script type="text/javascript" src="/fadstreet/files/js/sticky.js"></script>
+    <!-- Required Angular plugins to satisfy the dependencies -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-cookies.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-route.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-aria.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script> 
+    <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.min.js"></script>
+    <script type="text/javascript" src="/fadstreet/files/js/ngFileReader.js"></script>
+    <script>new WOW().init();</script>
+  </body>
+</html>

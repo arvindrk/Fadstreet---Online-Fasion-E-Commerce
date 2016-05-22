@@ -1,0 +1,111 @@
+<!doctype html>
+<html ng-app="nearbyApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_navbar.css">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_nearby.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css">
+    <title>FadStreet</title>
+    <!-- MAPS INTEGRATION -->
+    <script src='http://maps.google.cn/maps/api/js?v=3&key=AIzaSyCQhYDPflzbvCs5RxA6p4CKako52kgMDPs' async defer></script>
+  </head>
+  <body ng-controller="nearbyController" ng-init="women_active='active';men_active='inactive'">
+    <header class="default" ng-init="initMap()">
+      <div class="container-flow">
+        <ul class="nav nav-tabs">
+          <li role="presentation" ng-class="women_active"><a href="#" ng-click="women_active='active';men_active='inactive'">SHOP WOMEN</a></li>
+          <li role="presentation" ng-class="men_active"><a href="#" ng-click="women_active='inactive';men_active='active'">SHOP MEN</a></li>
+          <div class="brand">
+            <img src="/fadstreet/files/logo.png" height="30" width="30">
+            <span class="logo">FAD<span style="color:#1C5ECF">STREET</span></span>
+            <div class="nav-right">
+              <!-- <loginbutton>Download our App</loginbutton> -->
+              <loginbutton ng-click="login()">LOGIN</loginbutton>
+              <cartbutton><i class="fa fa-globe"></i></span></cartbutton>
+              <cartbutton><i class="fa fa-shopping-cart"></i></span></cartbutton>
+            </div>
+          </div>
+        </ul>
+      </div>
+      <div class="container-flow customnavbar">
+        <div class="container">
+          <ul class="seperator">
+            <a href="/fadstreet/landing.html"><li>HOME</li></a>
+            <a href=""><li>EXPLORE</li></a>
+            <a href="/fadstreet/nearby.html"><li style="font-weight:900;color:#1C5ECF;">NEARBY</li></a>
+            <a href=""><li>BRANDS</li></a>
+            <a href=""><li>MYCLOSET</li></a>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <br>
+    <div class="container-flow">
+      <div class="col-md-8 col-sm-9 col-xs-6"> 
+        <div id="map"></div>
+      </div>
+      <div class="col-md-4 col-sm-3 col-xs-6 filter_area">
+        <div class="col-md-10 col-md-offset-1">
+          <div id="slide" class="slideable">
+              <md-content>
+                <input type="text" class="form-control" placeholder="Enter the City" ng-model="filter.location"><br>
+                <input type="text" class="form-control" placeholder="Enter the Apparel Type" ng-model="filter.apparel"><br>
+                <md-slider-container>
+                  <label>Enter the Region Radius (in Km)</label>
+                  <md-icon md-svg-icon="device:brightness-low"></md-icon>
+                  <md-slider class="md-primary" min="0" max="50" ng-model="fiter.radius" aria-label="KM" flex md-discrete></md-slider>
+                </md-slider-container>
+                <md-checkbox class="md-primary" ng-model="filter.discounted_stores">Stores with discounts</md-checkbox>
+                <md-checkbox class="md-primary" ng-model="filter.trial_stores">Stores with Trials</md-checkbox>
+              </md-content><br>
+          </div>
+        </div>
+        <loginbutton slide-toggle="#slide" style="float:right;" ng-click="filters()" id="filters">{{filter_button}}</loginbutton>
+        <div class="col-md-12">
+          <div ng-repeat="marker in markers | orderBy : 'title'">
+            <div class="col-md-3 col-sm-4 col-xs-6">
+              <div class="list_view">
+                <img src="{{marker.temp.url}}" ng-click="openInfoWindow($event, marker)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Jquery is required for angular to execute -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!-- Contains the controllers for each webpage -->
+    <script type="text/javascript" src="/fadstreet/files/js/nearby_app.js"></script>
+    <!-- Script to delay the animation based on time -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <!-- Stick navbar to the TOP -->
+    <script type="text/javascript" src="/fadstreet/files/js/sticky.js"></script>
+    <!-- Required Angular plugins to satisfy the dependencies -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-cookies.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-route.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-aria.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script> 
+    <script type="text/javascript" src="/fadstreet/files/js/ngFileReader.js"></script>
+    <script>new WOW().init();</script>
+    <script>
+    $(document).ready(function(){
+        $("#filters").click(function(){
+            $("#slide").slideToggle();
+        });
+    });
+    </script>
+  </body>
+</html>

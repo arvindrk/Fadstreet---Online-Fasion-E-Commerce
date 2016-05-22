@@ -1,0 +1,61 @@
+a {
+    text-decoration: none;
+}
+#map{
+	position: absolute;
+    height: 97vh;
+    width: 100%;
+    background-color: #d3d3d3; 
+}
+#country_container { 
+	display: inline-block;
+	width: 10vw;
+	padding: 5px;
+	margin: 10px;
+	border: 1px solid #fff;
+	background-color: #fff;
+	color: #1C5ECF;
+	border-radius: 5px;
+}
+.map_container { 
+	position: relative;
+	float: left;
+	left: 2.5vw;
+	display: block;
+	text-align: center; 
+	top: 11vh;
+	width: 20vw; 
+	min-height: 85vh;
+	padding: 10px; 
+	/*display: inline-table;  */
+	color: white; 
+	background-color:rgba(0, 0, 0, 0.7);
+	backdrop-filter: blur(10px);
+	font-size: 2vh; 
+	cursor: pointer;
+	border-radius:13px; 
+}
+.filter_area{
+	top: 13vh;
+}
+.list_view{
+	border: 1px solid #fff;
+}
+.list_view:hover{
+	border: 1px solid #d3d3d3; 
+	border-radius: 5px;
+}
+.list_view > img{
+	position: relative;
+	display: block;
+	max-height: 70%;
+	max-width: 100%;
+}
+.md-track-ticks canvas { display: none; }
+input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 2px solid black;
+    width: 20px;
+}
