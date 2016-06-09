@@ -35,17 +35,18 @@
     </div>
     <br>
     <div class="container-flow" align="center">
-      <div class="col-md-7 col-sm-12 col-xs-12" style="border-right: 1px solid #adadad;">
-        <div class="row"><!-- Brand Description -->
-          <i class="fa fa-arrow-circle-left back_arrow" aria-hidden="true"></i>
-          <div class="brand_container">
-            <span class="brand_description">Gap was founded in 1969 with a single store in San Francisco. We are committed to bringing you accessible style.</span>
-            <div class="brand_img">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Gap_logo.svg/2000px-Gap_logo.svg.png">
-            </div>
+      <div class="col-md-7 col-sm-12 col-xs-12">
+        <!-- <div class="row">
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="radio" name="options" id="option2" autocomplete="off">{{product_info.brand | uppercase}}
+            </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="options" id="option3" autocomplete="off">DESCRIPTION
+            </label>
           </div>
-        </div>
-        <div class="col-md-7 col-sm-6 col-xs-12"><!-- Image Carousel -->
+        </div> -->
+        <div class="col-md-7 col-sm-6 col-xs-12">
           <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -94,28 +95,61 @@
             </a>
           </div>
 
-          <custom-button><i class="fa fa-search" aria-hidden="true"></i>FIND SIMILAR</custom-button>
-          <custom-button><i class="fa fa-heart-o" aria-hidden="true"></i>WISH IT</custom-button>
+          <similar-button><i class="fa fa-search" aria-hidden="true"></i>FIND SIMILAR</similar-button>
+          <wish-button><i class="fa fa-heart-o" aria-hidden="true"></i>WISH IT</wish-button>
         </div>
-        <div class="col-md-5 col-sm-6 col-xs-12"><!-- Product Description -->
+        <div class="col-md-5 col-sm-6 col-xs-12 overflow">
           <div class="product_brand">{{product_info.brand | uppercase}}</div>
           <div class="product_name">{{product_info.type | uppercase}} - {{product_info.color | uppercase}}</div>
           <div class="product_price">&#8377;2499.00</div>
-          <div class="row">
-            <div ng-repeat="color in color_images" class="choose_colors" ng-click="select(color,0)" ng-class="{color_active: isActive(color,0)}">
-              <img src="{{color}}">
-            </div>
+          <product-button><i class="fa fa-shopping-bag" aria-hidden="true"></i>BUY</product-button>
+          <div class="description_contianer">
+            <span style="font-size:1.2em;">DESCRIPTION</span><hr>
+            <table style="width:100%">
+              <col width="100">
+              <col width="10">
+              <tr class="product_description">
+                <td>Clothing</td>
+                <td>:</td>
+                <td>{{product_info.clothing_length}}</td>
+              </tr>
+              <tr class="product_description">
+                <td>Color</td>
+                <td>:</td>
+                <td>{{product_info.color}}</td>
+              </tr>
+              <tr class="product_description">
+                <td>Fit</td>
+                <td>:</td>
+                <td>{{product_info.correct_fit}}</td>
+              </tr>
+              <tr class="product_description">
+                <td>Material</td>
+                <td>:</td>
+                <td>{{product_info.material}}</td>
+              </tr>
+              <tr class="product_description">
+                <td>Neckline</td>
+                <td>:</td>
+                <td>{{product_info.neckline}}</td>
+              </tr>
+              <tr class="product_description">
+                <td>Pattern</td>
+                <td>:</td>
+                <td>{{product_info.pattern}}</td>
+              </tr>
+              <tr class="product_description">
+                <td>Type</td>
+                <td>:</td>
+                <td>{{product_info.type}}</td>
+              </tr>
+              <tr class="product_description">
+                <td>Washing Instructions</td>
+                <td>:</td>
+                <td>{{product_info.washing_instructions}}</td>
+              </tr>
+            </table>
           </div>
-          <div class="row">
-            <div ng-repeat="size in sizes" class="choose_size" ng-click="select(size,1)" ng-class="{color_active: isActive(color,1)}">
-              <span>{{size}}</span>
-            </div>
-          </div>
-
-
-          <product-button class="buynow">BAG&nbsp;&nbsp;IT<i class="fa fa-shopping-bag" aria-hidden="true"></i></product-button>
-          <product-button class="mixnmatch">MIX n MATCH<i class="fa fa-magic" aria-hidden="true"></i></product-button>
-          <product-button class="shopLook">SHOP THE LOOK<img src="/fadstreet/files/images/icon.svg"></product-button>
         </div>
       </div>
       <div class="col-md-5 col-sm-12 col-xs-12">
@@ -142,55 +176,18 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="description_contianer">
-              <span class="description_heading">Product Description</span>
-              <table style="width:100%">
-                <col width="180">
-                <col width="10">
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Clothing</td>
-                  <td>:</td>
-                  <td>{{product_info.clothing_length}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Color</td>
-                  <td>:</td>
-                  <td>{{product_info.color}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Fit</td>
-                  <td>:</td>
-                  <td>{{product_info.correct_fit}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Material</td>
-                  <td>:</td>
-                  <td>{{product_info.material}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Neckline</td>
-                  <td>:</td>
-                  <td>{{product_info.neckline}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Pattern</td>
-                  <td>:</td>
-                  <td>{{product_info.pattern}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Type</td>
-                  <td>:</td>
-                  <td>{{product_info.type}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Washing Instructions</td>
-                  <td>:</td>
-                  <td>{{product_info.washing_instructions}}</td>
-                </tr>
-              </table>
-          </div>
+      <div class="similar_images">
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
+        <div class="similar"></div>
       </div>
+    </div>
 
     <!-- Jquery is required for angular to execute -->
     <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
@@ -198,6 +195,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <!-- Contains the controllers for each webpage -->
     <script type="text/javascript" src="/fadstreet/files/js/app_product.js"></script>
-    
+    <script type="text/javascript">$('#carousel-example-generic').carousel('pause');</script>
   </body>
 </html>

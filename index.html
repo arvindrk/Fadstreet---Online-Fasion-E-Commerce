@@ -1,0 +1,264 @@
+<!doctype html>
+<html ng-app="fadStreetApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_landing.css">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_navbar.css">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/price_tag.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <title>FadStreet - Fashion for you</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/fadstreet/files/logo.png" alt="Logo"/>
+  </head>
+  <body ng-controller="landingController" ng-init="women()" ng-cloak>
+
+    <div class="container-flow">
+      <ul class="nav nav-tabs">
+        <li role="presentation" ng-class="women_active"><a href="#" ng-click="women()">SHOP WOMEN</a></li>
+        <li role="presentation" ng-class="men_active"><a href="#" ng-click="men()">SHOP MEN</a></li>
+        <div class="brand">
+          <img src="/fadstreet/files/newLogo.png" height="40" width="150">
+          <div class="nav-right" ng-controller="loginController" ng-init="init()">
+            <!-- <loginbutton><i class="fa fa-android" aria-hidden="true"></i>Download our App</loginbutton> -->
+            <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
+            <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-user" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
+            <!-- <cartbutton><i class="fa fa-globe"></i></span></cartbutton> -->
+            <cartbutton><i class="fa fa-heart-o"></i></span></cartbutton>
+          </div>
+        </div>
+      </ul>
+      <div class="search_area">
+        <div class="container" align="center">
+          <div class="filter_icons">
+            <div class="scrolls">
+              <div ng-repeat="filter in filters" class="search_filter">
+                <img ng-src="{{filter}}" height="110" width="100" ng-click="select($index)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s">
+              </div>
+            </div>
+            <hr class="icon_divider" width="10%" ng-show="filter_selected">
+            <div class="scrolls">
+              <div ng-repeat="filter in selected_filters" class="selected_filter" id="filter1">
+                <i class="fa fa-times" ng-click="remove($index)"></i>
+                <img ng-src="{{filter}}" height="70" width="70">
+              </div>
+              <div class="hide-button" ng-show="filter_close"><i class="fa fa-times" ng-click="removeAll()"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <header class="fixed">
+      <div class="container-flow">
+        <div align="center">
+          <div class="scrolls">
+            <div ng-repeat="filter in selected_filters" class="selected_filter" id="filter2">
+              <i class="fa fa-times" ng-click="remove($index)"></i>
+              <img ng-src="{{filter}}" height="70" width="70">
+            </div>
+            <div class="hide-button" ng-show="filter_close"><i class="fa fa-times" ng-click="removeAll()"></i></div>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <div class="container products">
+      <div ng-repeat="product in products">
+        <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders">
+          <div class="grid">
+            <figure class="effect-zoe">
+              <img ng-src="{{product}}" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s"/>
+              <!-- <span class="tags"><span class="price-tag"><a>$2.99</a></span></span> -->
+              <figcaption>
+                <h2><span>Zoe</span></h2>
+                <p class="icon-links">
+                  <i ng-class="{'fa-heart-o':unlike,'fa-heart':like}" class="fa fa-heart-o green" ng-click="heart=!heart;unlike=!unlike;like=!like"></i>
+                  <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
+                </p>
+                <p class="description" align="center"><span class="glyphicon glyphicon-search"></span>&nbsp;Buy Similar</p>
+              </figcaption>     
+            </figure>
+            <div class="row">
+              <span class="display_info">
+                <div class="brand">Calvin Klein</div>
+              </span>
+            </div>
+            <div class="row">
+              <!-- <span class="display_info"> -->
+                <div class="price">&#8377;2499.00</div>
+              <!-- </span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="container">
+        <div class="col-md-3 col-sm-4 col-xs-6">
+          <ul class="footer_content">
+            <li class="footer_head">FadStreet</li>
+            <a href=""><li>About Us</li></a>
+            <a href=""><li>Our Concept</li></a>
+            <a href=""><li>Our Team</li></a>
+            <a href=""><li>FadStreet Stories</li></a>
+          </ul>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6">
+          <ul class="footer_content">
+            <li class="footer_head">Customer Support</li>
+            <a href=""><li>FAQ's</li></a>
+            <a href=""><li>Feedback</li></a>
+            <a href=""><li>Sizechart</li></a>
+            <a href=""><li>Shop Guide</li></a>
+          </ul>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6">
+          <ul class="footer_content">
+            <li class="footer_head">Account</li>
+            <a href=""><li><i class="fa fa-heart" aria-hidden="true"></i>&nbsp;Wishlist</li></a>
+          </ul>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6">
+          <ul class="footer_content">
+            <li class="footer_head">Reach Us</li>
+            <a href=""><li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;+91-97914 07402</li></a>
+            <a href=""><li><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;support@fadstreet.com</li></a>
+          </ul>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12 social_media" align="center">
+          <div class="social_media_heading">Let's Get Connected</div>
+          <div class="row icon-set">
+            <span class="fa-stack icons fb">
+              <i class="fa fa-circle-thin fa-stack-2x" aria-hidden="true"></i>
+              <i class="fa fa-facebook fa-stack-1x" aria-hidden="true"></i>
+            </span>
+            <span class="fa-stack icons twitter">
+              <i class="fa fa-circle-thin fa-stack-2x" aria-hidden="true"></i>
+              <i class="fa fa-twitter fa-stack-1x" aria-hidden="true"></i>
+            </span>
+            <span class="fa-stack icons google">
+              <i class="fa fa-circle-thin fa-stack-2x" aria-hidden="true"></i>
+              <i class="fa fa-google-plus fa-stack-1x" aria-hidden="true"></i>
+            </span>
+            <span class="fa-stack icons insta">
+              <i class="fa fa-circle-thin fa-stack-2x" aria-hidden="true"></i>
+              <i class="fa fa-instagram fa-stack-1x" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+    <!-- Jquery is required for angular to execute -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!-- Contains the controllers for each webpage -->
+    <script type="text/javascript" src="/fadstreet/files/js/app.js"></script>
+    <!-- Script to delay the animation based on time -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <!-- Stick navbar to the TOP -->
+    <script type="text/javascript" src="/fadstreet/files/js/sticky.js"></script>
+    <!-- Required Angular plugins to satisfy the dependencies -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
+    <!-- // <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script> -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
+    <script type="text/javascript" src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.0.8/angular-material.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script> 
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>    
+    <script type="text/javascript" src="/fadstreet/files/js/ngFileReader.js"></script>
+    <script>new WOW().init();</script>
+    <script>
+    $(document).ready(function () {
+      $(document).on('mouseenter', '.selected_filter', function () {
+        $(this).find("i").show();
+      }).on('mouseleave', '.selected_filter', function () {
+        $(this).find("i").hide();
+      });
+    });
+    </script>
+
+    <!--********************************************************** Login modal **************************************************************-->
+    <div ng-controller="loginController" id="modal" class="modal modal_height fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="login_holder" ng-show="show_login">
+              <span class="pull-left anchor"></span>
+              <span class="pull-right anchor"></span>
+              <div class="col-md-10 col-md-offset-1" align="center">
+                <h3 class="modal_heading brand_color">Login</h3>
+              </div>
+              <form>
+                <div class="col-md-10 col-md-offset-1">
+                  <input type="text" id="login_email" class="form-control" ng-model="login.username" placeholder="E-mail" ng-blur="checkEmail(login.username,0)" required>
+                  <div class="Error" ng-show="email_error">Invalid E-mail</div>
+                  <div class="Error" ng-show="noEmail_error">E-mail doesn't exist</div>
+                  <br>
+                  <input type="password" id="login_password" class="form-control" ng-model="login.password" placeholder="Password" ng-blur="checkPassword(login.password,0)" required>
+                  <div class="Error" ng-show="password_error">Must be atleast 8 characters</div>
+                  <span align="center"><a class="brand_color">Forgor Password?</a></span>
+                  <br>
+                </div>
+                <div class="col-md-12" align="center">
+                  <div class="Error user" ng-show="user_error">Invalid user credetials</div><br>
+                  <loginbutton ng-click="loginForm(login)">Submit</loginbutton>
+                  <br><br>
+                </div>
+                <div align="center">
+                  <p>New to FadStreet?</p>
+                  <aaa><loginbutton ng-click="setDefault(0)">Sign Up</loginbutton></aaa>
+                </div>
+              </form>
+            </div>
+            <div class="login_holder" ng-show="show_signup">
+              <span class="pull-left anchor"></span>
+              <span class="pull-right anchor"></span>
+              <div class="col-md-10 col-md-offset-1" align="center">
+                <h3 class="modal_heading brand_color">Sign Up</h3>
+              </div>
+              <form name="signup_form">
+                <div class="col-md-10 col-md-offset-1">
+                  <input type="text" id="email" class="form-control" ng-model="signup.username" placeholder="Enter your E-mail" ng-blur="checkEmail(signup.username,1)" required>
+                  <div class="Error" ng-show="email_error">Invalid E-mail</div><br>
+                  <input type="text" id="name" class="form-control" ng-model="signup.name" placeholder="Enter your Name" required><br>
+                  <input type="password" id="password" class="form-control" ng-model="signup.password" placeholder="Choose a Password" ng-blur="checkPassword(signup.password,1)" required>
+                  <div class="Error" ng-show="password_error">Must be atleast 8 characters</div><br>
+                </div>
+                <div class="row" align="center">
+                  <loginbutton ng-click="signupForm(signup)">Sign Up</loginbutton>
+                </div>
+                <div align="center">
+                  <br>
+                  <hr class="icon_divider" width="75%">
+                  <div><span class="or">OR</span></div>
+                  <external-login class="facebook_button"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</external-login>
+                  <external-login class="google_button"><i class="fa fa-google-plus" aria-hidden="true"></i>Login with Google</external-login>
+                </div>
+                <br>
+                <div align="center">
+                  <p>Already a FadStreet user?</p>
+                  <aaa><loginbutton ng-click="setDefault(1)">Sign In</loginbutton></aaa>
+                </div>              
+            </form>
+            </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $( "aaa" ).click(function() {
+        $( "#modal" ).toggleClass( "modal_height" );
+      });
+    </script>
+  </body>
+</html>

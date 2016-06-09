@@ -22,15 +22,6 @@
 	cursor:default;
 	right:5px;
 }
-.seperator {
-    border-bottom: 1px solid #000;
-    /*border-bottom-width: 25%; */
-}
-.scrolls { 
-	overflow-x: scroll;
-	overflow-y: hidden;
-    white-space:nowrap
-}
 .nav{
 	/*background-color: #f6f6f6;*/
 	padding-top: 1vh;
@@ -39,15 +30,13 @@
 	position: relative;
 	left: 2vw;
 	font-size: 2vh;
-	top: 1vh;
+	top: 2vh;
 }
 .nav-tabs > .active > a{
 	position: relative;
 	box-shadow: 0px -4.8px 10px -2px #888888;
 	font-weight: bold;
-	/*color: #fff !important;*/
-	background-color: #FAFAFA !important;
-	/*border-radius: 5px;*/
+	background-color: #efefef !important;
 }
 .nav-tabs > .inactive > a{
 	background-color: #482E8B;
@@ -57,16 +46,19 @@
 	/*border-radius: 5px;*/
 }
 .nav-tabs > .inactive > a:hover{
-	color:#fff !important;
-	background-color: #482E8B;
+	color:#482E8B !important;
+	border: 1px solid #482E8B;
+	background-color: #fff;
 }
 /*brings navbar on scrollup*/
 header {
-	z-index: 10;
+	z-index: 100;
 	position: fixed;
 	left: 0;
 	width: 100%;
 	display: block;
+	overflow: hidden;
+    box-shadow: 0px 2px 8px 0px #888888;	
 	transition: all 0.3s linear;
 	-moz-transition: all 0.3s linear;
 	-webkit-transition: all 0.3s linear;
@@ -78,32 +70,32 @@ header {
 .fixed {
 	top: -75px;
 }
-
-/*Equally divide navigation bar links*/
-.customnavbar{
-	font-size: 2.5vh;
-	background-color: #fff;
+.brand_color{
+	color:#482E8B;
 }
-.customnavbar div ul a li{
-	display: inline-block;
-	width: 18%;
-	text-align: center;
-	text-decoration: none;
-	color: black;
-	margin: 10px 0px 5px 0px;
+.icon_divider{
+	border-color:black;
+	margin:5px 0px 10px 0px;
 }
-.customnavbar ul a li:hover{
-	color: #482E8B;
-}
-
 .search_area{
 	display: block;
 	position: relative;
-	/*top: -10px;*/
-	min-height: 30vh;
-	background-color: #f8f8f8;
-	font-size: 2.5vh;
-	/*border-bottom: 1px solid #000;*/
+	min-height: 35vh;
+	background-color: #efefef;
+	overflow: auto;
+}
+.filter_icons{
+	display: block;
+	position: relative;
+	top: 6vh;
+	overflow: hidden;
+}
+.scrolls { 
+	display: block;
+	overflow-x: scroll;
+	overflow-y: hidden;
+    white-space:nowrap;
+    position: relative;
 }
 .nav-tabs > .active > a, .nav-tabs > .active > a:hover { 
 	outline: 0;
@@ -155,8 +147,8 @@ cartbutton:hover{
 loginbutton{
 	display:inline-block;
 	position: relative;
-	padding:5px 2vw;
-	margin:0 3vw;
+	padding:5px 1vw;
+	margin:0 0.5vw;
 	top:-0.6vh;
 	font-size:2vh;
 	text-align:center;
@@ -172,17 +164,33 @@ loginbutton{
 	background-color: #fff;
 	color: #482E8B;
 	border:1px solid #482E8B;
-	border-radius:50px;
+	border-radius: 3px;
+}
+loginbutton i{
+	margin: 0px 0.5vw 0px 0px;
 }
 loginbutton:hover{
 	background-color: #482E8B;
 	color: #fff;
-	font-weight: bold;
-	/*box-shadow: 3px 3px 3px #888888;*/
 }
 .selected_filter{
 	display: inline-block;
 	min-width: 5vw;
+}
+#filter1 i{
+	position: absolute;
+	margin: 2% 2.5%;
+	display: none;
+}
+#filter2 i{
+	position: absolute;
+	margin: 2% 2.1%;
+	display: none;
+}
+.search_filter{
+	display: inline-block;
+	min-width: 3vw;
+	/*padding: 20px;*/
 }
 .hide-button {
     float: right;
@@ -201,7 +209,6 @@ loginbutton:hover{
 .filter_box figure {
 	position: relative;
 	float: left;
-	/*overflow-x: scroll;*/
 	margin: 10px 1%;
 	text-align: center;
 }

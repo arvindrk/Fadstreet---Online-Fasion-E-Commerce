@@ -1,122 +1,75 @@
-var app = angular.module('fadStreetApp',['ngCookies','ngRoute','ui.router','ngMaterial','ngFileReader', 'ngMessages', 'material.svgAssetsCache']);
+var app = angular.module('fadStreetApp',['ngCookies','ngRoute','ngMaterial','ngFileReader', 'ngMessages', 'material.svgAssetsCache']);
 
-////////////////////////////////////////////////////////ROUTE CONFIGURATION////////////////////////////////////////////////////////////////
-app.config(function($stateProvider, $urlRouterProvider){
-
-  // For any unmatched url, send to /login
-  // $urlRouterProvider.otherwise("/IncomingLists")
-
-  $stateProvider
-  .state('login', {
-  	url: "/login",
-  	templateUrl: "/fadstreet/login.html",
-  	controller: "loginController"
-  })
-  .state('vendor', {
-  	url: "/Vendor",
-  	templateUrl: "/fadstreet/vendor/vendor.html",
-  	controller: "vendorController"
-  })
-  .state('vendor_dashboard', {
-  	url: "/Dasboard",
-  	templateUrl: "/fadstreet/vendor/dashboard.html",
-  	controller: "vendorController"
-  })
-  .state('placed_items', {
-  	url: "/PlacedLists",
-  	templateUrl: "/fadstreet/vendor/placedList.html",
-  	controller: "vendorController"
-  })
-  .state('incoming_items', {
-  	url: "/IncomingLists",
-  	templateUrl: "/fadstreet/vendor/incomingList.html",
-  	controller: "vendorController"
-  })
-  .state('vendor_profile', {
-  	url: "/VendorProfile",
-  	templateUrl: "/fadstreet/vendor/vendor_profile.html",
-  	controller: "vendorController"
-  })
-});
-
-///////////////////////////////////////////////////////////LOGIN CONTROLLER///////////////////////////////////////////////////////////////////
-
-app.controller('loginController', ['$scope','$cookieStore','$http','$location','$window',
-  function($scope,$cookieStore,$http,$location,$window) {
-  	$scope.onClick = function (ev) {
-    	$myElementInkRipple.attach($scope, angular.element(ev.target), { center: true });
-  	}
-    $scope.login = {};
-    
-    $scope.show_login = true;
-    
-    $scope.loginForm = function(payload){
-  		if(payload.email == 'admin' && payload.password == 'admin'){
-  			$window.location.assign('/fadstreet/vendor/vendor.html');
-  		}
-    }
-    $scope.clearForm = function(){
-      $scope.login = {};
-      $scope.signup= {};
-    }
-  }]);
 
 ///////////////////////////////////////////////////////////LANDING CONTROLLER///////////////////////////////////////////////////////////////////
 
 app.controller('landingController', ['$scope','$cookieStore','$http','$location','$mdDialog','$window',
   function($scope,$cookieStore,$http,$location,$mdDialog,$window) {
 
-  	$scope.sources = ["https://ak0.scstatic.net/1/cdn2-cont6.sweetcouch.com/141379493210628436-calvin-klein-jeans-man-grey-casual.jpg",
-    "https://ak2.scstatic.net/1/cdn2-cont13.sweetcouch.com/145595475706736181-calvinklein-innerwear-white-purple-checked-long.jpg",
-    "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339077-calvin-klein-jeans-women-white-printed.jpg",
-    "https://ak0.scstatic.net/1/cdn2-cont9.sweetcouch.com/899539-calvin-klein-jeans-men-white-shirt.jpg",
-    "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339017-calvin-klein-jeans-women-white-printed.jpg",
-    "https://ak0.scstatic.net/1/cdn2-cont5.sweetcouch.com/3406698-calvin-klein-jeans-man-white-blue.jpg",
-    "https://ak0.scstatic.net/1/cdn2-cont9.sweetcouch.com/839878-calvin-klein-jeans-women-white-crystal.jpg",
-    "https://ak0.scstatic.net/1/cdn2-cont7.sweetcouch.com/142621814719913094-calvin-klein-jeans-white-printed-top.jpg",
-    "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339568-calvin-klein-jeans-women-white-printed.jpg"];
+    $scope.women_active = "active";
+    $scope.men_active = "inactive";
+    $scope.unlike = true;
+    $scope.like = false;
 
-   // $scope.sources = ["/fadstreet/files/images/File1.jpg",
-   // "/fadstreet/files/images/File2.jpg",
-   // "/fadstreet/files/images/File3.jpg",
-   // "/fadstreet/files/images/File4.jpg",
-   // "/fadstreet/files/images/File5.jpg",
-   // "/fadstreet/files/images/File6.jpg",
-   // "/fadstreet/files/images/File7.jpg",
-   // "/fadstreet/files/images/File8.jpg",
-   // "/fadstreet/files/images/File9.jpg",
-   // "/fadstreet/files/images/File10.jpg",
-   // "/fadstreet/files/images/File11.jpg",
-   // "/fadstreet/files/images/File12.jpg",
-   // "/fadstreet/files/images/File13.jpg"];
+    $scope.men = function (){
+      $scope.women_active='inactive';
+      $scope.men_active='active';
+      $scope.products = ["https://ak0.scstatic.net/1/cdn2-cont3.sweetcouch.com/3341239-pepe-jeans-man-blue-white-checked.jpg",
+      "https://ak2.scstatic.net/1/cdn2-cont13.sweetcouch.com/145595475706736181-calvinklein-innerwear-white-purple-checked-long.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont9.sweetcouch.com/899539-calvin-klein-jeans-men-white-shirt.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont5.sweetcouch.com/3406698-calvin-klein-jeans-man-white-blue.jpg",
+      "http://media.very.co.uk/i/very/B958P_SP734_25_4RP7U/fred-perry-mens-white-crew-neck-t-shirt.jpg?$300x400_standard$",
+      "http://images.kooves.com/uploads/products/67719_86e6937fd2d6a928f0a61397a808ad47_image1_default.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont1.sweetcouch.com/136172485856577422_small.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont5.sweetcouch.com/2525142-voi-jeans-men-navy-white-checked.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont3.sweetcouch.com/2536442-voi-jeans-men-white-blue-shirt.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont2.sweetcouch.com/2526167-pepe-jeans-men-blue-white-checked.jpg",
+      "https://ak3.scstatic.net/1/cdn2-cont12.sweetcouch.com/146254103035947211-sf-jeans-pantaloon-white-blue-checkered.jpg",
+      "https://ak3.scstatic.net/1/cdn2-cont14.sweetcouch.com/146254966039993425-pepe-blue-white-printed-casual-shirt.jpg"];
+
+      $scope.filters = ["/fadstreet/files/images/men/1b.svg",
+      "/fadstreet/files/images/men/2b.svg",
+      "/fadstreet/files/images/men/3b.svg",
+      "/fadstreet/files/images/men/4b.svg",
+      "/fadstreet/files/images/men/5b.svg",
+      "/fadstreet/files/images/men/6b.svg",
+      "/fadstreet/files/images/men/7b.svg"];
+    }
+    $scope.women = function(){
+      $scope.show_login=true;$scope.show_signup = false;
+      $scope.women_active='active';
+      $scope.men_active='inactive';
+      $scope.products = ["https://ak2.scstatic.net/1/cdn2-cont15.sweetcouch.com/146099881459992652-melville-grey-tshirt.jpg",
+      "http://www.globusfashion.com/media/catalog/product/cache/1/thumbnail/300x400/9df78eab33525d08d6e5fb8d27136e95/p/i/piquepolo-navy-2.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339077-calvin-klein-jeans-women-white-printed.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont5.sweetcouch.com/2557847-pepe-jeans-women-pink-white-striped.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339017-calvin-klein-jeans-women-white-printed.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont2.sweetcouch.com/139843384490812918-pepe-jeans-woman-green-white-romi.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont9.sweetcouch.com/839878-calvin-klein-jeans-women-white-crystal.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont7.sweetcouch.com/142621814719913094-calvin-klein-jeans-white-printed-top.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339568-calvin-klein-jeans-women-white-printed.jpg",
+      "https://s-media-cache-ak0.pinimg.com/736x/60/af/1c/60af1c327ff584f9610ac404b0e292cd.jpg",
+      "https://ak0.scstatic.net/1/cdn2-cont2.sweetcouch.com/2557740-pepe-jeans-women-blue-white-striped.jpg",
+      "http://static1.jassets.com/p/Calvin-Klein-Jeans-Purple-T-Shirt-1656-504494-1-pdp_slider_m.jpg"];
+
+      $scope.filters = ["/fadstreet/files/images/women/1a.svg",
+      "/fadstreet/files/images/women/2a.svg",
+      "/fadstreet/files/images/women/3a.svg",
+      "/fadstreet/files/images/women/4a.svg",
+      "/fadstreet/files/images/women/5a.svg",
+      "/fadstreet/files/images/women/6a.svg",
+      "/fadstreet/files/images/women/7a.svg",
+      "/fadstreet/files/images/women/8a.svg",
+      "/fadstreet/files/images/women/9a.svg"];
+    }
     
-    $scope.filters = ["/fadstreet/files/images/1a.png",
-    "/fadstreet/files/images/2a.png",
-    "/fadstreet/files/images/3a.png",
-    "/fadstreet/files/images/4a.png",
-    "/fadstreet/files/images/5a.png",
-    "/fadstreet/files/images/6a.png"];
-    
-    // $scope.loginForm = function(payload){
-    //   // if(payload.email == 'admin' && payload.password == 'admin'){
-    //   //  $window.location.assign('/fadstreet/vendor/vendor.html');
-    //   // }
-    //   $http({
-    //     method: 'GET',
-    //     url: 'http://127.0.0.1:8081/1'
-    //   }).then(function successCallback(response) {
-    //       console.log(response.data);
-    //       $scope.sampleImage = "http://127.0.0.1:8081/"+response.data.image1;
-    //       console.log($scope.sampleImage);
-    //     }, function errorCallback(response) {
-    //       console.log(response);
-    //     });
-    // }
     $scope.selected_filters = [];
     $scope.select = function(data){
-      $scope.selected_filters.push($scope.filters[data]);
-      $scope.filter_selected = true;
-      $scope.filter_close = true;
+      if($scope.selected_filters.indexOf($scope.filters[data]) == -1){
+        $scope.selected_filters.push($scope.filters[data]);
+        $scope.filter_selected = true;
+        $scope.filter_close = true;
+      }
     }
     $scope.remove = function(data){
       console.log($scope.selected_filters[data]);
@@ -131,13 +84,163 @@ app.controller('landingController', ['$scope','$cookieStore','$http','$location'
       $scope.filter_selected = false;
       $scope.filter_close = false;
     }
-    $scope.women_active = "active";
-    $scope.men_active = "inactive";
-    $scope.unlike = true;
-    $scope.like = false;
-
   }]);
 
+////////////////////////////////////////////////////////////LOGIN CONTROLLER///////////////////////////////////////////////////////////////////
+
+app.controller('loginController', ['$scope','$cookieStore','$http','$location','$mdDialog','$mdToast','$window','loginService',
+  function($scope,$cookieStore,$http,$location,$mdDialog,$mdToast,$window,loginService) {
+    $scope.login = {};
+    
+    $scope.show_user = loginService.show_user;
+    $scope.loggedIn = loginService.loggedIn;
+
+    $scope.show_login = true;
+    
+    $scope.password_error = false;
+    $scope.email_error = false;
+    $scope.noEmail_error = false;
+    $scope.user_error = false;
+    $scope.emailValid = false;
+    $scope.passwordValid = false;
+
+    $scope.init = function(){
+      $scope.user = $cookieStore.get('user');
+      $scope.username = $cookieStore.get('name');
+
+      if($scope.user != null){
+        $scope.loggedIn[0] = true;
+        $scope.show_user[0] = $scope.username; 
+      }
+    }
+
+    $scope.checkPassword = function(data,payload){
+      if(data != null){
+        if(data.length < 8 || data.length == 0){
+          $scope.password_error = true;
+          if(payload == 0)
+            document.getElementById("login_password").style.borderColor =  "red";
+          else
+            document.getElementById("password").style.borderColor =  "red";
+        }
+        else{
+          $scope.password_error = false;
+          $scope.passwordValid = true;
+          document.getElementById("login_password").style.borderColor =  "gray"; 
+          document.getElementById("password").style.borderColor =  "gray"; 
+        }
+      }
+      else{
+        $scope.password_error = true;
+        if(payload == 0)
+          document.getElementById("login_password").style.borderColor =  "red";
+        else
+          document.getElementById("password").style.borderColor =  "red";
+      }
+    }
+
+    $scope.checkEmail = function(data,payload){
+      if(data == null){
+        $scope.email_error = true;
+        if(payload == 0)
+          document.getElementById("login_email").style.borderColor =  "red";
+        else
+          document.getElementById("email").style.borderColor =  "red";
+      }
+      else{
+        var at = data.indexOf("@");
+        var dot = data.indexOf(".");
+        if(at == -1 || dot == -1){
+          $scope.email_error = true;
+          if(payload == 0)
+            document.getElementById("login_email").style.borderColor =  "red";
+          else
+            document.getElementById("email").style.borderColor =  "red";
+        }
+        else if(at > dot){
+          $scope.email_error = true;
+          if(payload == 0)
+            document.getElementById("login_email").style.borderColor =  "red";
+          else
+            document.getElementById("email").style.borderColor =  "red";
+        }
+        else{
+          $scope.emailValid = true;
+          $scope.email_error = false; 
+          document.getElementById("login_email").style.borderColor =  "gray";
+          document.getElementById("email").style.borderColor =  "gray";
+        }
+      }
+    }
+
+    $scope.setDefault = function(data){
+      if(data == 0){
+        $scope.show_signup=true;
+        $scope.show_login=false;
+      }
+      else if(data == 1){
+        $scope.show_signup=false;
+        $scope.show_login=true;
+      }
+      $scope.password_error = false;
+      $scope.email_error = false;
+      $scope.noEmail_error = false;
+      $scope.user_error = false;
+      $scope.login = {};
+      $scope.signup= {};
+      document.getElementById("login_password").style.borderColor =  "gray";
+      document.getElementById("login_email").style.borderColor =  "gray";
+      document.getElementById("password").style.borderColor =  "gray";
+      document.getElementById("email").style.borderColor =  "gray";
+      document.getElementById("name").style.borderColor =  "gray";
+    }
+
+    $scope.signupForm = function(payload){
+      console.log(payload);
+      $scope.checkEmail(payload.email,1);
+      $scope.checkPassword(payload.password,1);
+      if($scope.emailValid == true && $scope.passwordValid == true){
+        $http({
+          method: 'POST',
+          url: 'http://52.175.34.205/userLogin/api/users',
+          data: payload
+        }).then(function successCallback(response) {
+            $cookieStore.put('user',payload.email);
+            $cookieStore.put('name',payload.name);
+            $scope.show_user[0] = payload.name;
+            $scope.loggedIn[0] = true;
+            $scope.clearForm();
+            $('#modal').modal('hide');
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent('Welcome, '+$scope.show_user+'!')
+                .position('top right')
+                .hideDelay(3000)
+            );
+          }, function errorCallback(response) {
+            console.log(response);
+          });
+      }
+    }
+
+    $scope.loginForm = function(payload){
+      if(payload.username == 'arvind@gmail.com' && payload.password == 'password'){
+        $scope.show_user[0] = payload.username;
+        $('#modal').modal('hide');
+        console.log($scope.show_user);
+      }
+    }
+    $scope.clearForm = function(){
+      $scope.login = {};
+      $scope.signup= {};
+    }    
+}]);
+
+app.service('loginService', 
+  function(){
+    this.show_user = ['Hello'];
+    this.loggedIn = [false];
+});
 ///////////////////////////////////////////////////////////VENDOR CONTROLLER///////////////////////////////////////////////////////////////////
 
 app.controller('vendorController', ['$scope','$cookieStore','$http','$location','$mdDialog','$window',

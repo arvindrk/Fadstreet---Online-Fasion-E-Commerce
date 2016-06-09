@@ -1,151 +1,45 @@
-<!doctype html>
-<html ng-app="fadStreetApp">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_landing.css">
-    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_navbar.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css">
-    <title>FadStreet</title>
-  </head>
-  <body ng-controller="landingController">
-    <header class="default">
-      <div class="container-flow">
-        <ul class="nav nav-tabs">
-          <li role="presentation" ng-class="women_active"><a href="#" ng-click="women_active='active';men_active='inactive'">SHOP WOMEN</a></li>
-          <li role="presentation" ng-class="men_active"><a href="#" ng-click="women_active='inactive';men_active='active'">SHOP MEN</a></li>
-          <div class="brand">
-            <img src="/fadstreet/files/logo.png" height="25" width="25">
-            <span class="logo">AD<span style="color:#482E8B">STREET</span></span>
-            <div class="nav-right">
-              <!-- <loginbutton>Download our App</loginbutton> -->
-              <loginbutton ui-sref=".login">LOGIN</loginbutton>
-              <cartbutton><i class="fa fa-globe"></i></span></cartbutton>
-              <cartbutton><i class="fa fa-shopping-cart"></i></span></cartbutton>
-            </div>
-          </div>
-        </ul>
-      </div>
-      <div class="container-flow customnavbar">
-        <div class="container">
-          <ul class="seperator">
-            <a href=""><li style="font-weight:900;color:#482E8B;">HOME</li></a>
-            <a href="" class="hvr-overline-from-center"><li>EXPLORE</li></a>
-            <a href="/fadstreet/nearby.html" class="hvr-overline-from-center"><li>NEARBY</li></a>
-            <a href="" class="hvr-overline-from-center"><li>BRANDS</li></a>
-            <a href="" class="hvr-overline-from-center"><li>MYCLOSET</li></a>
-          </ul>
-        </div>
-      </div>
-      <div class="container-flow search_area">
-        <div class="container scrolls">
-          <div align="center" class="">
-            <!-- <p><strong>Choose an Item</strong></p> -->
-            <!-- <hr style="border-color:black;margin:5px 0px 10px 0px;" width="10%"> -->
-            <div ng-repeat="filter in filters" class="search_filter">
-              <img ng-src="{{filter}}" height="80" width="80" ng-click="select($index)">
-            </div>
-            <hr style="border-color:black;margin:5px 0px 10px 0px;" width="10%" ng-show="filter_selected">
-            <div ng-repeat="filter in selected_filters" class="selected_filter">
-              <img ng-src="{{filter}}" height="70" width="70" ng-click="remove($index)">
-            </div>
-            <div class="hide-button" ng-show="filter_close"><i class="fa fa-times" ng-click="removeAll()"></i></div>
-            <!-- <br> -->
-          </div>
-        </div>
-      </div>
-    </header>
-    <br>
-    <section>
-      <div class="container deals">
-        <div class="col-md-8 col-sm-8 col-xs-12">
-          <img src="http://www.wonderlandmagazine.com/wp-content/uploads/2014/07/10217223-Levis-F14-Spread-511-1024x704.jpg">
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-12">
-          <div class="deals_right">
-            <div class="deal_card" style="border-top:1px solid #000;">
-              <div class="col-md-6 col-sm-6 col-xs-6">
-                <img src="https://s-media-cache-ak0.pinimg.com/236x/6c/dd/87/6cdd874be770cbd72555f0aaf62dc365.jpg">
-              </div>
-              <div class="col-md-6 col-sm-6 col-xs-6 deal_description">
-                <h2>Exciting Deals</h2>
-                <h3>on Watches</h3>
-                <h3>from Top Brands</h3>
-              </div>
-            </div>
-            <div class="deal_card">
-              <div class="col-md-6 col-sm-6 col-xs-6 deal_description">
-                <h2>Exciting Deals</h2>
-                <h3>on Shoes</h3>
-                <h3>from Top Brands</h3>
-              </div>
-              <div class="col-md-6 col-sm-6 col-xs-6">
-                <img src="http://futurefashion1.yolasite.com/resources/Shoe-Models2.jpg" >
-              </div>
-            </div>
-            <div class="deal_card" style="border:none">
-              <div class="col-md-6 col-sm-6 col-xs-6">
-                <img src="http://1.bp.blogspot.com/-6aRa-tFQYbg/UU3IEtYD8kI/AAAAAAAAAHs/_0hV65KkANY/s1600/model-holding-bag.jpg">
-              </div>
-              <div class="col-md-6 col-sm-6 col-xs-6 deal_description">
-                <h2>Exciting Deals</h2>
-                <h3>on Bags</h3>
-                <h3>from Top Brands</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <br>
-    <div class="container products">
-      <div ng-repeat="src in sources">
-        <div class="col-md-3 col-sm-4 col-xs-6">
-          <div class="grid wow fadeInUp" data-wow-delay="{{$index - ($index * 0.95)}}s">
-            <figure class="effect-zoe">
-              <img ng-src="{{src}}"/>
-              <figcaption>
-                <h2><span>Zoe</span></h2>
-                <p class="icon-links">
-                  <a href="#"><i ng-class="{'fa-heart-o':unlike,'fa-heart':like}" class="fa fa-heart-o green" ng-click="heart=!heart;unlike=!unlike;like=!like"></i></a>
-                  <a href="#"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
-                </p>
-                <p class="description" align="center"><span class="glyphicon glyphicon-search"></span>&nbsp;Buy Similar</p>
-              </figcaption>     
-            </figure>
-            <div class="row">
-              <div class="display_info">BRAND NAME</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<html lang="en" >
+   <head>
+      <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <script language="javascript">
+         angular
+            .module('firstApplication', ['ngMaterial'])
+            .controller('toastController', toastController);
+           
+            function toastController ($scope, $mdToast, $document) { 
+            $scope.showToast1 = function() {
+                  $mdToast.show(
+                     $mdToast.simple()
+                        .textContent('Hello World!')
+                        .position('top right')
+                        .hideDelay(3000)
+                  );
+               };
 
-    <!-- Jquery is required for angular to execute -->
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <!-- Contains the controllers for each webpage -->
-    <script type="text/javascript" src="/fadstreet/files/js/app.js"></script>
-    <!-- Script to delay the animation based on time -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-    <!-- Stick navbar to the TOP -->
-    <script type="text/javascript" src="/fadstreet/files/js/sticky.js"></script>
-    <!-- Required Angular plugins to satisfy the dependencies -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-cookies.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-route.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-aria.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script> 
-    <script type="text/javascript" src="/fadstreet/files/js/ngFileReader.js"></script>
-    <script>new WOW().init();</script>
-  </body>
+               $scope.showToast2 = function() {
+                  var toast = $mdToast.simple()
+                     .textContent('Hello World!')
+                     .action('OK')
+                     .highlightAction(false);                     
+                  $mdToast.show(toast).then(function(response) {
+                     if ( response == 'ok' ) {
+                        alert('You clicked \'OK\'.');
+                     }
+                  });        
+               }
+            }   
+      </script>      
+   </head>
+   <body ng-app="firstApplication"> 
+      <div id="toastContainer" ng-controller="toastController as ctrl" layout="row" ng-cloak>
+         <md-button ng-click="showToast1()">Show Simple Alert</md-button>
+         <md-button ng-click="showToast2()">Show Alert with callback</md-button>
+      </div>
+   </body>
 </html>
