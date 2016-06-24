@@ -7,7 +7,8 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_navbar.css">
-    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_product.css">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_mixnmatch.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_landing.css"> -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
@@ -16,8 +17,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="/fadstreet/files/logo.png" alt="Logo"/>
   </head>
 
-  <body ng-controller="productController" style="background-color: #fff;" ng-init="women_active='active';men_active='inactive';info()" ng-cloak>
-    <div class="container-fluid nomargin" ng-controller="navtabController">
+  <body ng-controller="navtabController" style="background-color: #fff;" ng-init="women()" ng-cloak>
+    <div class="container-fluid nomargin">
       <ul class="nav nav-tabs">
         <!-- <li role="presentation" ng-class="women_active"><a href="#" ng-click="women()">SHOP WOMEN</a></li>
         <li role="presentation" ng-class="men_active"><a href="#" ng-click="men()">SHOP MEN</a></li> -->
@@ -26,164 +27,89 @@
           <div class="nav-right" ng-controller="loginController" ng-init="init()">
             <!-- <loginbutton><i class="fa fa-android" aria-hidden="true"></i>Download our App</loginbutton> -->
             <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
-            <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-user" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
-            <cartbutton><i class="fa fa-heart-o"></i></span></cartbutton>
+            <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-heart-o" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
+            <!-- <cartbutton><i class="fa fa-globe"></i></span></cartbutton> -->
+            <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart-o"></i></span></cartbutton>
           </div>
         </div>
       </ul>
     </div>
-    <br>
-    <div class="container-fluid main_container" align="center">
-      <div class="col-md-9 col-sm-12 col-xs-12 nomargin" style="border-right: 1px solid #adadad;">
-        <div class="row"><!-- Brand Description -->
-          <div class="col-md-2 col-sm-2 col-xs-2 nomargin">
-            <i class="fa fa-arrow-circle-left back_arrow" aria-hidden="true"></i>
-          </div>
-          <div class="col-md-10 col-sm-10 col-xs-10 nomargin">
-            <div class="brand_container">
-              <span class="brand_description">Esprit Holdings Limited is a publicly owned manufacturer of clothing, footwear, accessories, jewellery and housewares under the Esprit label.</span>
-              <div class="brand_img">
-                <img src="http://citypoint.ge/uploads/company/94c0686e99a0b6aa9a188ca4e87e97d5.jpg">
-              </div>
-            </div>
-          </div>
+
+    <div class="container-fluid nomargin">
+      
+      <div class="col-md-6 col-sm-6 col-xs-12" ng-init="shirt = 'true'">
+        <div class="sub_heading">MIX N MATCH</div>
+        <div class="col-md-3 col-sm-3 col-xs-3 nomargin animated fadeIn">
+          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="belt"></div>
+          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="shoe"></div> 
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12"><!-- Image Carousel -->
-          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-              <li ng-repeat="no in numbers" data-target="#carousel-example-generic" data-slide-to="{{no}}" ng-class='{active:$first}'></li>
-            </ol>
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-              <div class="item" ng-class='{active:$first}' ng-repeat="no in numbers">
-                <img src="/fadstreet/files/images/1/f{{no}}.jpg" alt="Image {{no}}">
-              </div>
-            </div>
-
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-
-          <custom-button onClick="imgAreaSelect()"><i class="fa fa-search" aria-hidden="true"></i>FIND SIMILAR</custom-button>
-          <custom-button ng-click="likeIt()"><i ng-class="{'fa-heart-o':unlike,'fa-heart':like}" class="fa fa-heart-o"></i>{{wish_content}}</custom-button>
+        <div class="col-md-6 col-sm-7 col-xs-7 display nomargin animated fadeIn" ng-show="shirt"></div>
+        <div class="col-md-3 col-sm-3 col-xs-3 nomargin animated fadeIn">
+          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="pant"></div>
+          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="socks"></div> 
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12 nomargin"><!-- Product Description -->
-          <div class="scroll">
-            <div class="product_brand">{{product_info.brand | uppercase}}</div>
-            <div class="product_name">{{product_info.type | uppercase}} - {{product_info.color | uppercase}}</div>
-            <hr class="icon_divider" width="50%">
-            <div class="product_price">Rs 2499.00</div>
-            <div class="row">
-              <div ng-repeat="color in color_images" class="choose_colors" ng-class="{'selected':  colorSelected == $index}" ng-click="updateSelected($index,0)">
-                <img src="{{color}}">
-              </div>
-            </div>
-            <div class="row">
-              <div ng-repeat="size in sizes" class="choose_size" ng-class="{'selected':  sizeSelected == $index}" ng-click="updateSelected($index,1)">
-                <span>{{size}}</span>
-              </div>
-            </div>
-            <div class="buttons">
-              <product-button class="buynow">BUY&nbsp;&nbsp;NOW<i class="fa fa-shopping-bag" aria-hidden="true"></i></product-button>
-            </div>
-            <div class="description_contianer">
-              <span class="description_heading">Product Description</span>
-              <table style="width:100%">
-                <col width="180">
-                <col width="10">
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Clothing</td>
-                  <td>:</td>
-                  <td>{{product_info.clothing_length}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Color</td>
-                  <td>:</td>
-                  <td>{{product_info.color}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Fit</td>
-                  <td>:</td>
-                  <td>{{product_info.correct_fit}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Material</td>
-                  <td>:</td>
-                  <td>{{product_info.material}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Neckline</td>
-                  <td>:</td>
-                  <td>{{product_info.neckline}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Pattern</td>
-                  <td>:</td>
-                  <td>{{product_info.pattern}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Type</td>
-                  <td>:</td>
-                  <td>{{product_info.type}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Washing Instructions</td>
-                  <td>:</td>
-                  <td>{{product_info.washing_instructions}}</td>
-                </tr>
-              </table>
-          </div>
+        
+        <div class="col-md-12 col-sm-12 col-xs-12 nomargin">
+          <div class="sub_heading">OUR SUGGESTED OUTFITS</div>
+          <div class="similar">
+            <div class="single_outfit" ng-click="pant='true'"></div>
+            <div class="single_outfit" ng-click="shoe='true'"></div>
+            <div class="single_outfit" ng-click="belt='true'"></div>
+            <div class="single_outfit" ng-click="socks='true'"></div>
+            <div class="single_outfit"></div>
+            <div class="single_outfit"></div>
+            <div class="single_outfit"></div>
+            <div class="single_outfit"></div>
           </div>
         </div>
       </div>
-      <div class="col-md-3 col-sm-12 col-xs-12"><!-- MIX N MATCH -->
-        <div class="mixnmatch_heading">MIX N MATCH</div>
-        <div class="scroll">
-          <div ng-repeat="mix in mixes" class="col-md-12 col-sm-6 col-xs-12 nomargin" id="mixnmatch_area">
-            <div class="col-md-7 col-sm-7 col-xs-7">
-              <div class="similarMix">
-                <img src="{{mix.one}}">
+      
+      <div class="col-md-6 col-sm-6 col-xs-12 nomargin">
+        <div class="sub_heading">COMPLETE THE LOOK</div>
+        <div class="navigation" align="center">
+          <ul>
+            <li>Store</li>
+            <li>Wishlist</li>
+            <li>Cart</li>
+            <li>myCloset</li>
+          </ul>
+        </div>
+
+        <div class="search_area_mix">
+          <div align="center">
+            <div class="filter_icons_mix">
+              <div class="scrolls">
+                <div ng-repeat="filter in filters" class="search_filter">
+                  <img ng-src="{{filter}}" height="70" width="60" ng-click="select($index)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s">
+                </div>
               </div>
             </div>
-            <div class="col-md-5 col-sm-5 col-xs-5">
-              <div class="similarMix_1">
-                <img src="{{mix.two}}">
-              </div>
-              <div class="similarMix_1">
-                <img src="{{mix.three}}">
+          </div>
+        </div>
+
+        <div class="container-fluid products nomargin">
+          <div ng-repeat="product in products">
+            <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders">
+              <div class="grid">
+                <figure class="effect-zoe">
+                  <img ng-src="{{product}}" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s"/>
+                </figure>
+                <div class="row">
+                  <span class="display_info">
+                    <div class="brand_name">Calvin Klein</div>
+                  </span>
+                </div>
+                <div class="row">
+                  <div class="price">&#8377;2499.00</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-12 col-sm-12 col-xs-12"><!-- SIMILAR IMAGES -->
-        <div class="similar_heading">YOU MIGHT ALSO LIKE</div>
-        <div class="similarContainer">
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-        </div>
-      </div>
+    
     </div>
+
     <footer>
       <div class="container">
         <div class="col-md-3 col-sm-4 col-xs-6">
@@ -261,6 +187,15 @@
     <script>
     $("#toggle").click(function(){
         $("#toggle").toggleClass("wished");
+    });
+    </script>
+    <script>
+    $(document).ready(function () {
+      $(document).on('mouseenter', '.selected_filter_mix', function () {
+        $(this).find("i").show();
+      }).on('mouseleave', '.selected_filter_mix', function () {
+        $(this).find("i").hide();
+      });
     });
     </script>
 

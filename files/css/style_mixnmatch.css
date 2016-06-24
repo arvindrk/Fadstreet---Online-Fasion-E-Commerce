@@ -1,0 +1,172 @@
+html,body{
+    overflow: auto;
+}
+.nav > li{
+	top: 1px !important;
+}
+.nav-tabs > .active > a{
+	background-color: #fff !important;
+}
+.nav{
+    background-color: #FAFAFA;
+}
+.sub_heading{
+    display: block;
+    font-size:2vh;
+    font-weight:bold;
+    padding: 10px;
+    background-color: #e1e1e1;
+    margin: 11px 0px;
+    width: 100%;
+    text-align: left;
+    font-family: Monaco;
+    color: #5b5353;
+}
+.similar{
+    width: 100%;
+    height: 25vh;
+    display: block;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space:nowrap;
+    position: relative;
+    /*border: 1px solid #000; */
+}
+.brand img{
+    position: relative;
+    left: 5vw;
+}
+.single_outfit{
+    display: inline-block;
+    margin: 20px 20px 20px 0;
+    width: 150px;
+    height: 20vh;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+/*===========================================================ICON FILTER AREA===================================================================*/
+
+.search_area_mix{
+    display: block;
+    position: relative;
+    min-height: 20vh;
+    background-color: #efefef;
+    overflow: auto;
+}
+.filter_icons_mix{
+    display: block;
+    position: relative;
+    top: 5vh;
+}
+#filterId{
+    top: 0;
+}
+.selected_filter_mix{
+    display: inline-block;
+    min-width: 1vw;
+}
+#filter1 i{
+    position: absolute;
+    margin: 2% 2.5%;
+    display: none;
+}
+#filter2 i{
+    position: absolute;
+    margin: 2% 2.1%;
+    display: none;
+}
+.search_filter{
+    display: inline-block;
+    min-width: 3vw;
+}
+.hide-button {
+    float: right;
+    font-size: 15px;
+    display: inline-block;
+    cursor: pointer;
+}
+/*===========================================================ICON FILTER AREA END===============================================================*/
+
+.navigation ul li{
+    display: inline-block;
+    text-decoration: none;
+    font-size: 2.5vh;
+    width: 10vw;
+    text-align: center;
+    /*padding-top: 10px;*/
+}
+.navigation ul li:hover{
+    color: #482E8B;
+    font-weight: bold;
+    cursor: pointer;
+}
+.navigation ul .active{
+    color: #482E8B;
+    font-weight: bold;
+}
+.display{
+    height: 50vh;
+    border: 1px solid #000;
+}
+.display_1{
+    height: 25vh;
+    border: 1px solid #000;
+}
+
+/*=========================================================PRODUCT DISPLAY AREA=================================================================*/
+.products{
+    top: 0 !important;
+    margin: 0 !important;
+    overflow: scroll;
+    height: 60vh;
+}
+.grid {
+    margin: 0 auto;
+    list-style: none;
+    text-align: center;
+    display: block;
+}
+
+/* Common style */
+.grid figure {
+    position: relative;
+    overflow: hidden;
+    margin: 10px 1%;
+    text-align: center;
+}
+
+.grid figure img {
+    position: relative;
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+.borders{
+    border: 1px solid #F2F2F2;
+    background-color: #fff;
+}
+.borders:hover{
+    -webkit-box-shadow:inset 0px 0px 0px 1px #482E8B;
+    -moz-box-shadow:inset 0px 0px 0px 1px #482E8B;
+    box-shadow:inset 0px 0px 0px 1px #482E8B;
+    cursor: pointer;
+}
+.display_info{
+    font-weight: bold;
+}
+.display_info .brand_name{
+    position: relative;
+    display: block;
+    padding: 0px 20px 0px 10px;
+    font-size: 2vh;
+}
+.price{
+    position: relative;
+    display: block;
+    font-size: 2vh;
+    font-weight: bold;
+    padding: 0px 20px 0px 10px;
+    color: #878787;
+}
+/*=========================================================PRODUCT DISPLAY AREA END=============================================================*/

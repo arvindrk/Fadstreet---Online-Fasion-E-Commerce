@@ -1,11 +1,30 @@
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
 .nav > li{
-	top: 3px !important;
+	top: 1px !important;
 }
 .nav-tabs > .active > a{
-	background-color: #FAFAFA !important;
+	background-color: #fff !important;
 }
-/*-----------------------------------------------------------IMAGE CAROUSEL RATIO-------------------------------------------------------*/
-/*--------------------------------------------------------------------------------------------------------------------------------------*/
+.main_container{
+	margin: 0 15vh;
+}
+.nav{
+	background-color: #FAFAFA;
+}
+html,body{
+    overflow: auto;
+}
+
+/*///////////////////////////////////////////////////////////IMAGE CAROUSEL RATIO///////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 .carousel-inner{
  	width:100%;
  	max-height: 70vh !important;
@@ -13,7 +32,8 @@
 .carousel{
 	width:93% !important;
 }
-/*-----------------------------------------------------------IMAGE CAROUSEL RATIO END---------------------------------------------------*/
+/*///////////////////////////////////////////////////////////IMAGE CAROUSEL RATIO END///////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 .back_arrow{
 	font-size: 7vh !important;
@@ -21,11 +41,12 @@
 	left: 2vh;
 	top: 2.5vh;
 }
-/*-----------------------------------------------------------BRAND INFO CONTAINER-------------------------------------------------------*/
-/*--------------------------------------------------------------------------------------------------------------------------------------*/
+
+/*///////////////////////////////////////////////////////////BRAND INFO CONTAINER///////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 .brand_container{
 	float: right;
-	width: 80%;
+	width: 93.5%;
 	display: block;
 	height: 10vh;
 	border: 1px solid #000;
@@ -45,39 +66,31 @@
 	display: inline-block;
 	width: 20%;
 	height: 100%;
+	overflow: hidden;
 }
 .brand_img img{
 	min-width: 100%;
 	max-height:100%;
 }
-/*-----------------------------------------------------------BRAND INFO CONTAINER END---------------------------------------------------*/
+/*///////////////////////////////////////////////////////////BRAND INFO CONTAINER///////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-.scroll{
-	display: inline-block;
-	width: 100%;
-	height: 90vh;
-	border-radius: 10px;
-	border : 1px solid #000;
-	margin-top: 15px;
-	overflow: scroll;
-}
-
-/*-----------------------------------------------------------DESCRIPTION STYLES---------------------------------------------------------*/
-/*--------------------------------------------------------------------------------------------------------------------------------------*/
+/*///////////////////////////////////////////////////////////DESCRIPTION STYLES/////////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 .product_brand{
 	font-weight: bold;
 	font-size: 3vh;
-	margin: 20px;
+	/*margin: 20px;*/
 }
 .product_name{
 	font-size: 2.5vh;
-	margin: 20px;
+	margin: 10px;
 }
 .product_price{
 	font-weight: bold;
-	font-size: 4vh;
-	margin: 20px;
+	font-size: 3vh;
+	margin: 10px;
 }
 
 .choose_colors{
@@ -87,29 +100,9 @@
 	border-radius: 5px;
 	margin: 5px;
 	border: 2px solid #adadad;
+	outline: 0;
 }
 .choose_colors:hover{
-	border: 2px solid #482E8B;
-	cursor: pointer;
-}
-.color_active{
-	border: 2px solid #482E8B;
-}
-.choose_size{
-	display: inline-block;
-	height: 50px;
-	width: 50px;
-	font-size: 2vh;
-	border-radius: 5px;
-	margin: 5px;
-	border: 2px solid #adadad;
-}
-.choose_size span{
-	font-size: 15px;
-	position: relative;
-	top: 1.5vh;
-}
-.choose_size:hover{
 	border: 2px solid #482E8B;
 	cursor: pointer;
 }
@@ -118,43 +111,161 @@
 	max-height:100%;
 	border-radius: 5px;	
 }
-
+.color_active{
+	border: 2px solid #482E8B;
+}
+.choose_size{
+  display: inline-block;
+	height: 35px;
+	width: 35px;
+	border-radius: 20px;
+	margin: 10px 5px;
+	border: 2px solid #adadad;
+	outline: 0;
+}
+.choose_size span{
+	font-size: 15px;
+	position: relative;
+	top: 5px;
+}
+.choose_size:hover{
+	border: 2px solid #482E8B;
+	cursor: pointer;
+}
+.selected{
+  border: 2px solid #482E8B;
+}
 .description_heading{
 	font-size:2.6vh;
 	font-weight:bold;
 	float:left;
 	padding: 10px;
-	/*border-bottom: 1px solid #adadad;*/
 	background-color: #e1e1e1;
-	margin: 10px;
+	margin: 10px 0;
 	width: 100%;
 	text-align: left;
 }
 .description_contianer{
-	/*font-family: arial,helvetica,"DejaVu Sans","Arial Unicode MS","Lucida Sans Unicode",sans-serif;*/
 	display: block;
 	font-size: 2vh;
 	width: 100%;
 	height: 50vh;
 	padding: 10px;
-	overflow: scroll;
+	/*overflow: scroll;*/
 }
-/*-----------------------------------------------------------DESCRIPTION STYLES END-----------------------------------------------------*/
+/*///////////////////////////////////////////////////////////DESCRIPTION STYLES END/////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+
+/*///////////////////////////////////////////////////////////MIX N MATCH DIVISION///////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+.scroll{
+	display: inline-block;
+	width: 100%;
+	height: 75vh;
+	margin: 2vh 0;
+	overflow-y: scroll;
+	overflow-x: hidden; 
+}
+#mixnmatch_area{
+	margin-bottom: 10px;
+}
+#mixnmatch_area .col-md-7,
+#mixnmatch_area .col-sm-7,
+#mixnmatch_area .col-xs-7,
+#mixnmatch_area .col-md-5,
+#mixnmatch_area .col-sm-5,
+#mixnmatch_area .col-xs-5{
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.similarMix{
+	width: 100%;
+    height: 30vh;
+    margin: 0 auto;
+    overflow: hidden;
+	border: 1px solid #000;
+}
+.similarMix img{
+	min-width: 100%;
+	max-height:100%;
+}
+.similarMix_1{
+	height: 15vh;
+	width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid #000;
+}
+.similarMix_1 img{
+	min-width: 100%;
+	max-height:100%;
+}
+.mixnmatch_heading{
+	font-size:2.6vh;
+	font-weight:bold;
+	padding: 10px;
+	background-color: #e1e1e1;
+	margin: 11px 0px;
+	width: 100%;
+	text-align: left;
+	font-family: Monaco;
+	color: #5b5353;
+}
 .smallMix{
 	display: block;
 	width: 87%;
 	height: 15vh;
 	border-radius: 10px;
 	border: 1px solid #000;
-	margin: 15px;
+	margin-bottom: 15px;
 }
-/*-----------------------------------------------------------PRODUCT PAGE BUTTONS-------------------------------------------------------*/
-/*--------------------------------------------------------------------------------------------------------------------------------------*/
+/*///////////////////////////////////////////////////////////MIX N MATCH DIVISION END///////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
+/*///////////////////////////////////////////////////////////SIMILAR IMAGE DIVISION/////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+.similar_heading{
+	font-size:2.6vh;
+	font-weight:bold;
+	padding: 10px;
+	background-color: #e1e1e1;
+	margin: 3vh 0px;
+	width: 100%;
+	text-align: left;
+	font-family: Monaco;
+	color: #5b5353;
+}
+.similarContainer{
+	display: block;
+	overflow-x: scroll;
+	overflow-y: hidden;
+    white-space:nowrap;
+    position: relative;
+}
+.similarImages{
+	display: inline-block;
+	width: 15%;
+	height: 20vh;
+	border-radius: 10px;
+	border: 1px solid #000;
+	margin: 0 10px;
+	overflow-x: scroll;
+}
+/*///////////////////////////////////////////////////////////SIMILAR IMAGE DIVISION END/////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
+/*///////////////////////////////////////////////////////////PRODUCT PAGE BUTTONS///////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+.buttons{
+	margin-top: 2vh;
+}
 product-button{
 	display:inline-block;
 	padding:6.2px 2vw;
-	margin:10px;
+	margin: 1vh 10px;
 	font-size:2.5vh;
 	font-weight:300;
 	line-height:1.42857143;
@@ -169,7 +280,7 @@ product-button{
 	-ms-user-select:none;
 	user-select:none;
 	border-radius:4px;
-	width: 100%;
+	width: 70%;
 }
 .buynow{
 	background-color: #482E8B;
@@ -186,39 +297,6 @@ product-button{
 	float: right;
 	position: relative;
 	top: 5px;
-}
-.mixnmatch{
-	background-color: #CB559E;
-	color: #fff;
-	border:1px solid #CB559E;
-}
-.mixnmatch:hover{
-	background-color: transparent;
-	color: #CB559E;
-	border:1px solid #CB559E;
-	font-weight: bold;
-}
-.mixnmatch i{
-	float: right;
-	position: relative;
-	top: 5px;
-}
-.shopLook{
-	background-color: #EE364B;
-	color: #fff;
-	border:1px solid #EE364B;
-}
-.shopLook:hover{
-	background-color: #f8acb4;
-	color: #EE364B;
-	border:1px solid #EE364B;
-	font-weight: bold;
-}
-.shopLook img{
-	float: right;
-	position: relative;
-	height: 25px;
-	width: 25px;
 }
 custom-button{
 	display:inline-block;
@@ -247,11 +325,22 @@ custom-button:hover{
 	background-color: #482E8B;
 	color: #ffffff;
 	border:1px solid #482E8B;
-	/*font-weight: bold;*/
 }
 custom-button i{
 	float: left;
 	position: relative;
 	top: 3px;
 }
-/*-----------------------------------------------------------PRODUCT PAGE BUTTONS END---------------------------------------------------*/
+/*///////////////////////////////////////////////////////////PRODUCT PAGE BUTTONS END///////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+@media screen and (max-width: 990px) {
+	.main_container{
+		margin: 0;
+	}
+	.brand_description{
+		padding: 0;
+	}
+	.brand_container{
+		overflow: scroll;
+	}
+}

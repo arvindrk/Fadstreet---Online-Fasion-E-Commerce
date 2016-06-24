@@ -1,13 +1,14 @@
 var app = angular.module('fadStreetApp',['ngCookies','ngRoute','ngMaterial','ngFileReader', 'ngMessages', 'material.svgAssetsCache']);
 
 
-///////////////////////////////////////////////////////////LANDING CONTROLLER///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////NAVTAB CONTROLLER///////////////////////////////////////////////////////////////////
 
-app.controller('landingController', ['$scope','$cookieStore','$http','$location','$mdDialog','$window',
+app.controller('navtabController', ['$scope','$cookieStore','$http','$location','$mdDialog','$window',
   function($scope,$cookieStore,$http,$location,$mdDialog,$window) {
 
     $scope.women_active = "active";
     $scope.men_active = "inactive";
+    $scope.first_filter = {};
     $scope.unlike = true;
     $scope.like = false;
 
@@ -61,22 +62,40 @@ app.controller('landingController', ['$scope','$cookieStore','$http','$location'
       "/fadstreet/files/images/women/7a.svg",
       "/fadstreet/files/images/women/8a.svg",
       "/fadstreet/files/images/women/9a.svg"];
+
+      $scope.subFilter = ["/fadstreet/files/images/women/sub/1a.svg",
+                          "/fadstreet/files/images/women/sub/2a.svg"];
     }
     
     $scope.selected_filters = [];
-    $scope.select = function(data){
+    $scope.select = function(data,payload){
       if($scope.selected_filters.indexOf($scope.filters[data]) == -1){
-        $scope.selected_filters.push($scope.filters[data]);
-        $scope.filter_selected = true;
-        $scope.filter_close = true;
+        if(payload == 0){
+          $scope.base_filter = false;
+          $scope.first_filter_show = true;
+          $scope.first_filter = $scope.filters[data];
+          $scope.subFilter_show = true;
+        }
+        else{
+          $scope.selected_filters.push($scope.subFilter[data]);
+          $scope.filter_selected = true;
+          $scope.filter_close = true;
+        }
       }
     }
-    $scope.remove = function(data){
-      console.log($scope.selected_filters[data]);
-      $scope.selected_filters.splice(data,1);
-      if($scope.selected_filters.length == 0){
-        $scope.filter_selected = false;
-        $scope.filter_close = false;
+    $scope.remove = function(data,payload){
+      if(payload == 0){
+        $scope.first_filter_show = false;
+        $scope.subFilter_show = false;
+        // $setTimeout(1000);
+        $scope.base_filter = true;
+      }
+      else{
+        $scope.selected_filters.splice(data,1);
+        if($scope.selected_filters.length == 0){
+          $scope.filter_selected = false;
+          $scope.filter_close = false;
+        }
       }
     }
     $scope.removeAll = function(){
@@ -85,6 +104,7 @@ app.controller('landingController', ['$scope','$cookieStore','$http','$location'
       $scope.filter_close = false;
     }
   }]);
+///////////////////////////////////////////////////////////NAVTAB CONTROLLER END///////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////LOGIN CONTROLLER///////////////////////////////////////////////////////////////////
 
@@ -114,13 +134,10 @@ app.controller('loginController', ['$scope','$cookieStore','$http','$location','
       }
     }
 
-    $scope.checkPassword = function(data,payload){
+    $scope.checkPassword = function(data){
       if(data != null){
         if(data.length < 8 || data.length == 0){
           $scope.password_error = true;
-          if(payload == 0)
-            document.getElementById("login_password").style.borderColor =  "red";
-          else
             document.getElementById("password").style.borderColor =  "red";
         }
         else{
@@ -132,44 +149,24 @@ app.controller('loginController', ['$scope','$cookieStore','$http','$location','
       }
       else{
         $scope.password_error = true;
-        if(payload == 0)
-          document.getElementById("login_password").style.borderColor =  "red";
-        else
-          document.getElementById("password").style.borderColor =  "red";
+        document.getElementById("password").style.borderColor =  "red";
       }
     }
 
     $scope.checkEmail = function(data,payload){
-      if(data == null){
+      var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if(data.match(mailformat)){
+        $scope.emailValid = true;
+        $scope.email_error = false; 
+        document.getElementById("login_email").style.borderColor =  "gray";
+        document.getElementById("email").style.borderColor =  "gray";
+      }
+      else{
         $scope.email_error = true;
         if(payload == 0)
           document.getElementById("login_email").style.borderColor =  "red";
         else
           document.getElementById("email").style.borderColor =  "red";
-      }
-      else{
-        var at = data.indexOf("@");
-        var dot = data.indexOf(".");
-        if(at == -1 || dot == -1){
-          $scope.email_error = true;
-          if(payload == 0)
-            document.getElementById("login_email").style.borderColor =  "red";
-          else
-            document.getElementById("email").style.borderColor =  "red";
-        }
-        else if(at > dot){
-          $scope.email_error = true;
-          if(payload == 0)
-            document.getElementById("login_email").style.borderColor =  "red";
-          else
-            document.getElementById("email").style.borderColor =  "red";
-        }
-        else{
-          $scope.emailValid = true;
-          $scope.email_error = false; 
-          document.getElementById("login_email").style.borderColor =  "gray";
-          document.getElementById("email").style.borderColor =  "gray";
-        }
       }
     }
 
@@ -197,7 +194,7 @@ app.controller('loginController', ['$scope','$cookieStore','$http','$location','
 
     $scope.signupForm = function(payload){
       console.log(payload);
-      $scope.checkEmail(payload.email,1);
+      $scope.checkEmail(payload.username,1);
       $scope.checkPassword(payload.password,1);
       if($scope.emailValid == true && $scope.passwordValid == true){
         $http({
@@ -226,8 +223,18 @@ app.controller('loginController', ['$scope','$cookieStore','$http','$location','
     $scope.loginForm = function(payload){
       if(payload.username == 'arvind@gmail.com' && payload.password == 'password'){
         $scope.show_user[0] = payload.username;
+        $scope.loggedIn[0] = true;
+        $scope.clearForm();
         $('#modal').modal('hide');
-        console.log($scope.show_user);
+        $mdToast.show(
+          $mdToast.simple()
+            .textContent('Welcome, '+$scope.show_user+'!')
+            .position('top right')
+            .hideDelay(3000)
+        );
+      }
+      else{
+        $scope.user_error = true;
       }
     }
     $scope.clearForm = function(){
@@ -241,6 +248,126 @@ app.service('loginService',
     this.show_user = ['Hello'];
     this.loggedIn = [false];
 });
+////////////////////////////////////////////////////////////LOGIN CONTROLLER END////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////PRODUCT CONTROLLER///////////////////////////////////////////////////////////////////
+
+app.controller('productController', ['$scope','$http','$location','$window',
+  function($scope,$http,$location,$window) {
+    
+    //HTTP REQUEST TO GET PRODUCT DETAILS//
+    $scope.product_info = {};
+    $scope.info = function(){ //METHOD TO GET PRODUCT DETAILS
+      $http({
+          method: 'GET',
+          url: 'http://127.0.0.1:8081/5'
+        }).then(function successCallback(response) {
+            $scope.product_info = response.data;
+            console.log(response.data);
+            $scope.sampleImage = "http://127.0.0.1:8081/"+response.data.image1;
+            // console.log($scope.sampleImage);
+          }, function errorCallback(response) {
+            console.log(response);
+          });
+    }
+    //HTTP REQUEST TO GET PRODUCT DETAILS ENDS HERE//
+
+    $scope.mixes =[
+        {
+          "one" : "https://caralasefashion.files.wordpress.com/2015/09/2948c-caralase_122__15522-1440631844-1280-1280.jpg",
+          "two" : "http://acelebritynews.com/wp-content/uploads/2015/05/Women-Bags-Best-Women-Bags-Collection-2.jpg",
+          "three" : "http://trendymods.com/wp-content/uploads/2013/12/by-cesare-paciotti-women-shoes-2014.jpeg"
+        },
+        {
+          "one" : "https://caralasefashion.files.wordpress.com/2015/09/2948c-caralase_122__15522-1440631844-1280-1280.jpg",
+          "two" : "http://acelebritynews.com/wp-content/uploads/2015/05/Women-Bags-Best-Women-Bags-Collection-2.jpg",
+          "three" : "http://trendymods.com/wp-content/uploads/2013/12/by-cesare-paciotti-women-shoes-2014.jpeg"
+        },
+        {
+          "one" : "https://caralasefashion.files.wordpress.com/2015/09/2948c-caralase_122__15522-1440631844-1280-1280.jpg",
+          "two" : "http://acelebritynews.com/wp-content/uploads/2015/05/Women-Bags-Best-Women-Bags-Collection-2.jpg",
+          "three" : "http://trendymods.com/wp-content/uploads/2013/12/by-cesare-paciotti-women-shoes-2014.jpeg"
+        },
+        {
+          "one" : "https://caralasefashion.files.wordpress.com/2015/09/2948c-caralase_122__15522-1440631844-1280-1280.jpg",
+          "two" : "http://acelebritynews.com/wp-content/uploads/2015/05/Women-Bags-Best-Women-Bags-Collection-2.jpg",
+          "three" : "http://trendymods.com/wp-content/uploads/2013/12/by-cesare-paciotti-women-shoes-2014.jpeg"
+        },
+        {
+          "one" : "https://caralasefashion.files.wordpress.com/2015/09/2948c-caralase_122__15522-1440631844-1280-1280.jpg",
+          "two" : "http://acelebritynews.com/wp-content/uploads/2015/05/Women-Bags-Best-Women-Bags-Collection-2.jpg",
+          "three" : "http://trendymods.com/wp-content/uploads/2013/12/by-cesare-paciotti-women-shoes-2014.jpeg"
+        },
+        {
+          "one" : "https://caralasefashion.files.wordpress.com/2015/09/2948c-caralase_122__15522-1440631844-1280-1280.jpg",
+          "two" : "http://acelebritynews.com/wp-content/uploads/2015/05/Women-Bags-Best-Women-Bags-Collection-2.jpg",
+          "three" : "http://trendymods.com/wp-content/uploads/2013/12/by-cesare-paciotti-women-shoes-2014.jpeg"
+        },
+        {
+          "one" : "https://caralasefashion.files.wordpress.com/2015/09/2948c-caralase_122__15522-1440631844-1280-1280.jpg",
+          "two" : "http://acelebritynews.com/wp-content/uploads/2015/05/Women-Bags-Best-Women-Bags-Collection-2.jpg",
+          "three" : "http://trendymods.com/wp-content/uploads/2013/12/by-cesare-paciotti-women-shoes-2014.jpeg"
+        }
+      ];
+
+    $scope.numbers = ["0","1","2","3","4","5","6"];
+    
+    // TO MAKE A RADIO BUTTON SELECTION FOR BOTH COLOR AND SIZE//
+    $scope.color_images = ["/fadstreet/files/images/1/f6.jpg",
+    "/fadstreet/files/images/1/ff1.jpg",
+    "/fadstreet/files/images/1/ff2.jpg"];
+    
+    $scope.sizes = ["S","M","L","XL","XXL"];
+    
+    $scope.colorSelected = -1;
+    $scope.sizeSelected = -1;
+
+    $scope.updateSelected = function(index,data){ //METHOD TO UPDATE THE SELECTION
+      if(data == 0){
+        if($scope.colorSelected != index){
+          $scope.colorSelected = index;
+        }
+      }
+      else if(data == 1){
+        if($scope.sizeSelected != index){
+          $scope.sizeSelected = index;
+        }
+      }
+    }; 
+    //TO MAKE A RADIO BUTTON SELECTION FOR BOTH COLOR AND SIZE ENDS HERE//
+
+    //TO MAKE WISH IT BUTTON WORK//
+    $scope.wish_content = "WISH IT";
+    $scope.unlike = true;
+    $scope.like = false;
+    $scope.like_click = true;
+    $scope.likeIt = function(){
+      $scope.unlike=!$scope.unlike;
+      $scope.like=!$scope.like;
+      if($scope.like_click){
+        $scope.wish_content = "WISH LISTED";
+        $scope.like_click = !$scope.like_click;
+      }
+      else{
+        $scope.wish_content = "WISH IT";
+        $scope.like_click = !$scope.like_click;
+      }
+    }
+    //TO MAKE WISH IT BUTTON WORK ENDS HERE//
+
+  }]);
+
+///////////////////////////////////////////////////////////PRODUCT CONTROLLER END///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////MIX N MATCH CONTROLLER///////////////////////////////////////////////////////////////
+
+app.controller('mixnmatchController', ['$scope','$http','$location','$window',
+  function($scope,$http,$location,$window) {
+
+}]);
+
+///////////////////////////////////////////////////////////MIX N MATCH CONTROLLER END//////////////////////////////////////////////////////////
+
 ///////////////////////////////////////////////////////////VENDOR CONTROLLER///////////////////////////////////////////////////////////////////
 
 app.controller('vendorController', ['$scope','$cookieStore','$http','$location','$mdDialog','$window',

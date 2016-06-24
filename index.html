@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_landing.css">
@@ -16,9 +16,9 @@
     <title>FadStreet - Fashion for you</title>
     <link rel="shortcut icon" type="image/x-icon" href="/fadstreet/files/logo.png" alt="Logo"/>
   </head>
-  <body ng-controller="landingController" ng-init="women()" ng-cloak>
+  <body ng-controller="navtabController" ng-init="women()" ng-cloak>
 
-    <div class="container-flow">
+    <div class="container-fluid nomargin">
       <ul class="nav nav-tabs">
         <li role="presentation" ng-class="women_active"><a href="#" ng-click="women()">SHOP WOMEN</a></li>
         <li role="presentation" ng-class="men_active"><a href="#" ng-click="men()">SHOP MEN</a></li>
@@ -27,27 +27,37 @@
           <div class="nav-right" ng-controller="loginController" ng-init="init()">
             <!-- <loginbutton><i class="fa fa-android" aria-hidden="true"></i>Download our App</loginbutton> -->
             <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
-            <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-user" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
+            <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-heart-o" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
             <!-- <cartbutton><i class="fa fa-globe"></i></span></cartbutton> -->
-            <cartbutton><i class="fa fa-heart-o"></i></span></cartbutton>
+            <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart-o"></i></span></cartbutton>
           </div>
         </div>
       </ul>
-      <div class="search_area">
-        <div class="container" align="center">
-          <div class="filter_icons">
-            <div class="scrolls">
-              <div ng-repeat="filter in filters" class="search_filter">
-                <img ng-src="{{filter}}" height="110" width="100" ng-click="select($index)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s">
-              </div>
+      <div class="search_area" ng-init="base_filter = 'true'">
+        <div class="container-fluid nomargin">
+          <div class="filter_icons" align="center">
+            <div id="filterId" class="scrolls">
+              <span class="firstFilter animated fadeIn" ng-show="first_filter_show">
+                <img ng-src="{{first_filter}}" height="110" width="100" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" ng-click="remove(0,0)">
+              </span>
+              <span ng-show="base_filter">
+                <div ng-repeat="filter in filters" class="search_filter animated fadeIn">
+                  <img ng-src="{{filter}}" height="110" width="100" ng-click="select($index,0)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
+                </div>
+              </span>
+              <span ng-show="subFilter_show">
+                <div ng-repeat="filter in subFilter" class="sub_filter">
+                  <img ng-src="{{filter}}" height="80" width="70" ng-click="select($index,1)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
+                </div>
+              </span>
             </div>
-            <hr class="icon_divider" width="10%" ng-show="filter_selected">
+            <hr class="icon_divider wow fadeIn" width="10%" ng-show="filter_selected">
             <div class="scrolls">
-              <div ng-repeat="filter in selected_filters" class="selected_filter" id="filter1">
-                <i class="fa fa-times" ng-click="remove($index)"></i>
+              <div ng-repeat="filter in selected_filters" class="selected_filter wow fadeIn" id="filter1">
+                <i class="fa fa-times-circle" ng-click="remove($index,1)"></i>
                 <img ng-src="{{filter}}" height="70" width="70">
               </div>
-              <div class="hide-button" ng-show="filter_close"><i class="fa fa-times" ng-click="removeAll()"></i></div>
+              <div class="hide-button" ng-show="filter_close"><i class="fa fa-times-circle" ng-click="removeAll()"></i></div>
             </div>
           </div>
         </div>
@@ -55,14 +65,14 @@
     </div>
 
     <header class="fixed">
-      <div class="container-flow">
+      <div class="container-fluid">
         <div align="center">
           <div class="scrolls">
             <div ng-repeat="filter in selected_filters" class="selected_filter" id="filter2">
-              <i class="fa fa-times" ng-click="remove($index)"></i>
+              <i class="fa fa-times-circle" ng-click="remove($index,1)"></i>
               <img ng-src="{{filter}}" height="70" width="70">
             </div>
-            <div class="hide-button" ng-show="filter_close"><i class="fa fa-times" ng-click="removeAll()"></i></div>
+            <div class="hide-button" ng-show="filter_close"><i class="fa fa-times-circle" ng-click="removeAll()"></i></div>
           </div>
         </div>
       </div>
@@ -81,12 +91,12 @@
                   <i ng-class="{'fa-heart-o':unlike,'fa-heart':like}" class="fa fa-heart-o green" ng-click="heart=!heart;unlike=!unlike;like=!like"></i>
                   <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
                 </p>
-                <p class="description" align="center"><span class="glyphicon glyphicon-search"></span>&nbsp;Buy Similar</p>
+                <p class="description" align="center"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Buy Similar</p>
               </figcaption>     
             </figure>
             <div class="row">
               <span class="display_info">
-                <div class="brand">Calvin Klein</div>
+                <div class="brand_name">Calvin Klein</div>
               </span>
             </div>
             <div class="row">
@@ -98,6 +108,7 @@
         </div>
       </div>
     </div>
+
     <footer>
       <div class="container">
         <div class="col-md-3 col-sm-4 col-xs-6">
@@ -169,8 +180,6 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
-    <!-- // <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script> -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
     <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
@@ -206,7 +215,6 @@
                   <div class="Error" ng-show="noEmail_error">E-mail doesn't exist</div>
                   <br>
                   <input type="password" id="login_password" class="form-control" ng-model="login.password" placeholder="Password" ng-blur="checkPassword(login.password,0)" required>
-                  <div class="Error" ng-show="password_error">Must be atleast 8 characters</div>
                   <span align="center"><a class="brand_color">Forgor Password?</a></span>
                   <br>
                 </div>
