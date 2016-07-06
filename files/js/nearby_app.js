@@ -61,8 +61,8 @@ var app = angular.module('nearbyApp',['ngCookies','ngRoute','ui.router','ngMater
 
 ///////////////////////////////////////////////////////////NEARBY CONTROLLER///////////////////////////////////////////////////////////////////
 
-app.controller('nearbyController', ['$scope','$cookieStore','$http','$location','$window',
-  function($scope,$cookieStore,$http,$location,$window) {
+app.controller('nearbyController', ['$scope','$cookies','$http','$location','$window',
+  function($scope,$cookies,$http,$location,$window) {
   	$scope.login = function(){
 		$window.location.assign('/fadstreet/login.html');
 	}

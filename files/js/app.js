@@ -1,21 +1,23 @@
-var app = angular.module('fadStreetApp',['ngCookies','ngRoute','ngMaterial','ngFileReader', 'ngMessages', 'material.svgAssetsCache']);
+var app = angular.module('fadStreetApp',['ngCookies','ngRoute','ngMaterial','ngFileReader','infinite-scroll']);
 
 
 ///////////////////////////////////////////////////////////NAVTAB CONTROLLER///////////////////////////////////////////////////////////////////
 
-app.controller('navtabController', ['$scope','$cookieStore','$http','$location','$mdDialog','$window',
-  function($scope,$cookieStore,$http,$location,$mdDialog,$window) {
+app.controller('navtabController', ['$scope','$cookies','$http','$location','$mdDialog','$window','$timeout',
+  function($scope,$cookies,$http,$location,$mdDialog,$window,$timeout) {
 
     $scope.women_active = "active";
     $scope.men_active = "inactive";
     $scope.first_filter = {};
+    $scope.products = {};
+    $scope.showLoader = false;
     $scope.unlike = true;
     $scope.like = false;
 
     $scope.men = function (){
       $scope.women_active='inactive';
       $scope.men_active='active';
-      $scope.products = ["https://ak0.scstatic.net/1/cdn2-cont3.sweetcouch.com/3341239-pepe-jeans-man-blue-white-checked.jpg",
+      $scope.products.image = ["https://ak0.scstatic.net/1/cdn2-cont3.sweetcouch.com/3341239-pepe-jeans-man-blue-white-checked.jpg",
       "https://ak2.scstatic.net/1/cdn2-cont13.sweetcouch.com/145595475706736181-calvinklein-innerwear-white-purple-checked-long.jpg",
       "https://ak0.scstatic.net/1/cdn2-cont9.sweetcouch.com/899539-calvin-klein-jeans-men-white-shirt.jpg",
       "https://ak0.scstatic.net/1/cdn2-cont5.sweetcouch.com/3406698-calvin-klein-jeans-man-white-blue.jpg",
@@ -40,18 +42,16 @@ app.controller('navtabController', ['$scope','$cookieStore','$http','$location',
       $scope.show_login=true;$scope.show_signup = false;
       $scope.women_active='active';
       $scope.men_active='inactive';
-      $scope.products = ["https://ak2.scstatic.net/1/cdn2-cont15.sweetcouch.com/146099881459992652-melville-grey-tshirt.jpg",
-      "http://www.globusfashion.com/media/catalog/product/cache/1/thumbnail/300x400/9df78eab33525d08d6e5fb8d27136e95/p/i/piquepolo-navy-2.jpg",
-      "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339077-calvin-klein-jeans-women-white-printed.jpg",
-      "https://ak0.scstatic.net/1/cdn2-cont5.sweetcouch.com/2557847-pepe-jeans-women-pink-white-striped.jpg",
-      "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339017-calvin-klein-jeans-women-white-printed.jpg",
-      "https://ak0.scstatic.net/1/cdn2-cont2.sweetcouch.com/139843384490812918-pepe-jeans-woman-green-white-romi.jpg",
-      "https://ak0.scstatic.net/1/cdn2-cont9.sweetcouch.com/839878-calvin-klein-jeans-women-white-crystal.jpg",
-      "https://ak0.scstatic.net/1/cdn2-cont7.sweetcouch.com/142621814719913094-calvin-klein-jeans-white-printed-top.jpg",
-      "https://ak0.scstatic.net/1/cdn2-cont4.sweetcouch.com/339568-calvin-klein-jeans-women-white-printed.jpg",
-      "https://s-media-cache-ak0.pinimg.com/736x/60/af/1c/60af1c327ff584f9610ac404b0e292cd.jpg",
-      "https://ak0.scstatic.net/1/cdn2-cont2.sweetcouch.com/2557740-pepe-jeans-women-blue-white-striped.jpg",
-      "http://static1.jassets.com/p/Calvin-Klein-Jeans-Purple-T-Shirt-1656-504494-1-pdp_slider_m.jpg"];
+      $http({
+          method: 'GET',
+          url: 'http://13.75.44.45/userLogin/api/users/products'
+        }).then(function successCallback(response) {
+            // console.log(response.data);
+            $scope.products = response.data;
+            console.log($scope.products);
+          }, function errorCallback(response) {
+            console.log(response);
+          });
 
       $scope.filters = ["/fadstreet/files/images/women/1a.svg",
       "/fadstreet/files/images/women/2a.svg",
@@ -64,12 +64,14 @@ app.controller('navtabController', ['$scope','$cookieStore','$http','$location',
       "/fadstreet/files/images/women/9a.svg"];
 
       $scope.subFilter = ["/fadstreet/files/images/women/sub/1a.svg",
-                          "/fadstreet/files/images/women/sub/2a.svg"];
+                          "/fadstreet/files/images/women/sub/2a.svg",
+                          "/fadstreet/files/images/women/sub/3a.svg",
+                          "/fadstreet/files/images/women/sub/4a.svg"];
     }
     
     $scope.selected_filters = [];
     $scope.select = function(data,payload){
-      if($scope.selected_filters.indexOf($scope.filters[data]) == -1){
+      if($scope.selected_filters.indexOf($scope.filters[data]) == -1 && $scope.selected_filters.indexOf($scope.subFilter[data]) == -1){
         if(payload == 0){
           $scope.base_filter = false;
           $scope.first_filter_show = true;
@@ -77,6 +79,10 @@ app.controller('navtabController', ['$scope','$cookieStore','$http','$location',
           $scope.subFilter_show = true;
         }
         else{
+          if($scope.subFilter_show == true){
+              if(window.innerWidth <= 1500)
+                $("#filterId").animate({'top' : '2vh'}, {duration : 400});
+          }
           $scope.selected_filters.push($scope.subFilter[data]);
           $scope.filter_selected = true;
           $scope.filter_close = true;
@@ -85,31 +91,66 @@ app.controller('navtabController', ['$scope','$cookieStore','$http','$location',
     }
     $scope.remove = function(data,payload){
       if(payload == 0){
+        $scope.selected_filters = [];
         $scope.first_filter_show = false;
         $scope.subFilter_show = false;
-        // $setTimeout(1000);
         $scope.base_filter = true;
+        $scope.filter_selected = false;
+        $scope.filter_close = false;
+        if($scope.subFilter_show == false)
+          if(window.innerWidth <= 1500)
+            $("#filterId").animate({'top' : '10vh'}, {duration : 400});
       }
       else{
         $scope.selected_filters.splice(data,1);
         if($scope.selected_filters.length == 0){
           $scope.filter_selected = false;
           $scope.filter_close = false;
+          $scope.first_filter_show = false;
+          $scope.subFilter_show = false;
+          $scope.base_filter = true;
         }
+        if($scope.subFilter_show == false)
+          if(window.innerWidth <= 1500)
+            $("#filterId").animate({'top' : '10vh'}, {duration : 400});
       }
     }
     $scope.removeAll = function(){
       $scope.selected_filters = [];
       $scope.filter_selected = false;
       $scope.filter_close = false;
+      $scope.first_filter_show = false;
+      $scope.subFilter_show = false;
+      $scope.base_filter = true;
+      if($scope.subFilter_show == false)
+        if(window.innerWidth <= 1500)
+          $("#filterId").animate({'top' : '10vh'}, {duration : 400});
+    }
+    $ii = 0;    
+    $scope.loadMore = function(){
+      $scope.showLoader = true;
+      $timeout(function() {}, 3000);
+      console.log("now posting");
+      $http({
+          method: 'GET',
+          url: 'http://13.75.44.45/userLogin/api/users/products'
+        }).then(function successCallback(response) {
+            console.log($ii++ + response.data);
+            for (var i = 0; i < response.data.length; i++) {
+              $scope.products.push(response.data[i]);
+            }
+          }, function errorCallback(response) {
+            console.log(response);
+          });
+        $scope.showLoader = false;
     }
   }]);
 ///////////////////////////////////////////////////////////NAVTAB CONTROLLER END///////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////LOGIN CONTROLLER///////////////////////////////////////////////////////////////////
 
-app.controller('loginController', ['$scope','$cookieStore','$http','$location','$mdDialog','$mdToast','$window','loginService',
-  function($scope,$cookieStore,$http,$location,$mdDialog,$mdToast,$window,loginService) {
+app.controller('loginController', ['$scope','$cookies','$http','$location','$mdDialog','$mdToast','$window','loginService',
+  function($scope,$cookies,$http,$location,$mdDialog,$mdToast,$window,loginService) {
     $scope.login = {};
     
     $scope.show_user = loginService.show_user;
@@ -125,8 +166,8 @@ app.controller('loginController', ['$scope','$cookieStore','$http','$location','
     $scope.passwordValid = false;
 
     $scope.init = function(){
-      $scope.user = $cookieStore.get('user');
-      $scope.username = $cookieStore.get('name');
+      $scope.user = $cookies.get('user');
+      $scope.username = $cookies.get('name');
 
       if($scope.user != null){
         $scope.loggedIn[0] = true;
@@ -202,8 +243,8 @@ app.controller('loginController', ['$scope','$cookieStore','$http','$location','
           url: 'http://52.175.34.205/userLogin/api/users',
           data: payload
         }).then(function successCallback(response) {
-            $cookieStore.put('user',payload.email);
-            $cookieStore.put('name',payload.name);
+            $cookies.put('user',payload.email);
+            $cookies.put('name',payload.name);
             $scope.show_user[0] = payload.name;
             $scope.loggedIn[0] = true;
             $scope.clearForm();
@@ -221,21 +262,34 @@ app.controller('loginController', ['$scope','$cookieStore','$http','$location','
     }
 
     $scope.loginForm = function(payload){
-      if(payload.username == 'arvind@gmail.com' && payload.password == 'password'){
-        $scope.show_user[0] = payload.username;
-        $scope.loggedIn[0] = true;
-        $scope.clearForm();
-        $('#modal').modal('hide');
-        $mdToast.show(
-          $mdToast.simple()
-            .textContent('Welcome, '+$scope.show_user+'!')
-            .position('top right')
-            .hideDelay(3000)
-        );
-      }
-      else{
-        $scope.user_error = true;
-      }
+      // if($scope.emailValid == true && $scope.passwordValid == true){
+        console.log(payload);
+        $cookies.newUser = payload.email;
+        $http({
+          method: 'POST',
+          url: 'http://13.75.44.45/userLogin/api/users/login',
+          data: payload
+        }).then(function successCallback(response) {
+            console.log(response);
+            // $cookies.put("user",payload.email);
+            $cookies.newUser = payload.email;
+            // $cookies.put('name',payload.name);
+            $scope.show_user[0] = payload.username;
+            $scope.loggedIn[0] = true;
+            $scope.clearForm();
+            $('#modal').modal('hide');
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent('Welcome, '+$scope.show_user+'!')
+                .position('top right')
+                .hideDelay(3000)
+            );
+            console.log("Post over");
+          }, function errorCallback(response) {
+            console.log(response);
+          });
+        console.log("DONE")
+      // }
     }
     $scope.clearForm = function(){
       $scope.login = {};
@@ -363,15 +417,17 @@ app.controller('productController', ['$scope','$http','$location','$window',
 
 app.controller('mixnmatchController', ['$scope','$http','$location','$window',
   function($scope,$http,$location,$window) {
-
+    $scope.mixNmatch = function(data){
+      
+    }
 }]);
 
 ///////////////////////////////////////////////////////////MIX N MATCH CONTROLLER END//////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////VENDOR CONTROLLER///////////////////////////////////////////////////////////////////
 
-app.controller('vendorController', ['$scope','$cookieStore','$http','$location','$mdDialog','$window',
-  function($scope,$cookieStore,$http,$location,$mdDialog,$window) {
+app.controller('vendorController', ['$scope','$cookies','$http','$location','$mdDialog','$window',
+  function($scope,$cookies,$http,$location,$mdDialog,$window) {
   	$scope.vendor = {name:'Arvind',company:'FadStreet',email:'arvindsuna10@gmail.com'};
     $scope.show_details = true;
     $scope.image = {};

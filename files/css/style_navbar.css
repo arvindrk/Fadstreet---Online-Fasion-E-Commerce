@@ -55,16 +55,16 @@ header {
 	display: block;
 	overflow: hidden;
     box-shadow: 0px 2px 8px 0px #888888;	
-	transition: all 0.3s linear;
-	-moz-transition: all 0.3s linear;
-	-webkit-transition: all 0.3s linear;
+	transition: all 0.5s linear;
+	-moz-transition: all 0.5s linear;
+	-webkit-transition: all 0.5s linear;
 }
 .default {
 	top: 0;
   	background-color:white;
 }
 .fixed {
-	top: -75px;
+	top: -200px;
 }
 
 .brand_color{
@@ -79,7 +79,6 @@ header {
 	position: relative;
 	min-height: 35vh;
 	background-color: #efefef;
-	overflow: auto;
 }
 .filter_icons{
 	display: block;
@@ -88,7 +87,7 @@ header {
 }
 .scrolls { 
 	display: block;
-	overflow-x: scroll;
+	overflow-x: auto;
 	overflow-y: hidden;
     white-space:nowrap;
     position: relative;
@@ -112,9 +111,13 @@ header {
 	display: inline-block;
 	min-width: 3vw;
 }
+.sub_filter_container{
+	position: relative;
+	left: -2vw;
+}
 .sub_filter{
 	display: inline-block;
-	min-width: 3vw;	
+	min-width: 8vw;	
 }
 .hide-button {
     float: right;
@@ -124,7 +127,7 @@ header {
 }
 .firstFilter{
 	position: relative;
-	left: -40vw;
+	left: -30vw;
 }
 /*===========================================================ICON FILTER AREA END==============================================================*/
 
