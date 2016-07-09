@@ -8,7 +8,33 @@
 	background-color: #EFEFEF !important;
 }
 
-/*===========================================================PRODUCT GRID=======================================================================*/
+/*==========================================================SCROLL TOP===================================================================*/
+.scrollTop{
+	position: fixed;
+	right: -100px;
+	font-size: 2vh;
+	padding: 10px;
+	background-color: #482E8B;
+	color: white;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	transition: all 0.5s linear;
+	-moz-transition: all 0.5s linear;
+	-webkit-transition: all 0.5s linear;
+	z-index: 1000;
+}
+.scrollTop i{
+	padding-left: 10px;
+}
+.scrollShow{
+	right: 0;
+}
+.scrollHide{
+	right: -100px;
+}
+/*==========================================================SCROLL TOP END=================================================================*/
+
+/*==========================================================PRODUCT GRID===================================================================*/
 
 .grid {
 	margin: 0 auto;
@@ -71,7 +97,13 @@
 }
 
 .grid figure h2 span {
-	font-weight: 400;
+	display: inline-block;
+	float: left;
+	width: 8vw;
+	white-space: nowrap;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
+    font-weight: 400;
 }
 
 .grid figure h2,

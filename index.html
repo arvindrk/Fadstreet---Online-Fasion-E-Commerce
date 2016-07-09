@@ -18,7 +18,7 @@
     <title>FadStreet - Fashion for you</title>
     <link rel="shortcut icon" type="image/x-icon" href="/fadstreet/files/logo.png" alt="Logo"/>
   </head>
-  <body ng-controller="navtabController" ng-init="women()" ng-cloak>
+  <body ng-controller="navtabController" ng-init="init()" ng-cloak>
 
     <div class="container-fluid nomargin">
       <ul class="nav nav-tabs">
@@ -31,7 +31,7 @@
             <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
             <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-heart-o" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
             <!-- <cartbutton><i class="fa fa-globe"></i></span></cartbutton> -->
-            <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart-o"></i></span></cartbutton>
+            <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart-o"></i></cartbutton>
           </div>
         </div>
       </ul>
@@ -43,7 +43,7 @@
                 <img ng-src="{{first_filter}}" height="110" width="100" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" ng-click="remove(0,0)">
               </span>
               <span ng-show="base_filter">
-                <div ng-repeat="filter in filters" class="search_filter animated fadeIn">
+                <div ng-repeat="filter in filters.icons" class="search_filter animated fadeIn">
                   <img ng-src="{{filter}}" height="110" width="100" ng-click="select($index,0)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
                 </div>
               </span>
@@ -80,12 +80,22 @@
       </div>
     </header>
     
+<<<<<<< bbbe1344b69851bc8b9180cf556d5a5d8008de36
     <div infinite-scroll='loadMore()' infinite-scroll-distance='1' class="container products">
+=======
+    <div class="scrollTop" ng-click="scrollToTop()">TOP<i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
+
+    <div class="container products">
+>>>>>>> Major API Upgrade
       <div ng-repeat="product in products">
-        <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders">
+        <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders" ng-click="selectProduct(product.productId)">
           <div class="grid">
             <figure class="effect-zoe">
+<<<<<<< bbbe1344b69851bc8b9180cf556d5a5d8008de36
               <img ng-src="{{product.img1}}" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s"/>
+=======
+              <img ng-src="{{product.img1}}" class="animated fadeIn">
+>>>>>>> Major API Upgrade
               <!-- <span class="tags"><span class="price-tag"><a>$2.99</a></span></span> -->
               <figcaption>
                 <h2><span>{{product.type | uppercase}}</span></h2>
@@ -114,12 +124,12 @@
       <img src="/fadstreet/files/loader.gif">
     </div>
 
-    <footer>
+    <footer ng-controller="productController">
       <div class="container">
         <div class="col-md-3 col-sm-4 col-xs-6">
           <ul class="footer_content">
             <li class="footer_head">FadStreet</li>
-            <a href=""><li>About Us</li></a>
+            <a href=""><li ng-click="getProductInfo()">About Us</li></a>
             <a href=""><li>Our Concept</li></a>
             <a href=""><li>Our Team</li></a>
             <a href=""><li>FadStreet Stories</li></a>
@@ -177,6 +187,8 @@
     <script type="text/javascript" src="/fadstreet/files/js/app.js"></script>
     <!-- Script to delay the animation based on time -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <!-- Script to Scroll to top -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.0/angular-scroll.min.js"></script>
     <!-- Stick navbar to the TOP -->
     <script type="text/javascript" src="/fadstreet/files/js/sticky.js"></script>
     <!-- Script for Infinite Scrolling -->
@@ -184,6 +196,7 @@
     <!-- Required Angular plugins to satisfy the dependencies -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>

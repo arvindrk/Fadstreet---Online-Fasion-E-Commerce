@@ -17,7 +17,11 @@
     <link rel="shortcut icon" type="image/x-icon" href="/fadstreet/files/logo.png" alt="Logo"/>
   </head>
 
+<<<<<<< bbbe1344b69851bc8b9180cf556d5a5d8008de36
   <body style="background-color: #fff;" ng-cloak>
+=======
+  <body ng-controller="navtabController" ng-init="init()" style="background-color: #fff;" ng-init='init()' ng-cloak>
+>>>>>>> Major API Upgrade
     <div class="container-fluid nomargin">
       <ul class="nav nav-tabs">
         <!-- <li role="presentation" ng-class="women_active"><a href="#" ng-click="women()">SHOP WOMEN</a></li>
@@ -92,7 +96,7 @@
           <div align="center">
             <div class="filter_icons_mix">
               <div class="scrolls">
-                <div ng-repeat="filter in filters" class="search_filter">
+                <div ng-repeat="filter in filters.icons" class="search_filter">
                   <img ng-src="{{filter}}" height="70" width="60" ng-click="select($index)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s">
                 </div>
               </div>
@@ -105,11 +109,15 @@
             <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders">
               <div class="grid">
                 <figure ng-controller="mixnmatchController" class="effect-zoe" ng-click="mixNmatch(product)">
+<<<<<<< bbbe1344b69851bc8b9180cf556d5a5d8008de36
                   <img ng-src="{{product}}" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s"/>
+=======
+                  <img ng-src="{{product.img1}}" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s"/>
+>>>>>>> Major API Upgrade
                 </figure>
                 <div class="row">
                   <span class="display_info">
-                    <div class="brand_name">Calvin Klein</div>
+                    <div class="brand_name">{{product.brand}}</div>
                   </span>
                 </div>
                 <div class="row">

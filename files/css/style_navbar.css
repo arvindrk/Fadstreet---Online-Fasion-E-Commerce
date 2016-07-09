@@ -353,6 +353,9 @@ footer{
 		top: -1vh !important;
 		height: 8vh !important;
 	}
+	.grid figure h2 span{
+		width: 20vw;
+	}
 }
 @media screen and (max-width: 500px) {
 	figure.effect-zoe p.description {
@@ -385,5 +388,12 @@ footer{
 	.price{
 		font-size: 1.5vh;
 	}
-
+	.modal_heading{
+		font-size: 3vh; 
+	}
+	external-login,
+	.facebook_button i,
+	.google_button i{
+		font-size: 2vh;
+	}
 }
