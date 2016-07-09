@@ -169,6 +169,7 @@ html,body{
 }
 #mixnmatch_area{
 	margin-bottom: 10px;
+	margin-left: 10px;
 }
 #mixnmatch_area .col-md-7,
 #mixnmatch_area .col-sm-7,
@@ -243,16 +244,38 @@ html,body{
 	overflow-y: hidden;
     white-space:nowrap;
     position: relative;
+    height: 30vh;
+}
+.singleContainer{
+	display: inline-block;
+	width: 10%;
+	height: 25vh;
+	border-radius: 10px;
+	border: 2px solid #fff;
+	margin: 0px 10px 10px 10px;
+	overflow: hidden;
+}
+.singleContainer:hover{
+	border: 2px solid #482E8B;
+	cursor: pointer;
+}
+.singleContainer caption{
+	position: relative;
+	float: left;
+	text-align: center;
+	font-size: 2vh;
 }
 .similarImages{
-	display: inline-block;
-	width: 15%;
-	height: 20vh;
-	border-radius: 10px;
-	border: 1px solid #000;
-	margin: 0 10px;
-	overflow-x: scroll;
+	width: 100%;
+	height: 25vh;
+	overflow: hidden;
 }
+.similarImages img{
+	display: block;
+	min-width: 100%;
+	max-height: 100%;
+}
+
 /*///////////////////////////////////////////////////////////SIMILAR IMAGE DIVISION END/////////////////////////////////////////////////*/
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 

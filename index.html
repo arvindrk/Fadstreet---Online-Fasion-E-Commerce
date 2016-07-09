@@ -10,13 +10,15 @@
     <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_navbar.css">
     <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/price_tag.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+    <!-- Jquery is required for angular to execute -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
     <title>FadStreet - Fashion for you</title>
     <link rel="shortcut icon" type="image/x-icon" href="/fadstreet/files/logo.png" alt="Logo"/>
   </head>
-  <body ng-controller="navtabController" ng-init="women()" ng-cloak>
+  <body ng-controller="navtabController" ng-init="init()" ng-cloak>
 
     <div class="container-fluid nomargin">
       <ul class="nav nav-tabs">
@@ -29,23 +31,23 @@
             <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
             <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-heart-o" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
             <!-- <cartbutton><i class="fa fa-globe"></i></span></cartbutton> -->
-            <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart-o"></i></span></cartbutton>
+            <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart-o"></i></cartbutton>
           </div>
         </div>
       </ul>
       <div class="search_area" ng-init="base_filter = 'true'">
         <div class="container-fluid nomargin">
-          <div class="filter_icons" align="center">
-            <div id="filterId" class="scrolls">
+          <div class="filter_icons" align="center" id="filterId">
+            <div class="scrolls">
               <span class="firstFilter animated fadeIn" ng-show="first_filter_show">
                 <img ng-src="{{first_filter}}" height="110" width="100" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" ng-click="remove(0,0)">
               </span>
               <span ng-show="base_filter">
-                <div ng-repeat="filter in filters" class="search_filter animated fadeIn">
+                <div ng-repeat="filter in filters.icons" class="search_filter animated fadeIn">
                   <img ng-src="{{filter}}" height="110" width="100" ng-click="select($index,0)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
                 </div>
               </span>
-              <span ng-show="subFilter_show">
+              <span ng-show="subFilter_show" class="sub_filter_container">
                 <div ng-repeat="filter in subFilter" class="sub_filter">
                   <img ng-src="{{filter}}" height="80" width="70" ng-click="select($index,1)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
                 </div>
@@ -66,7 +68,7 @@
 
     <header class="fixed">
       <div class="container-fluid">
-        <div align="center">
+        <div class="overFlow" align="center">
           <div class="scrolls">
             <div ng-repeat="filter in selected_filters" class="selected_filter" id="filter2">
               <i class="fa fa-times-circle" ng-click="remove($index,1)"></i>
@@ -78,15 +80,17 @@
       </div>
     </header>
     
+    <div class="scrollTop" ng-click="scrollToTop()">TOP<i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
+
     <div class="container products">
       <div ng-repeat="product in products">
-        <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders">
+        <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders" ng-click="selectProduct(product.productId)">
           <div class="grid">
             <figure class="effect-zoe">
-              <img ng-src="{{product}}" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s"/>
+              <img ng-src="{{product.img1}}" class="animated fadeIn">
               <!-- <span class="tags"><span class="price-tag"><a>$2.99</a></span></span> -->
               <figcaption>
-                <h2><span>Zoe</span></h2>
+                <h2><span>{{product.type | uppercase}}</span></h2>
                 <p class="icon-links">
                   <i ng-class="{'fa-heart-o':unlike,'fa-heart':like}" class="fa fa-heart-o green" ng-click="heart=!heart;unlike=!unlike;like=!like"></i>
                   <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
@@ -96,7 +100,7 @@
             </figure>
             <div class="row">
               <span class="display_info">
-                <div class="brand_name">Calvin Klein</div>
+                <div class="brand_name">{{product.brand | uppercase}}</div>
               </span>
             </div>
             <div class="row">
@@ -108,13 +112,16 @@
         </div>
       </div>
     </div>
+    <div align="center" ng-show="showLoader">
+      <img src="/fadstreet/files/loader.gif">
+    </div>
 
-    <footer>
+    <footer ng-controller="productController">
       <div class="container">
         <div class="col-md-3 col-sm-4 col-xs-6">
           <ul class="footer_content">
             <li class="footer_head">FadStreet</li>
-            <a href=""><li>About Us</li></a>
+            <a href=""><li ng-click="getProductInfo()">About Us</li></a>
             <a href=""><li>Our Concept</li></a>
             <a href=""><li>Our Team</li></a>
             <a href=""><li>FadStreet Stories</li></a>
@@ -166,19 +173,20 @@
       </div>
     </footer>
     
-    <!-- Jquery is required for angular to execute -->
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <!-- Contains the controllers for each webpage -->
     <script type="text/javascript" src="/fadstreet/files/js/app.js"></script>
     <!-- Script to delay the animation based on time -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <!-- Script to Scroll to top -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.0/angular-scroll.min.js"></script>
     <!-- Stick navbar to the TOP -->
     <script type="text/javascript" src="/fadstreet/files/js/sticky.js"></script>
     <!-- Required Angular plugins to satisfy the dependencies -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>

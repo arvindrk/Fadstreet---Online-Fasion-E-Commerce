@@ -16,28 +16,31 @@
     <link rel="shortcut icon" type="image/x-icon" href="/fadstreet/files/logo.png" alt="Logo"/>
   </head>
 
-  <body ng-controller="productController" style="background-color: #fff;" ng-init="women_active='active';men_active='inactive';info()" ng-cloak>
+  <body ng-controller="productController" style="background-color: #fff;" ng-init="women_active='active';men_active='inactive';getProductInfo()" ng-cloak>
+    
     <div class="container-fluid nomargin" ng-controller="navtabController">
       <ul class="nav nav-tabs">
         <!-- <li role="presentation" ng-class="women_active"><a href="#" ng-click="women()">SHOP WOMEN</a></li>
         <li role="presentation" ng-class="men_active"><a href="#" ng-click="men()">SHOP MEN</a></li> -->
         <div class="brand">
-          <img src="/fadstreet/files/newLogo.png" height="40" width="150">
+          <img src="/fadstreet/files/newLogo.png" height="40" width="150" ng-click="homePage()">
           <div class="nav-right" ng-controller="loginController" ng-init="init()">
             <!-- <loginbutton><i class="fa fa-android" aria-hidden="true"></i>Download our App</loginbutton> -->
             <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
             <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-user" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
-            <cartbutton><i class="fa fa-heart-o"></i></span></cartbutton>
+            <cartbutton><i class="fa fa-heart-o"></i></cartbutton>
           </div>
         </div>
       </ul>
     </div>
+
     <br>
+
     <div class="container-fluid main_container" align="center">
       <div class="col-md-9 col-sm-12 col-xs-12 nomargin" style="border-right: 1px solid #adadad;">
         <div class="row"><!-- Brand Description -->
           <div class="col-md-2 col-sm-2 col-xs-2 nomargin">
-            <i class="fa fa-arrow-circle-left back_arrow" aria-hidden="true"></i>
+            <i class="fa fa-arrow-circle-left back_arrow" aria-hidden="true" ng-click="homePage()"></i>
           </div>
           <div class="col-md-10 col-sm-10 col-xs-10 nomargin">
             <div class="brand_container">
@@ -52,13 +55,16 @@
           <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">
-              <li ng-repeat="no in numbers" data-target="#carousel-example-generic" data-slide-to="{{no}}" ng-class='{active:$first}'></li>
+              <li data-target="#carousel-example-generic" data-slide-to="0" class='active'></li>
+              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="3"></li>
             </ol>
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
-              <div class="item" ng-class='{active:$first}' ng-repeat="no in numbers">
-                <img src="/fadstreet/files/images/1/f{{no}}.jpg" alt="Image {{no}}">
+              <div class="item" ng-class='{active:$first}' ng-repeat="image in productImages">
+                <img src="{{image}}" alt="Image">
               </div>
             </div>
 
@@ -148,18 +154,18 @@
       <div class="col-md-3 col-sm-12 col-xs-12"><!-- MIX N MATCH -->
         <div class="mixnmatch_heading">MIX N MATCH</div>
         <div class="scroll">
-          <div ng-repeat="mix in mixes" class="col-md-12 col-sm-6 col-xs-12 nomargin" id="mixnmatch_area">
+          <div ng-repeat="mix in similar_products" class="col-md-12 col-sm-6 col-xs-12 nomargin" id="mixnmatch_area">
             <div class="col-md-7 col-sm-7 col-xs-7">
               <div class="similarMix">
-                <img src="{{mix.one}}">
+                <img src="{{mix.img2}}">
               </div>
             </div>
-            <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="col-md-4 col-sm-4 col-xs-5">
               <div class="similarMix_1">
-                <img src="{{mix.two}}">
+                <img src="{{mix.img3}}">
               </div>
               <div class="similarMix_1">
-                <img src="{{mix.three}}">
+                <img src="{{mix.img4}}">
               </div>
             </div>
           </div>
@@ -168,22 +174,16 @@
       <div class="col-md-12 col-sm-12 col-xs-12"><!-- SIMILAR IMAGES -->
         <div class="similar_heading">YOU MIGHT ALSO LIKE</div>
         <div class="similarContainer">
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
-          <div class="similarImages"></div>
+          <div ng-repeat="product in similar_products" class="singleContainer">
+            <div class="similarImages">
+              <img src="{{product.img1}}"/>
+            </div>
+            <!-- <caption>{{product.brand}}</caption> -->
+          </div>
         </div>
       </div>
     </div>
+
     <footer>
       <div class="container">
         <div class="col-md-3 col-sm-4 col-xs-6">

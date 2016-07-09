@@ -17,7 +17,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="/fadstreet/files/logo.png" alt="Logo"/>
   </head>
 
-  <body ng-controller="navtabController" style="background-color: #fff;" ng-init="women()" ng-cloak>
+  <body ng-controller="navtabController" ng-init="init()" style="background-color: #fff;" ng-init='init()' ng-cloak>
     <div class="container-fluid nomargin">
       <ul class="nav nav-tabs">
         <!-- <li role="presentation" ng-class="women_active"><a href="#" ng-click="women()">SHOP WOMEN</a></li>
@@ -29,7 +29,7 @@
             <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
             <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-heart-o" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
             <!-- <cartbutton><i class="fa fa-globe"></i></span></cartbutton> -->
-            <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart-o"></i></span></cartbutton>
+            <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart-o"></i></cartbutton>
           </div>
         </div>
       </ul>
@@ -37,25 +37,38 @@
 
     <div class="container-fluid nomargin">
       
-      <div class="col-md-6 col-sm-6 col-xs-12" ng-init="shirt = 'true'">
-        <div class="sub_heading">MIX N MATCH</div>
-        <div class="col-md-3 col-sm-3 col-xs-3 nomargin animated fadeIn">
-          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="belt"></div>
-          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="shoe"></div> 
+      <div class="col-md-6 col-sm-6 col-xs-12" ng-init="shirt = true">
+        <div class="sub_heading">
+          MIX N MATCH
+          <loginbutton class="saveLook">Save the look</loginbutton>
         </div>
-        <div class="col-md-6 col-sm-7 col-xs-7 display nomargin animated fadeIn" ng-show="shirt"></div>
         <div class="col-md-3 col-sm-3 col-xs-3 nomargin animated fadeIn">
-          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="pant"></div>
-          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="socks"></div> 
+          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="belt">
+            <i class="fa fa-times-circle" aria-hidden="true" ng-click="belt=false"></i>
+          </div>
+          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="shoe">
+            <i class="fa fa-times-circle" aria-hidden="true" ng-click="shoe=false"></i>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-7 col-xs-7 display nomargin animated fadeIn" ng-show="shirt">
+          <img src="{{shirtImage}}" class="animated fadeIn">
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-3 nomargin animated fadeIn">
+          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="pant">
+            <i class="fa fa-times-circle" aria-hidden="true" ng-click="pant=false"></i>
+          </div>
+          <div class="col-md-12 col-sm-12 col-xs-12 display_1 nomargin animated fadeIn" ng-show="socks">
+            <i class="fa fa-times-circle" aria-hidden="true" ng-click="socks=false"></i>
+          </div>
         </div>
         
         <div class="col-md-12 col-sm-12 col-xs-12 nomargin">
           <div class="sub_heading">OUR SUGGESTED OUTFITS</div>
           <div class="similar">
-            <div class="single_outfit" ng-click="pant='true'"></div>
-            <div class="single_outfit" ng-click="shoe='true'"></div>
-            <div class="single_outfit" ng-click="belt='true'"></div>
-            <div class="single_outfit" ng-click="socks='true'"></div>
+            <div class="single_outfit" ng-click="pant=true"></div>
+            <div class="single_outfit" ng-click="shoe=true"></div>
+            <div class="single_outfit" ng-click="belt=true"></div>
+            <div class="single_outfit" ng-click="socks=true"></div>
             <div class="single_outfit"></div>
             <div class="single_outfit"></div>
             <div class="single_outfit"></div>
@@ -79,7 +92,7 @@
           <div align="center">
             <div class="filter_icons_mix">
               <div class="scrolls">
-                <div ng-repeat="filter in filters" class="search_filter">
+                <div ng-repeat="filter in filters.icons" class="search_filter">
                   <img ng-src="{{filter}}" height="70" width="60" ng-click="select($index)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s">
                 </div>
               </div>
@@ -91,12 +104,12 @@
           <div ng-repeat="product in products">
             <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders">
               <div class="grid">
-                <figure class="effect-zoe">
-                  <img ng-src="{{product}}" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s"/>
+                <figure ng-controller="mixnmatchController" class="effect-zoe" ng-click="mixNmatch(product)">
+                  <img ng-src="{{product.img1}}" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s"/>
                 </figure>
                 <div class="row">
                   <span class="display_info">
-                    <div class="brand_name">Calvin Klein</div>
+                    <div class="brand_name">{{product.brand}}</div>
                   </span>
                 </div>
                 <div class="row">
@@ -191,9 +204,9 @@
     </script>
     <script>
     $(document).ready(function () {
-      $(document).on('mouseenter', '.selected_filter_mix', function () {
+      $(document).on('mouseenter', '.display_1', function () {
         $(this).find("i").show();
-      }).on('mouseleave', '.selected_filter_mix', function () {
+      }).on('mouseleave', '.display_1', function () {
         $(this).find("i").hide();
       });
     });

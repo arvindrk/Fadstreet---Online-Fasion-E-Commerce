@@ -1,6 +1,7 @@
 html,body{
     overflow: auto;
 }
+
 .nav > li{
 	top: 1px !important;
 }
@@ -22,6 +23,10 @@ html,body{
     font-family: Monaco;
     color: #5b5353;
 }
+.saveLook{
+    float: right;
+    padding: 3px 10px !important;
+}
 .similar{
     width: 100%;
     height: 25vh;
@@ -38,7 +43,7 @@ html,body{
 }
 .single_outfit{
     display: inline-block;
-    margin: 20px 20px 20px 0;
+    margin: 10px 20px 20px 0;
     width: 150px;
     height: 20vh;
     border: 1px solid #000;
@@ -112,6 +117,14 @@ html,body{
 .display_1{
     height: 25vh;
     border: 1px solid #000;
+    margin: 0 auto;
+    list-style: none;
+    text-align: center;
+    display: block;
+}
+.display_1 i{
+    float: right;
+    display: none;
 }
 
 /*=========================================================PRODUCT DISPLAY AREA=================================================================*/
