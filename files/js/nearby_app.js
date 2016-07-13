@@ -4,7 +4,7 @@ var brands = [
                   shop : 'BROOKS',
                   desc : 'Sports Apparels',
                   img : "http://www.yourprojector.com/blog/wp-content/uploads/Brooks-Logo.jpg",
-				  lat : 13.000900,
+				          lat : 13.000900,
                   long : 80.259900
               },
               {

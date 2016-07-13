@@ -90,7 +90,7 @@ header {
 	overflow-x: auto;
 	overflow-y: hidden;
     white-space:nowrap;
-    position: relative;
+    width: 100%;
 }
 .selected_filter{
 	display: inline-block;
@@ -117,7 +117,7 @@ header {
 }
 .sub_filter{
 	display: inline-block;
-	min-width: 8vw;	
+	min-width: 7vw;	
 }
 .hide-button {
     float: right;
@@ -127,7 +127,8 @@ header {
 }
 .firstFilter{
 	position: relative;
-	left: -30vw;
+	float: left;
+	/*top: -10px;*/
 }
 /*===========================================================ICON FILTER AREA END==============================================================*/
 

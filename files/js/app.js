@@ -9,7 +9,7 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
     $scope.men_active = "inactive";
     $scope.first_filter = {};
     $scope.products = {};
-    $scope.filters = {};
+    $scope.filters = [];
 
     $scope.showLoader = false;
     $scope.unlike = true;
@@ -68,14 +68,7 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
       $cookies.put('womenStatus',$scope.women_active);
 
       $scope.getProducts();
-
-      $scope.filters.icons = ["/fadstreet/files/images/men/1b.svg",
-      "/fadstreet/files/images/men/2b.svg",
-      "/fadstreet/files/images/men/3b.svg",
-      "/fadstreet/files/images/men/4b.svg",
-      "/fadstreet/files/images/men/5b.svg",
-      "/fadstreet/files/images/men/6b.svg",
-      "/fadstreet/files/images/men/7b.svg"];
+      $scope.getFilters(1);
       $scope.showLoader = false;
       
       $timeout(function() {
@@ -98,16 +91,7 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
       $scope.showLoader = true;
       
       $scope.getProducts();
-
-      $scope.filters.icons = ["/fadstreet/files/images/women/1a.svg",
-      "/fadstreet/files/images/women/2a.svg",
-      "/fadstreet/files/images/women/3a.svg",
-      "/fadstreet/files/images/women/4a.svg",
-      "/fadstreet/files/images/women/5a.svg",
-      "/fadstreet/files/images/women/6a.svg",
-      "/fadstreet/files/images/women/7a.svg",
-      "/fadstreet/files/images/women/8a.svg",
-      "/fadstreet/files/images/women/9a.svg"];
+      $scope.getFilters(2);
 
       $scope.subFilter = ["/fadstreet/files/images/women/sub/1a.svg",
                           "/fadstreet/files/images/women/sub/2a.svg",
@@ -143,30 +127,46 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
       }
     }
 
+    $scope.getFilters = function(payload){
+      $http({
+        method: 'GET',
+        url: 'http://13.75.44.45/userLogin/api/users/filterSearch'
+      }).then(function successCallback(response) {
+          $scope.filters = [];
+          if(payload == 2){
+            for (var i = 0; i < 9; i++) {
+              $scope.filters.push(response.data[i]);
+            }
+          }
+          else{
+            for (var i = 9; i < response.data.length; i++) {
+              $scope.filters.push(response.data[i]);
+            }
+          }
+        }, function errorCallback(response) {
+          console.log(response);
+        });
+    }
+
     $scope.selected_filters = [];
     $scope.select = function(data,payload){
-      if($scope.selected_filters.indexOf($scope.filters.icons[data]) == -1 && $scope.selected_filters.indexOf($scope.subFilter[data]) == -1){
+      if($scope.selected_filters.indexOf($scope.filters[data].imageLink) == -1 && $scope.selected_filters.indexOf($scope.subFilter[data]) == -1){
         if(payload == 0){
           var filterUrl = 'http://13.75.44.45/userLogin/api/users/filter/'+data;
           $http({
             method: 'POST',
             url: filterUrl
           }).then(function successCallback(response) {
-              console.log(response.data);
               $scope.products = response.data;
             }, function errorCallback(response) {
               console.log(response);
             });
           $scope.base_filter = false;
           $scope.first_filter_show = true;
-          $scope.first_filter = $scope.filters.icons[data];
+          $scope.first_filter = $scope.filters[data].imageLink;
           $scope.subFilter_show = true;
         }
         else{
-          if($scope.subFilter_show == true){
-              if(window.innerWidth <= 1500)
-                $("#filterId").animate({'top' : '2vh'}, {duration : 400});
-          }
           $scope.selected_filters.push($scope.subFilter[data]);
           $scope.filter_selected = true;
           $scope.filter_close = true;
@@ -178,10 +178,6 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
       if(payload == 0){
         $scope.setDefault();
         $scope.getProducts();
-
-        if($scope.subFilter_show == false)
-          if(window.innerWidth <= 1500)
-            $("#filterId").animate({'top' : '10vh'}, {duration : 400});
       }
       else{
         $scope.selected_filters.splice(data,1);
@@ -189,18 +185,12 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
           $scope.setDefault();
           $scope.getProducts();
         }
-        if($scope.subFilter_show == false)
-          if(window.innerWidth <= 1500)
-            $("#filterId").animate({'top' : '10vh'}, {duration : 400});
       }
     }
 
     $scope.removeAll = function(){
       $scope.setDefault();
       $scope.getProducts();
-      if($scope.subFilter_show == false)
-        if(window.innerWidth <= 1500)
-          $("#filterId").animate({'top' : '10vh'}, {duration : 400});
     }
     
     $scope.selectProduct = function(payload){
@@ -303,12 +293,21 @@ app.controller('loginController', ['$scope','$cookies','$http','$location','$mdD
     $scope.passwordValid = false;
 
     $scope.init = function(){
-      var user = $cookies.get('activeUser');
-      var username = $cookies.get('name');
+      var ifUser = $cookies.get('activeUser');
+      var ifName = $cookies.get('name');
 
-      if(user != null){
-        $scope.loggedIn[0] = true;
-        $scope.show_user[0] = username; 
+      if(ifUser != null){
+        $timeout(function() {
+          $scope.show_user[0] = ifName;
+          $scope.loggedIn[0] = true;
+          $('#modal').modal('hide');
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent('Welcome, '+$scope.show_user+'!')
+                .position('top right')
+                .hideDelay(3000)
+          );
+        }, 2000);
       }
     }
 
@@ -405,8 +404,8 @@ app.controller('loginController', ['$scope','$cookies','$http','$location','$mdD
           data: payload
         }).then(function successCallback(response) {
             console.log(response);
-            $cookies.put('activeUser',payload.username);
-            $scope.show_user[0] = payload.username;
+            $cookies.put('activeUser',payload.usrname);
+            $scope.show_user[0] = payload.usrname;
             $scope.loggedIn[0] = true;
             $scope.clearForm();
             $('#modal').modal('hide');

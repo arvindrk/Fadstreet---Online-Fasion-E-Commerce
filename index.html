@@ -40,11 +40,11 @@
           <div class="filter_icons" align="center" id="filterId">
             <div class="scrolls">
               <span class="firstFilter animated fadeIn" ng-show="first_filter_show">
-                <img ng-src="{{first_filter}}" height="110" width="100" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" ng-click="remove(0,0)">
+                <img ng-src="{{first_filter}}" height="90" width="80" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" ng-click="remove(0,0)">
               </span>
               <span ng-show="base_filter">
-                <div ng-repeat="filter in filters.icons" class="search_filter animated fadeIn">
-                  <img ng-src="{{filter}}" height="110" width="100" ng-click="select($index,0)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
+                <div ng-repeat="filter in filters" class="search_filter animated fadeIn">
+                  <img ng-src="{{filter.imageLink}}" height="90" width="80" ng-click="select($index,0)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
                 </div>
               </span>
               <span ng-show="subFilter_show" class="sub_filter_container">
@@ -57,7 +57,7 @@
             <div class="scrolls">
               <div ng-repeat="filter in selected_filters" class="selected_filter wow fadeIn" id="filter1">
                 <i class="fa fa-times-circle" ng-click="remove($index,1)"></i>
-                <img ng-src="{{filter}}" height="70" width="70">
+                <img ng-src="{{filter}}" height="60" width="50">
               </div>
               <div class="hide-button" ng-show="filter_close"><i class="fa fa-times-circle" ng-click="removeAll()"></i></div>
             </div>
@@ -70,6 +70,7 @@
       <div class="container-fluid">
         <div class="overFlow" align="center">
           <div class="scrolls">
+            <!-- <img ng-show="first_filter_show" src="{{first_filter}}" height="70" width="70" style="float:left;"> -->
             <div ng-repeat="filter in selected_filters" class="selected_filter" id="filter2">
               <i class="fa fa-times-circle" ng-click="remove($index,1)"></i>
               <img ng-src="{{filter}}" height="70" width="70">
@@ -118,7 +119,7 @@
 
     <footer ng-controller="productController">
       <div class="container">
-        <div class="col-md-3 col-sm-4 col-xs-6">
+        <div class="col-md-3 col-sm-4 col-xs-5">
           <ul class="footer_content">
             <li class="footer_head">FadStreet</li>
             <a href=""><li ng-click="getProductInfo()">About Us</li></a>
@@ -127,7 +128,7 @@
             <a href=""><li>FadStreet Stories</li></a>
           </ul>
         </div>
-        <div class="col-md-3 col-sm-4 col-xs-6">
+        <div class="col-md-3 col-sm-4 col-xs-7">
           <ul class="footer_content">
             <li class="footer_head">Customer Support</li>
             <a href=""><li>FAQ's</li></a>
@@ -136,13 +137,13 @@
             <a href=""><li>Shop Guide</li></a>
           </ul>
         </div>
-        <div class="col-md-3 col-sm-4 col-xs-6">
+        <div class="col-md-3 col-sm-4 col-xs-5">
           <ul class="footer_content">
             <li class="footer_head">Account</li>
             <a href=""><li><i class="fa fa-heart" aria-hidden="true"></i>&nbsp;Wishlist</li></a>
           </ul>
         </div>
-        <div class="col-md-3 col-sm-4 col-xs-6">
+        <div class="col-md-3 col-sm-4 col-xs-7">
           <ul class="footer_content">
             <li class="footer_head">Reach Us</li>
             <a href=""><li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;+91-97914 07402</li></a>
@@ -218,11 +219,11 @@
               </div>
               <form>
                 <div class="col-md-10 col-md-offset-1">
-                  <input type="text" id="login_email" class="form-control" ng-model="login.username" placeholder="E-mail" ng-blur="checkEmail(login.username,0)" required>
+                  <input type="text" id="login_email" class="form-control" ng-model="login.usrname" placeholder="E-mail" ng-blur="checkEmail(login.usrname,0)" required>
                   <div class="Error" ng-show="email_error">Invalid E-mail</div>
                   <div class="Error" ng-show="noEmail_error">E-mail doesn't exist</div>
                   <br>
-                  <input type="password" id="login_password" class="form-control" ng-model="login.password" placeholder="Password" ng-blur="checkPassword(login.password,0)" required>
+                  <input type="password" id="login_password" class="form-control" ng-model="login.passwrd" placeholder="Password" ng-blur="checkPassword(login.passwrd,0)" required>
                   <span align="center"><a class="brand_color">Forgor Password?</a></span>
                   <br>
                 </div>
