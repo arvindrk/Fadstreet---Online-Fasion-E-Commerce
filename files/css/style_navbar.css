@@ -12,7 +12,7 @@
 	position: relative;
 	left: 2vw;
 	font-size: 2vh;
-	top: 2vh;
+	top: 3vh;
 }
 .nav-tabs > .active > a{
 	position: relative;
@@ -38,11 +38,20 @@
 .brand{
 	max-width: 100vw;
 	text-align: center;
+	margin: 1.5vh 0;
+}
+.brand #brandLogo{
+	position: relative;
+	left: -3.5vw;
 }
 .nav-right{
 	display: block;
 	float: right;
 	margin: 3px 5px;
+}
+aaa{
+	position: relative;
+	left: -2px;
 }
 
 /*===========================================================ICON FILTER AREA==================================================================*/
@@ -124,11 +133,6 @@ header {
     font-size: 15px;
     display: inline-block;
     cursor: pointer;
-}
-.firstFilter{
-	position: relative;
-	float: left;
-	/*top: -10px;*/
 }
 /*===========================================================ICON FILTER AREA END==============================================================*/
 
@@ -356,6 +360,9 @@ footer{
 	}
 	.grid figure h2 span{
 		width: 20vw;
+	}
+	.search_area{
+		min-height: 45vh;
 	}
 }
 @media screen and (max-width: 500px) {

@@ -1,54 +1,79 @@
-var app = angular.module('fadStreetApp',['ngCookies','ngRoute','ngMaterial','ngFileReader']);
+var app = angular.module('fadStreetApp',['ngCookies', 'ngRoute', 'ngMaterial', 'ngFileReader', 'ngMessages', 'material.svgAssetsCache']);
 
 ///////////////////////////////////////////////////////////NAVTAB CONTROLLER///////////////////////////////////////////////////////////////////
 
-app.controller('navtabController', ['$scope','$cookies','$http','$location','$window','$mdToast','productService','loginService','$timeout',
-  function($scope,$cookies,$http,$location,$window,$mdToast,productService,loginService,$timeout) {
+app.controller('navtabController', ['$scope','$cookies','$http','$location','$window','$mdToast','loginService','$timeout',
+  function($scope,$cookies,$http,$location,$window,$mdToast,loginService,$timeout) {
 
     $scope.women_active = "active";
     $scope.men_active = "inactive";
-    $scope.first_filter = {};
+
     $scope.products = {};
     $scope.filters = [];
 
     $scope.showLoader = false;
     $scope.unlike = true;
     $scope.like = false;
+    $scope.unlike_local = true;
+    $scope.like_local = false;
 
     $scope.show_user = loginService.show_user;
     $scope.loggedIn = loginService.loggedIn;
-    $scope.productId = productService.productId;
+    $scope.subFilter = ["/fadstreet/files/images/WomenAttr/File1.svg",
+                        "/fadstreet/files/images/WomenAttr/File2.svg",
+                        "/fadstreet/files/images/WomenAttr/File3.svg",
+                        "/fadstreet/files/images/WomenAttr/File4.svg",
+                        "/fadstreet/files/images/WomenAttr/File5.svg",
+                        "/fadstreet/files/images/WomenAttr/File6.svg",
+                        "/fadstreet/files/images/WomenAttr/File7.svg",
+                        "/fadstreet/files/images/WomenAttr/File8.svg",
+                        "/fadstreet/files/images/WomenAttr/File9.svg",
+                        "/fadstreet/files/images/WomenAttr/File10.svg"];
+                          
+    $("#brandLogo").show();
+    $("#smallLogo").hide();
+    $("cartbutton").show();
+
+    // $scope.userEmail = $cookies.get('activeUser');
 
     $scope.init = function(){
       var men = $cookies.get('menStatus');
       var women = $cookies.get('womenStatus');
+      var showToastOnce = true;
+      $( window ).resize(function() {
+        if(window.innerWidth <= 550){
+          $("#brandLogo").hide();
+          $("#signout").hide();
+          $("#smallLogo").show();
+          $("cartbutton").hide();
+          $timeout(function() {
+            if(showToastOnce){
+              $mdToast.show(
+                $mdToast.simple()
+                  .textContent('Welcome to FadStreet!')
+                  .position('top')
+                  .hideDelay(3000)
+              );
+              showToastOnce = false;
+            }
+          }, 2000);
+        }
+        else{
+          $("#signout").show();
+          $("#brandLogo").show();
+          $("#smallLogo").hide();
+          $("cartbutton").show();
+        }
+      });
 
       if(men == 'active')
         $scope.men();
       else
         $scope.women();
-      
-      var ifUser = $cookies.get('activeUser');
-      var ifName = $cookies.get('name');
-
-      if(ifUser != null){
-        $timeout(function() {
-          $scope.show_user[0] = ifName;
-          $scope.loggedIn[0] = true;
-          $('#modal').modal('hide');
-            $mdToast.show(
-              $mdToast.simple()
-                .textContent('Welcome, '+$scope.show_user+'!')
-                .position('top right')
-                .hideDelay(3000)
-          );
-        }, 2000);
-      }
     }
 
     $scope.setDefault = function(){
       $scope.selected_filters = [];
-      $scope.first_filter_show = false;
       $scope.subFilter_show = false;
       $scope.base_filter = true;
       $scope.filter_selected = false;
@@ -67,8 +92,9 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
       $cookies.remove('womenStatus');
       $cookies.put('womenStatus',$scope.women_active);
 
-      $scope.getProducts();
       $scope.getFilters(1);
+      $scope.getProducts();
+
       $scope.showLoader = false;
       
       $timeout(function() {
@@ -90,13 +116,9 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
       
       $scope.showLoader = true;
       
-      $scope.getProducts();
       $scope.getFilters(2);
+      $scope.getProducts();
 
-      $scope.subFilter = ["/fadstreet/files/images/women/sub/1a.svg",
-                          "/fadstreet/files/images/women/sub/2a.svg",
-                          "/fadstreet/files/images/women/sub/3a.svg",
-                          "/fadstreet/files/images/women/sub/4a.svg"];
       $scope.showLoader = false;
       
       $timeout(function() {
@@ -162,8 +184,7 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
               console.log(response);
             });
           $scope.base_filter = false;
-          $scope.first_filter_show = true;
-          $scope.first_filter = $scope.filters[data].imageLink;
+          $scope.selected_filters.push($scope.filters[data].imageLink);
           $scope.subFilter_show = true;
         }
         else{
@@ -175,7 +196,7 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
     }
 
     $scope.remove = function(data,payload){
-      if(payload == 0){
+      if(data == 0){
         $scope.setDefault();
         $scope.getProducts();
       }
@@ -194,10 +215,43 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
     }
     
     $scope.selectProduct = function(payload){
-      $scope.productId[0] = payload;
-      $cookies.put('productId',$scope.productId[0]);
+      $cookies.put('productId',payload);
       $cookies.put('womenStatus',$scope.women_active);
       $window.location.assign('/fadstreet/single_product.html');
+    }
+
+    $scope.addToWishlist = function(data){
+      $scope.unlike_local=!$scope.unlike_local;
+      $scope.like_local=!$scope.like_local;
+      var payload = {};
+      payload.productId = data;
+      payload.username = $cookies.get('activeUser');
+      console.log(payload);
+      // console.log($scope.like_local + " " + $scope.unlike_local);
+      if($scope.like_local == true){
+        console.log("CALLING LIKE");
+        $http({
+          method: 'POST',
+          url: 'http://13.75.44.45/userLogin/api/users/addProductToWishlist',
+          data: payload
+        }).then(function successCallback(response) {
+            console.log(response);
+          }, function errorCallback(response) {
+            console.log(response);
+          });
+      }
+      else if($scope.unlike_local == true){
+        // console.log("CALLING UNLIKE");
+        // $http({
+        //   method: 'POST',
+        //   url: 'http://13.75.44.45/userLogin/api/users/removeFromWishlist',
+        //   data: payload
+        // }).then(function successCallback(response) {
+        //     console.log(response);
+        //   }, function errorCallback(response) {
+        //     console.log(response);
+        //   });
+      }
     }
 
     //--------------------INFINITE SCROLLING--------------------//
@@ -264,6 +318,7 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
     //------------------INFINITE SCROLLING END------------------//
 
     $scope.scrollToTop = function(){
+      console.log("Scrolling top");
       $("body").animate({scrollTop: 0}, "slow");
     }
 
@@ -275,13 +330,13 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
 
 ////////////////////////////////////////////////////////////LOGIN CONTROLLER///////////////////////////////////////////////////////////////////
 
-app.controller('loginController', ['$scope','$cookies','$http','$location','$mdDialog','$mdToast','$window','loginService','productService',
-  function($scope,$cookies,$http,$location,$mdDialog,$mdToast,$window,loginService,productService) {
+app.controller('loginController', ['$scope','$cookies','$http','$location','$timeout','$mdToast','$window','loginService',
+  function($scope,$cookies,$http,$location,$timeout,$mdToast,$window,loginService) {
     $scope.login = {};
     
     $scope.show_user = loginService.show_user;
     $scope.loggedIn = loginService.loggedIn;
-    $scope.productId = productService.productId;
+    // $scope.productId = productService.productId;
 
     $scope.show_login = true;
     
@@ -292,22 +347,16 @@ app.controller('loginController', ['$scope','$cookies','$http','$location','$mdD
     $scope.emailValid = false;
     $scope.passwordValid = false;
 
-    $scope.init = function(){
+    $scope.initialize = function(){
       var ifUser = $cookies.get('activeUser');
       var ifName = $cookies.get('name');
 
+      // console.log(ifUser + " " + ifName);
+
       if(ifUser != null){
-        $timeout(function() {
-          $scope.show_user[0] = ifName;
-          $scope.loggedIn[0] = true;
-          $('#modal').modal('hide');
-            $mdToast.show(
-              $mdToast.simple()
-                .textContent('Welcome, '+$scope.show_user+'!')
-                .position('top right')
-                .hideDelay(3000)
-          );
-        }, 2000);
+        $('#modal').modal('hide');
+        $scope.show_user[0] = ifName;
+        $scope.loggedIn[0] = true;
       }
     }
 
@@ -422,10 +471,23 @@ app.controller('loginController', ['$scope','$cookies','$http','$location','$mdD
         console.log("DONE")
       }
     }
+    
     $scope.clearForm = function(){
       $scope.login = {};
       $scope.signup= {};
-    }    
+    }
+
+    $scope.logout = function(){
+      $cookies.remove('activeUser');
+      $cookies.remove('name');
+      $scope.loggedIn[0] = false;
+      $window.location.assign('/');
+    }
+
+    $scope.wishlist = function(){
+      $window.location.assign('/wishlist.html');
+    }
+
 }]);
 
 app.service('loginService', 
@@ -437,8 +499,8 @@ app.service('loginService',
 
 ///////////////////////////////////////////////////////////PRODUCT CONTROLLER///////////////////////////////////////////////////////////////////
 
-app.controller('productController', ['$scope','$cookies','$http','$location','$window','productService',
-  function($scope,$cookies,$http,$location,$window,productService) {
+app.controller('productController', ['$scope','$cookies','$http','$location','$window',
+  function($scope,$cookies,$http,$location,$window) {
     
     //HTTP REQUEST TO GET PRODUCT DETAILS//
     $scope.product_info = {};
@@ -447,7 +509,7 @@ app.controller('productController', ['$scope','$cookies','$http','$location','$w
     $scope.similar_products = {};
 
     $scope.getSimilarProducts = function(){
-      console.log($scope.genderStatus);
+      // console.log($scope.genderStatus);
       if($scope.genderStatus == 'active'){
         $http({
         method: 'GET',
@@ -473,14 +535,14 @@ app.controller('productController', ['$scope','$cookies','$http','$location','$w
     $scope.getProductInfo = function(){
       var dummy = {};
       dummy.productId = $scope.productId;
-      console.log($scope.productId);
+      // console.log(dummy);
       $http({
         method: 'POST',
         url: 'http://13.75.44.45/userLogin/api/users/productsSingle',
         data: dummy
       }).then(function successCallback(response) {
           $scope.product_info = response.data[0];
-          console.log($scope.product_info);
+          // console.log(response.data);
           $scope.productImages = [];
           $scope.productImages.push($scope.product_info.img1);
           $scope.productImages.push($scope.product_info.img2);
@@ -541,21 +603,67 @@ app.controller('productController', ['$scope','$cookies','$http','$location','$w
     }
   }]);
 
-///////////////////////////////////////////////////////////PRODUCT CONTROLLER END///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////PRODUCT CONTROLLER END///////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////MIX N MATCH CONTROLLER///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////WISHLIST CONTROLLER///////////////////////////////////////////////////////////
+
+app.controller('wishlistController', ['$scope','$http','$location','$window','$cookies','$parse','loginService',
+  function($scope,$http,$location,$window,$cookies,$parse,loginService) {
+
+    $scope.userEmail = $cookies.get('activeUser');
+    $scope.like = true;
+    $scope.loggedIn = loginService.loggedIn;
+
+    $scope.retrieveProducts = function(){
+      var payload = {};
+      payload.username = $scope.userEmail;
+
+      $http({
+          method: 'POST',
+          url: 'http://13.75.44.45/userLogin/api/users/retrieveWishlist',
+          data: payload
+        }).then(function successCallback(response) {
+            console.log(response.data);
+            $scope.wishlistProducts = response.data;
+            $scope.no_of_items = response.data.length;
+          }, function errorCallback(response) {
+            console.log(response);
+          });
+    }
+
+    $scope.ifRemoved = function(data,id){
+      $scope.wishlistProducts.splice(data, 1);
+      
+      var payload = {};
+      payload.productId = id;
+      payload.username = $scope.userEmail;
+      console.log(payload);
+
+      $http({
+          method: 'POST',
+          url: 'http://13.75.44.45/userLogin/api/users/removeFromWishlist',
+          data: payload
+        }).then(function successCallback(response) {
+            console.log(response);
+          }, function errorCallback(response) {
+            console.log(response);
+          });
+    }
+
+  }]);
+
+///////////////////////////////////////////////////////////WISHLIST CONTROLLER END////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////MIX N MATCH CONTROLLER///////////////////////////////////////////////////////////
 
 app.controller('mixnmatchController', ['$scope','$http','$location','$window',
   function($scope,$http,$location,$window) {
     
   }]);
 
-///////////////////////////////////////////////////////////MIX N MATCH CONTROLLER END//////////////////////////////////////////////////////////
-app.service('productService', 
-  function(){
-    this.productId = [0];
-});
-///////////////////////////////////////////////////////////VENDOR CONTROLLER///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////MIX N MATCH CONTROLLER END////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////VENDOR CONTROLLER/////////////////////////////////////////////////////////////////
 
 app.controller('vendorController', ['$scope','$cookies','$http','$location','$mdDialog','$window',
   function($scope,$cookies,$http,$location,$mdDialog,$window) {
@@ -586,9 +694,7 @@ app.controller('vendorController', ['$scope','$cookies','$http','$location','$md
     		$scope.show_image = true;
 	    }
 	}); 
-	$scope.logout = function(){
-		$window.location.assign('/fadstreet/login.html');
-	}
+
   $scope.homePage = function(){
     $window.location.assign('/fadstreet/landing.html');
   }

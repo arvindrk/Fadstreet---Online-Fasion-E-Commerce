@@ -1,0 +1,28 @@
+body{
+	-webkit-transition:1s linear all;
+	-moz-transition:1s linear all;
+	-o-transition:1s linear all;
+	transition:1s linear all;
+}
+.nav > li{
+	top: 0px !important;
+}
+.nav-tabs > .active > a{
+	background-color: #FFF !important;
+}
+.nomargin{
+	background-color: #efefef;
+}
+.brand #brandLogo{
+	position: relative;
+	left: 6vw;
+}
+.similarContainter{
+	display: block;
+	margin-top: 10vh;
+	border: 1px solid #e5e5e5;
+	border-radius: 5px;
+	background-color: #efefef;
+	height: 60vh;
+
+}

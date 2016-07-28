@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_landing.css">
     <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_navbar.css">
-    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/price_tag.css">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_similar.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
     <!-- Jquery is required for angular to execute -->
     <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
@@ -22,96 +21,25 @@
 
     <div class="container-fluid nomargin">
       <ul class="nav nav-tabs">
-        <li role="presentation" ng-class="women_active"><a href="#" ng-click="women()">SHOP WOMEN</a></li>
-        <li role="presentation" ng-class="men_active"><a href="#" ng-click="men()">SHOP MEN</a></li>
+        <!-- <li role="presentation" ng-class="women_active"><a href="#" ng-click="women()">SHOP WOMEN</a></li>
+        <li role="presentation" ng-class="men_active"><a href="#" ng-click="men()">SHOP MEN</a></li> -->
         <div class="brand">
           <img id="brandLogo" src="/fadstreet/files/newLogo.png" height="40" width="150" ng-click="homePage()">
           <img id="smallLogo" src="/fadstreet/files/logo.png" height="40" width="40" ng-click="homePage()">
           <div class="nav-right" ng-controller="loginController" ng-init="initialize()">
             <!-- <loginbutton><i class="fa fa-android" aria-hidden="true"></i>Download our App</loginbutton> -->
             <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
-            <loginbutton ng-show="loggedIn[0]" ng-click="wishlist()"><i class="fa fa-heart" aria-hidden="true"></i>{{show_user[0]}}</loginbutton>
+            <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-heart-o" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
             <loginbutton ng-show="loggedIn[0]" ng-click="logout()" id="signout">Sign out</span></loginbutton>
+            <!-- <cartbutton><i class="fa fa-globe"></i></span></cartbutton> -->
             <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart brand_color"></i></cartbutton>
           </div>
         </div>
       </ul>
-      <div class="search_area" ng-init="base_filter = 'true'">
-        <div class="container-fluid nomargin">
-          <div class="filter_icons" align="center" id="filterId">
-            <div class="scrolls">
-              <span ng-show="base_filter">
-                <div ng-repeat="filter in filters" class="search_filter animated fadeIn">
-                  <img ng-src="{{filter.imageLink}}" height="90" width="80" ng-click="select($index,0)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
-                </div>
-              </span>
-              <span ng-show="subFilter_show" class="sub_filter_container">
-                <div ng-repeat="filter in subFilter" class="sub_filter">
-                  <img ng-src="{{filter}}" height="90" width="80" ng-click="select($index,1)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
-                </div>
-              </span>
-            </div>
-            <hr class="icon_divider wow fadeIn" width="10%" ng-show="filter_selected">
-            <div class="scrolls">
-              <div ng-repeat="filter in selected_filters" class="selected_filter wow fadeIn" id="filter1">
-                <i class="fa fa-times-circle" ng-click="remove($index,1)"></i>
-                <img ng-src="{{filter}}" height="60" width="50">
-              </div>
-              <div class="hide-button" ng-show="filter_close"><i class="fa fa-times-circle" ng-click="removeAll()"></i></div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <header class="fixed">
-      <div class="container-fluid">
-        <div class="overFlow" align="center">
-          <div class="scrolls">
-            <div ng-repeat="filter in selected_filters" class="selected_filter" id="filter2">
-              <i class="fa fa-times-circle" ng-click="remove($index,1)"></i>
-              <img ng-src="{{filter}}" height="70" width="70">
-            </div>
-            <div class="hide-button" ng-show="filter_close"><i class="fa fa-times-circle" ng-click="removeAll()"></i></div>
-          </div>
-        </div>
-      </div>
-    </header>
-    
-    <div class="scrollTop" ng-click="scrollToTop()">TOP<i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
-
-    <div class="container products">
-      <div ng-repeat="product in products">
-        <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders">
-          <div class="grid">
-            <figure class="effect-zoe">
-              <img ng-src="{{product.img1}}" class="animated fadeIn" ng-click="selectProduct(product.productId)">
-              <!-- <span class="tags"><span class="price-tag"><a>$2.99</a></span></span> -->
-              <figcaption>
-                <h2><span>{{product.type | uppercase}}</span></h2>
-                <p class="icon-links">
-                  <i ng-class="{'fa-heart-o':unlike,'fa-heart':like}" class="fa fa-heart-o green" ng-click="heart=!heart;unlike=!unlike;like=!like;addToWishlist(product.productId)"></i>
-                  <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
-                </p>
-                <p class="description" align="center"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Buy Similar</p>
-              </figcaption>     
-            </figure>
-            <div class="row">
-              <span class="display_info">
-                <div class="brand_name">{{product.brand | uppercase}}</div>
-              </span>
-            </div>
-            <div class="row">
-              <!-- <span class="display_info"> -->
-                <div class="price">&#8377;2499.00</div>
-              <!-- </span> -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div align="center" ng-show="showLoader">
-      <img src="/fadstreet/files/loader.gif">
+    <div align="center">
+      <div class="container similarContainter"></div>
     </div>
 
     <footer ng-controller="productController">
@@ -194,15 +122,6 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>    
     <script type="text/javascript" src="/fadstreet/files/js/ngFileReader.js"></script>
     <script>new WOW().init();</script>
-    <script>
-    $(document).ready(function () {
-      $(document).on('mouseenter', '.selected_filter', function () {
-        $(this).find("i").show();
-      }).on('mouseleave', '.selected_filter', function () {
-        $(this).find("i").hide();
-      });
-    });
-    </script>
 
     <!--********************************************************** Login modal **************************************************************-->
     <div ng-controller="loginController" id="modal" class="modal modal_height fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">

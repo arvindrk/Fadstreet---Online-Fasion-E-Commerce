@@ -3,199 +3,98 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_landing.css">
     <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_navbar.css">
-    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_product.css">
+    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_wishlist.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/price_tag.css"> -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+    <!-- Jquery is required for angular to execute -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
     <title>FadStreet - Fashion for you</title>
     <link rel="shortcut icon" type="image/x-icon" href="/fadstreet/files/logo.png" alt="Logo"/>
   </head>
+  <body ng-controller="wishlistController" ng-init="retrieveProducts()" ng-cloak>
 
-  <body ng-controller="productController" style="background-color: #fff;" ng-init="women_active='active';men_active='inactive';getProductInfo()" ng-cloak>
-    
     <div class="container-fluid nomargin" ng-controller="navtabController">
       <ul class="nav nav-tabs">
         <!-- <li role="presentation" ng-class="women_active"><a href="#" ng-click="women()">SHOP WOMEN</a></li>
         <li role="presentation" ng-class="men_active"><a href="#" ng-click="men()">SHOP MEN</a></li> -->
         <div class="brand">
-          <img src="/fadstreet/files/newLogo.png" height="40" width="150" ng-click="homePage()">
+          <img id="brandLogo" src="/fadstreet/files/newLogo.png" height="40" width="150" ng-click="homePage()">
+          <!-- <img id="smallLogo" src="/fadstreet/files/logo.png" height="40" width="40" ng-click="homePage()"> -->
           <div class="nav-right" ng-controller="loginController" ng-init="initialize()">
             <!-- <loginbutton><i class="fa fa-android" aria-hidden="true"></i>Download our App</loginbutton> -->
             <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
-            <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-user" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
-            <cartbutton><i class="fa fa-heart-o"></i></cartbutton>
+            <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-heart-o" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
+            <loginbutton ng-show="loggedIn[0]" ng-click="logout();" id="signout">Sign out</span></loginbutton>
+            <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart"></i></cartbutton>
           </div>
         </div>
       </ul>
     </div>
 
-    <br>
-
-    <div class="container-fluid main_container" align="center">
-      <div class="col-md-9 col-sm-12 col-xs-12 nomargin" style="border-right: 1px solid #adadad;">
-        <div class="row"><!-- Brand Description -->
-          <div class="col-md-2 col-sm-2 col-xs-2 nomargin">
-            <i class="fa fa-arrow-circle-left back_arrow" aria-hidden="true" ng-click="homePage()"></i>
-          </div>
-          <div class="col-md-10 col-sm-10 col-xs-10 nomargin">
-            <div class="brand_container">
-              <span class="brand_description">Esprit Holdings Limited is a publicly owned manufacturer of clothing, footwear, accessories, jewellery and housewares under the Esprit label.</span>
-              <div class="brand_img">
-                <img src="http://citypoint.ge/uploads/company/94c0686e99a0b6aa9a188ca4e87e97d5.jpg">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-12"><!-- Image Carousel -->
-          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-              <li data-target="#carousel-example-generic" data-slide-to="0" class='active'></li>
-              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-            </ol>
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-              <div class="item" ng-class='{active:$first}' ng-repeat="image in productImages">
-                <img src="{{image}}" alt="Image">
-              </div>
-            </div>
-
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-
-          <custom-button onClick="imgAreaSelect()"><i class="fa fa-search" aria-hidden="true"></i>FIND SIMILAR</custom-button>
-          <custom-button ng-click="likeIt()"><i ng-class="{'fa-heart-o':unlike,'fa-heart':like}" class="fa fa-heart-o"></i>{{wish_content}}</custom-button>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-12 nomargin"><!-- Product Description -->
-          <div class="scroll">
-            <div class="product_brand">{{product_info.brand | uppercase}}</div>
-            <div class="product_name">{{product_info.type | uppercase}} - {{product_info.color | uppercase}}</div>
-            <hr class="icon_divider" width="50%">
-            <div class="product_price">Rs 2499.00</div>
+    <div class="container-fluid wishlistHeading" align="center">
+      <span>My Wishlist</span>
+      <div class="price_switch" ng-show="loggedIn[0]">
+        <md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="data.cb5">Price Alarm</md-switch>
+      </div>
+      <hr width="10%" class="brand_color">
+      <span class="wishlist_length">{{no_of_items}} Items</span>
+    </div>
+    
+    <div class="container products">
+      <div ng-hide="loggedIn[0]" align="center">
+        <div class="no_user_wishlist">Please Log in to view your Wishlist.</div><br>
+        <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
+      </div>
+      <div ng-repeat="product in wishlistProducts" class="repeated-item" ng-show="loggedIn[0]">
+        <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders" ng-click="selectProduct(product.productId)">
+          <div class="grid">
+            <figure class="effect-zoe">
+              <img ng-src="{{product.img1}}" class="animated fadeIn">
+              <figcaption>
+                <h2><span>{{product.type | uppercase}}</span></h2>
+                <p class="icon-links">
+                  <i ng-class="{'fa-heart-o':unlike,'fa-heart':like}" class="fa fa-heart green" ng-click="ifRemoved($index,product.productId)"></i>
+                  <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
+                </p>
+                <p class="description" align="center"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Buy Similar</p>
+              </figcaption>     
+            </figure>
             <div class="row">
-              <div ng-repeat="color in color_images" class="choose_colors" ng-class="{'selected':  colorSelected == $index}" ng-click="updateSelected($index,0)">
-                <img src="{{color}}">
-              </div>
+              <span class="display_info">
+                <div class="brand_name">{{product.brand | uppercase}}</div>
+              </span>
             </div>
             <div class="row">
-              <div ng-repeat="size in sizes" class="choose_size" ng-class="{'selected':  sizeSelected == $index}" ng-click="updateSelected($index,1)">
-                <span>{{size}}</span>
-              </div>
+              <div class="price">&#8377;2499.00</div>
             </div>
-            <div class="buttons">
-              <product-button class="buynow">BUY&nbsp;&nbsp;NOW<i class="fa fa-shopping-bag" aria-hidden="true"></i></product-button>
-            </div>
-            <div class="description_contianer">
-              <span class="description_heading">Product Description</span>
-              <table style="width:100%">
-                <col width="180">
-                <col width="10">
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Clothing</td>
-                  <td>:</td>
-                  <td>{{product_info.clothing_length}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Color</td>
-                  <td>:</td>
-                  <td>{{product_info.color}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Fit</td>
-                  <td>:</td>
-                  <td>{{product_info.correct_fit}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Material</td>
-                  <td>:</td>
-                  <td>{{product_info.material}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Neckline</td>
-                  <td>:</td>
-                  <td>{{product_info.neckline}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Pattern</td>
-                  <td>:</td>
-                  <td>{{product_info.pattern}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Type</td>
-                  <td>:</td>
-                  <td>{{product_info.type}}</td>
-                </tr>
-                <tr class="product_description">
-                  <td><i class="fa fa-circle" aria-hidden="true" style="font-size:6px;position:relative;top:-3px;"></i>&nbsp;Washing Instructions</td>
-                  <td>:</td>
-                  <td>{{product_info.washing_instructions}}</td>
-                </tr>
-              </table>
-          </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-12 col-xs-12"><!-- MIX N MATCH -->
-        <div class="mixnmatch_heading">MIX N MATCH</div>
-        <div class="scroll">
-          <div ng-repeat="mix in similar_products" class="col-md-12 col-sm-6 col-xs-12 nomargin" id="mixnmatch_area">
-            <div class="col-md-7 col-sm-7 col-xs-7">
-              <div class="similarMix">
-                <img src="{{mix.img2}}">
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-5">
-              <div class="similarMix_1">
-                <img src="{{mix.img3}}">
-              </div>
-              <div class="similarMix_1">
-                <img src="{{mix.img4}}">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-12"><!-- SIMILAR IMAGES -->
-        <div class="similar_heading">YOU MIGHT ALSO LIKE</div>
-        <div class="similarContainer">
-          <div ng-repeat="product in similar_products" class="singleContainer">
-            <div class="similarImages">
-              <img src="{{product.img1}}"/>
-            </div>
-            <!-- <caption>{{product.brand}}</caption> -->
           </div>
         </div>
       </div>
     </div>
+    <div align="center" ng-show="showLoader">
+      <img src="/fadstreet/files/loader.gif">
+    </div>
 
-    <footer>
+    <footer ng-controller="productController">
       <div class="container">
-        <div class="col-md-3 col-sm-4 col-xs-6">
+        <div class="col-md-3 col-sm-4 col-xs-5">
           <ul class="footer_content">
             <li class="footer_head">FadStreet</li>
-            <a href=""><li>About Us</li></a>
+            <a href=""><li ng-click="getProductInfo()">About Us</li></a>
             <a href=""><li>Our Concept</li></a>
             <a href=""><li>Our Team</li></a>
             <a href=""><li>FadStreet Stories</li></a>
           </ul>
         </div>
-        <div class="col-md-3 col-sm-4 col-xs-6">
+        <div class="col-md-3 col-sm-4 col-xs-7">
           <ul class="footer_content">
             <li class="footer_head">Customer Support</li>
             <a href=""><li>FAQ's</li></a>
@@ -204,13 +103,13 @@
             <a href=""><li>Shop Guide</li></a>
           </ul>
         </div>
-        <div class="col-md-3 col-sm-4 col-xs-6">
+        <div class="col-md-3 col-sm-4 col-xs-5">
           <ul class="footer_content">
             <li class="footer_head">Account</li>
             <a href=""><li><i class="fa fa-heart" aria-hidden="true"></i>&nbsp;Wishlist</li></a>
           </ul>
         </div>
-        <div class="col-md-3 col-sm-4 col-xs-6">
+        <div class="col-md-3 col-sm-4 col-xs-7">
           <ul class="footer_content">
             <li class="footer_head">Reach Us</li>
             <a href=""><li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;+91-97914 07402</li></a>
@@ -240,29 +139,30 @@
         </div>
       </div>
     </footer>
-
-    <!-- Jquery is required for angular to execute -->
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
-    <!-- Latest compiled and minified JavaScript for Bootstrap-->
+    
+    <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <!-- Contains the controllers for each webpage -->
     <script type="text/javascript" src="/fadstreet/files/js/app.js"></script>
+    <!-- Script to delay the animation based on time -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <!-- Script to Scroll to top -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.0/angular-scroll.min.js"></script>
+    <!-- Stick navbar to the TOP -->
+    <script type="text/javascript" src="/fadstreet/files/js/sticky.js"></script>
     <!-- Required Angular plugins to satisfy the dependencies -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
     <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
     <script type="text/javascript" src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.0.8/angular-material.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script> 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>    
     <script type="text/javascript" src="/fadstreet/files/js/ngFileReader.js"></script>
-    <script>
-    $("#toggle").click(function(){
-        $("#toggle").toggleClass("wished");
-    });
-    </script>
+    <script>new WOW().init();</script>
 
     <!--********************************************************** Login modal **************************************************************-->
     <div ng-controller="loginController" id="modal" class="modal modal_height fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -276,12 +176,11 @@
               </div>
               <form>
                 <div class="col-md-10 col-md-offset-1">
-                  <input type="text" id="login_email" class="form-control" ng-model="login.username" placeholder="E-mail" ng-blur="checkEmail(login.username,0)" required>
+                  <input type="text" id="login_email" class="form-control" ng-model="login.usrname" placeholder="E-mail" ng-blur="checkEmail(login.usrname,0)" required>
                   <div class="Error" ng-show="email_error">Invalid E-mail</div>
                   <div class="Error" ng-show="noEmail_error">E-mail doesn't exist</div>
                   <br>
-                  <input type="password" id="login_password" class="form-control" ng-model="login.password" placeholder="Password" ng-blur="checkPassword(login.password,0)" required>
-                  <div class="Error" ng-show="password_error">Invalid Password</div>
+                  <input type="password" id="login_password" class="form-control" ng-model="login.passwrd" placeholder="Password" ng-blur="checkPassword(login.passwrd,0)" required>
                   <span align="center"><a class="brand_color">Forgot Password?</a></span>
                   <br>
                 </div>

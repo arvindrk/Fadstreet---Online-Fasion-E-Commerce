@@ -1,9 +1,6 @@
 ::-webkit-scrollbar { 
     display: none; 
 }
-.nav > li{
-	top: 5px !important;
-}
 .nav-tabs > .active > a{
 	background-color: #EFEFEF !important;
 }

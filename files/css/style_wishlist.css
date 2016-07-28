@@ -1,0 +1,132 @@
+.nav > li{
+	top: 0px !important;
+}
+.nav-tabs > .active > a{
+	background-color: #FFF !important;
+}
+.nomargin{
+	background-color: #efefef;
+}
+.brand #brandLogo{
+	position: relative;
+	left: 6vw;
+}
+.wishlistHeading{
+	font-family: "lucida grande";
+	font-size: 4vh;
+	margin-top: 30px;
+}
+.wishlistHeading hr{
+	border-top: 1px solid #482E8B;
+}
+.wishlist_length{
+	color: #827777;
+	font-size: 2vh;
+	position: relative;
+	top: -20px;
+}
+.products{
+	top: 1vh !important;
+}
+
+.no_user_wishlist{
+	font-family: "lucida grande";
+	font-size: 4vh;
+	margin-top: 30px;
+	color: #827777;
+	text-align: center;
+}
+
+.switchdemoBasicUsage .inset {
+  padding-left: 25px;
+  padding-top: 25px; 
+}
+.price_switch{
+	position: absolute;
+	float: right;
+	font-size: 2vh;
+	top: 15%;
+}
+
+/*
+ * Animations 
+ * ---------- */
+
+.repeated-item.ng-enter {
+    -webkit-transition:0.5s linear all;
+    -moz-transition:0.5s linear all;
+    -o-transition:0.5s linear all;
+    transition:0.5s linear all;
+    max-height: 0;
+    opacity: 0;
+    left: -50px;
+}
+ 
+.repeated-item.ng-enter.ng-enter-active {
+    max-height: 90px;
+    opacity: 1;
+    left: 0;
+}
+ 
+.repeated-item.ng-leave {
+  -webkit-animation:0.5s my_animation;
+  -moz-animation:0.5s my_animation;
+  -o-animation:0.5s my_animation;
+  animation:0.5s my_animation;
+}
+ 
+@keyframes my_animation {
+  from {
+    max-height: 90px;
+    opacity: 1;
+    left: 0;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+    left: -50px;
+  }
+}
+ 
+/*
+  Unfortunately each browser vendor requires
+  its own definition of keyframe animation code...
+*/
+@-webkit-keyframes my_animation {
+  from {
+    max-height: 90px;
+    opacity: 1;
+    left: 0;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+    left: -50px;
+  }
+}
+ 
+@-moz-keyframes my_animation {
+  from {
+    max-height: 90px;
+    opacity: 1;
+    left: 0;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+    left: -50px;
+  }
+}
+ 
+@-o-keyframes my_animation {
+  from {
+    max-height: 90px;
+    opacity: 1;
+    left: 0;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+    left: -50px;
+  }
+}

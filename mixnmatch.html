@@ -24,7 +24,7 @@
         <li role="presentation" ng-class="men_active"><a href="#" ng-click="men()">SHOP MEN</a></li> -->
         <div class="brand">
           <img src="/fadstreet/files/newLogo.png" height="40" width="150">
-          <div class="nav-right" ng-controller="loginController" ng-init="init()">
+          <div class="nav-right" ng-controller="loginController" ng-init="initialize()">
             <!-- <loginbutton><i class="fa fa-android" aria-hidden="true"></i>Download our App</loginbutton> -->
             <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
             <loginbutton ng-show="loggedIn[0]"><span><i class="fa fa-heart-o" aria-hidden="true"></i>{{show_user[0]}}</span></loginbutton>
@@ -230,7 +230,7 @@
                   <br>
                   <input type="password" id="login_password" class="form-control" ng-model="login.password" placeholder="Password" ng-blur="checkPassword(login.password,0)" required>
                   <div class="Error" ng-show="password_error">Invalid Password</div>
-                  <span align="center"><a class="brand_color">Forgor Password?</a></span>
+                  <span align="center"><a class="brand_color">Forgot Password?</a></span>
                   <br>
                 </div>
                 <div class="col-md-12" align="center">
