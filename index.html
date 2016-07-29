@@ -31,33 +31,32 @@
             <!-- <loginbutton><i class="fa fa-android" aria-hidden="true"></i>Download our App</loginbutton> -->
             <loginbutton ng-hide="loggedIn[0]" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-user" aria-hidden="true"></i>Login</loginbutton>
             <loginbutton ng-show="loggedIn[0]" ng-click="wishlist()"><i class="fa fa-heart" aria-hidden="true"></i>{{show_user[0]}}</loginbutton>
-            <loginbutton ng-show="loggedIn[0]" ng-click="logout()" id="signout">Sign out</span></loginbutton>
+            <loginbutton ng-show="loggedIn[0]" ng-click="logout()" id="signout">Sign out</loginbutton>
             <cartbutton ng-hide="loggedIn[0]"><i class="fa fa-heart brand_color"></i></cartbutton>
           </div>
         </div>
       </ul>
+
       <div class="search_area" ng-init="base_filter = 'true'">
         <div class="container-fluid nomargin">
           <div class="filter_icons" align="center" id="filterId">
-            <div class="scrolls">
-              <span ng-show="base_filter">
-                <div ng-repeat="filter in filters" class="search_filter animated fadeIn">
-                  <img ng-src="{{filter.imageLink}}" height="90" width="80" ng-click="select($index,0)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
-                </div>
-              </span>
-              <span ng-show="subFilter_show" class="sub_filter_container">
-                <div ng-repeat="filter in subFilter" class="sub_filter">
-                  <img ng-src="{{filter}}" height="90" width="80" ng-click="select($index,1)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
-                </div>
-              </span>
+            <div class="filter_heading" ng-hide="base_layer">
+              <i ng-show="leftArrow" class="fa fa-chevron-left left_arrow" aria-hidden="true"></i>
+              {{filter_title | uppercase}}
+              <i ng-show="rightArrow" class="fa fa-chevron-right right_arrow" aria-hidden="true"></i>
+            </div>
+            <div class="scrolls" ng-show="base_filter">
+              <div ng-repeat="filter in filters" class="search_filter animated fadeIn">
+                <img ng-src="{{filter.imageURL}}" height="90" width="80" ng-click="select($index,filter)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
+              </div>
             </div>
             <hr class="icon_divider wow fadeIn" width="10%" ng-show="filter_selected">
             <div class="scrolls">
               <div ng-repeat="filter in selected_filters" class="selected_filter wow fadeIn" id="filter1">
-                <i class="fa fa-times-circle" ng-click="remove($index,1)"></i>
-                <img ng-src="{{filter}}" height="60" width="50">
+                <i class="fa fa-times-circle" ng-click="remove($index,1,filter)"></i>
+                <img ng-src="{{filter.imageURL}}" height="60" width="50">
               </div>
-              <div class="hide-button" ng-show="filter_close"><i class="fa fa-times-circle" ng-click="removeAll()"></i></div>
+              <div class="hide-button" ng-show="filter_close"><i class="fa fa-times-circle" ng-click="remove(0)"></i></div>
             </div>
           </div>
         </div>
@@ -69,10 +68,10 @@
         <div class="overFlow" align="center">
           <div class="scrolls">
             <div ng-repeat="filter in selected_filters" class="selected_filter" id="filter2">
-              <i class="fa fa-times-circle" ng-click="remove($index,1)"></i>
-              <img ng-src="{{filter}}" height="70" width="70">
+              <i class="fa fa-times-circle" ng-click="remove($index,1,filter)"></i>
+              <img ng-src="{{filter.imageURL}}" height="70" width="70">
             </div>
-            <div class="hide-button" ng-show="filter_close"><i class="fa fa-times-circle" ng-click="removeAll()"></i></div>
+            <div class="hide-button" ng-show="filter_close"><i class="fa fa-times-circle" ng-click="remove(0)"></i></div>
           </div>
         </div>
       </div>

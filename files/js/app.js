@@ -19,16 +19,6 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
 
     $scope.show_user = loginService.show_user;
     $scope.loggedIn = loginService.loggedIn;
-    $scope.subFilter = ["/fadstreet/files/images/WomenAttr/File1.svg",
-                        "/fadstreet/files/images/WomenAttr/File2.svg",
-                        "/fadstreet/files/images/WomenAttr/File3.svg",
-                        "/fadstreet/files/images/WomenAttr/File4.svg",
-                        "/fadstreet/files/images/WomenAttr/File5.svg",
-                        "/fadstreet/files/images/WomenAttr/File6.svg",
-                        "/fadstreet/files/images/WomenAttr/File7.svg",
-                        "/fadstreet/files/images/WomenAttr/File8.svg",
-                        "/fadstreet/files/images/WomenAttr/File9.svg",
-                        "/fadstreet/files/images/WomenAttr/File10.svg"];
                           
     $("#brandLogo").show();
     $("#smallLogo").hide();
@@ -74,10 +64,16 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
 
     $scope.setDefault = function(){
       $scope.selected_filters = [];
-      $scope.subFilter_show = false;
       $scope.base_filter = true;
       $scope.filter_selected = false;
       $scope.filter_close = false;
+      $scope.end_of_filter = false;
+      $scope.filter_title = null;
+      $scope.base_layer = true;
+      $(".filter_icons").css({ top: '10vh' });
+      $(".filter_icons").css({ left: '0' });
+      $scope.leftArrow = true;
+      $scope.rightArrow = true;
     }
 
     $scope.men = function (){
@@ -123,7 +119,7 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
       
       $timeout(function() {
         $scope.base_filter = true;
-      }, 1500);
+      }, 500);
     }
     
     $scope.getProducts = function(){
@@ -142,6 +138,7 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
         method: 'GET',
         url: 'http://13.75.44.45/userLogin/api/users/products'
       }).then(function successCallback(response) {
+          // console.log(response.data);
           $scope.products = response.data;
         }, function errorCallback(response) {
           console.log(response);
@@ -154,13 +151,14 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
         method: 'GET',
         url: 'http://13.75.44.45/userLogin/api/users/filterSearch'
       }).then(function successCallback(response) {
+          // console.log(response.data);
           $scope.filters = [];
-          if(payload == 2){
+          if($scope.women_active == 'active'){
             for (var i = 0; i < 9; i++) {
               $scope.filters.push(response.data[i]);
             }
           }
-          else{
+          else if($scope.men_active == 'active'){
             for (var i = 9; i < response.data.length; i++) {
               $scope.filters.push(response.data[i]);
             }
@@ -170,48 +168,85 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
         });
     }
 
-    $scope.selected_filters = [];
-    $scope.select = function(data,payload){
-      if($scope.selected_filters.indexOf($scope.filters[data].imageLink) == -1 && $scope.selected_filters.indexOf($scope.subFilter[data]) == -1){
-        if(payload == 0){
-          var filterUrl = 'http://13.75.44.45/userLogin/api/users/filter/'+data;
-          $http({
-            method: 'POST',
-            url: filterUrl
-          }).then(function successCallback(response) {
-              $scope.products = response.data;
-            }, function errorCallback(response) {
-              console.log(response);
-            });
-          $scope.base_filter = false;
-          $scope.selected_filters.push($scope.filters[data].imageLink);
-          $scope.subFilter_show = true;
-        }
-        else{
-          $scope.selected_filters.push($scope.subFilter[data]);
-          $scope.filter_selected = true;
-          $scope.filter_close = true;
-        }
+    $scope.end_of_filter = false;
+    $scope.getNewFilters = function(data1,data2){
+      // console.log(data);
+      var payload = {};
+      payload.firstLevel = data1;
+      payload.currentLevel = data2;
+      console.log(payload);
+      if($scope.end_of_filter == false){
+        $http({
+          method: 'POST',
+          url: 'http://13.75.44.45/userLogin/api/users/DummysubFilter',
+          data: payload
+        }).then(function successCallback(response) {
+            console.log(response.data[0]);
+            $scope.filters = response.data;
+            $scope.filter_title = $scope.filters[0].currentLevel;
+          }, function errorCallback(response) {
+            console.log(response);
+          });
       }
     }
 
-    $scope.remove = function(data,payload){
+    $scope.selected_filters = [];
+    $scope.select = function(data,product){
+      $scope.filter_selected = true;
+      $scope.filter_close = true;
+      $scope.base_layer = false;
+      $(".filter_icons").css({ top: '4vh' });
+      $(".filter_icons").css({ left: '2vh' });
+
+      if($scope.selected_filters.indexOf($scope.filters[data]) == -1){
+        var filterUrl = 'http://13.75.44.45/userLogin/api/users/filter/'+data;
+        $http({
+          method: 'POST',
+          url: filterUrl
+        }).then(function successCallback(response) {
+            $scope.products = response.data;
+          }, function errorCallback(response) {
+            console.log(response);
+          });
+        
+        $scope.base_filter = false;
+        // TO CHECK IF SKIP IS NOT ADDED TO THE SELECTED FILTERS LIST
+        if(data < $scope.filters.length - 1)
+          $scope.selected_filters.push($scope.filters[data]);
+        
+        if($scope.end_of_filter == false)
+          $scope.filters = [];
+        
+        $scope.getNewFilters(product.baseFilter,product.nextLevel);
+        if(product.nextLevel == "pattern"){
+          $scope.end_of_filter = true;
+          $scope.rightArrow = false;
+        }
+
+        $scope.base_filter = true;
+      }
+    }
+
+    $scope.remove = function(data,payload,product){
       if(data == 0){
         $scope.setDefault();
         $scope.getProducts();
+        $scope.getFilters();
       }
       else{
-        $scope.selected_filters.splice(data,1);
+        // console.log(product);
+        if($scope.end_of_filter == true){
+          $scope.selected_filters.splice(data,1);
+          $scope.end_of_filter = false;
+        }
+        else{
+          $scope.selected_filters.splice(data,1);
+          $scope.getNewFilters(product.baseFilter,product.currentLevel);
+        }
         if($scope.selected_filters.length == 0){
-          $scope.setDefault();
-          $scope.getProducts();
+          $scope.remove(0);
         }
       }
-    }
-
-    $scope.removeAll = function(){
-      $scope.setDefault();
-      $scope.getProducts();
     }
     
     $scope.selectProduct = function(payload){
