@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_landing.css">
     <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/style_navbar.css">
-    <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/price_tag.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/fadstreet/files/css/price_tag.css"> -->
+    <link rel="stylesheet" href="/fadstreet/files/css/ion.rangeSlider.css"/>
+    <link rel="stylesheet" href="/fadstreet/files/css/ion.rangeSlider.skinFlat.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
     <!-- Jquery is required for angular to execute -->
     <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
@@ -47,7 +49,7 @@
             </div>
             <div class="scrolls" ng-show="base_filter">
               <div ng-repeat="filter in filters" class="search_filter animated fadeIn">
-                <img ng-src="{{filter.imageURL}}" height="90" width="80" ng-click="select($index,filter)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
+                <img ng-src="{{filter.imageURL}}" height="90" width="80" ng-click="selectFilter($index,filter)" class="wow fadeIn" data-wow-delay="{{$index - ($index * 0.90)}}s" id="{{$index}}">
               </div>
             </div>
             <hr class="icon_divider wow fadeIn" width="10%" ng-show="filter_selected">
@@ -79,36 +81,63 @@
     
     <div class="scrollTop" ng-click="scrollToTop()">TOP<i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
 
-    <div class="container products">
-      <div ng-repeat="product in products">
-        <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders">
-          <div class="grid">
-            <figure class="effect-zoe">
-              <img ng-src="{{product.img1}}" class="animated fadeIn" ng-click="selectProduct(product.productId)">
-              <!-- <span class="tags"><span class="price-tag"><a>$2.99</a></span></span> -->
-              <figcaption>
-                <h2><span>{{product.type | uppercase}}</span></h2>
-                <p class="icon-links">
-                  <i ng-class="{'fa-heart-o':unlike,'fa-heart':like}" class="fa fa-heart-o green" ng-click="heart=!heart;unlike=!unlike;like=!like;addToWishlist(product.productId)"></i>
-                  <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
-                </p>
-                <p class="description" align="center"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Buy Similar</p>
-              </figcaption>     
-            </figure>
-            <div class="row">
-              <span class="display_info">
-                <div class="brand_name">{{product.brand | uppercase}}</div>
-              </span>
-            </div>
-            <div class="row">
-              <!-- <span class="display_info"> -->
-                <div class="price">&#8377;2499.00</div>
-              <!-- </span> -->
+    <div id="main_container" style="width:100%" align="center">
+      
+      <div class="filter_box" ng-show="show_filterBox" align="center">
+        <span>{{selected_filters[0].baseFilter | uppercase}}</span>
+        <hr>
+        <div>BRANDS</div>
+        <hr width="20%">
+        <div class="icon-addon addon-md">
+          <input type="text" ng-model="filterBrand" placeholder="Enter a Brand..." class="form-control filterBrandInput center-block"/>
+          <label class="glyphicon glyphicon-search" rel="tooltip"></label>
+        </div>
+        <br>
+        <div>PRICE</div>
+        <hr width="20%">
+        <div>
+          <input type="text" id="range" name="rangeclasdj" />
+        </div>
+        <div>Rs. {{rangeFilter.start_value}} - {{rangeFilter.end_value}}</div><br><br>
+        <div>
+          <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="data.cb5" class="md-primary">
+            Show only items on Sale
+          </md-checkbox>
+        </div>
+      </div>
+      
+      <div class="products" ng-class="show_container">
+        <div ng-repeat="product in products">
+          <div class="col-md-3 col-sm-4 col-xs-6 col-lg-3 borders">
+            <div class="grid">
+              <figure class="effect-zoe">
+                <img ng-src="{{product.img1}}" class="animated fadeIn" ng-click="selectProduct(product.productId)">
+                <!-- <span class="tags"><span class="price-tag"><a>$2.99</a></span></span> -->
+                <figcaption>
+                  <h2><span>{{product.type | uppercase}}</span></h2>
+                  <p class="icon-links">
+                    <i ng-class="{'fa-heart-o':unlike,'fa-heart':like}" class="fa fa-heart-o green" ng-click="heart=!heart;unlike=!unlike;like=!like;addToWishlist(product.productId)"></i>
+                    <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
+                  </p>
+                  <p class="description" align="center"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Buy Similar</p>
+                </figcaption>     
+              </figure>
+              <div class="row">
+                <span class="display_info">
+                  <div class="brand_name">{{product.brand | uppercase}}</div>
+                </span>
+              </div>
+              <div class="row">
+                <!-- <span class="display_info"> -->
+                  <div class="price">&#8377;2499.00</div>
+                <!-- </span> -->
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <div align="center" ng-show="showLoader">
       <img src="/fadstreet/files/loader.gif">
     </div>
@@ -176,20 +205,19 @@
     <script type="text/javascript" src="/fadstreet/files/js/app.js"></script>
     <!-- Script to delay the animation based on time -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-    <!-- Script to Scroll to top -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.0/angular-scroll.min.js"></script>
     <!-- Stick navbar to the TOP -->
     <script type="text/javascript" src="/fadstreet/files/js/sticky.js"></script>
+    <script type="text/javascript" src="/fadstreet/files/js/ion.rangeSlider.min.js"></script>
     <!-- Required Angular plugins to satisfy the dependencies -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script> -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
-    <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
+    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script> -->
+    <!-- <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script> -->
     <script type="text/javascript" src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.0.8/angular-material.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script> 
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script>  -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>    
     <script type="text/javascript" src="/fadstreet/files/js/ngFileReader.js"></script>
     <script>new WOW().init();</script>

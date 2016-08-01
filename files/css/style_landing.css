@@ -231,12 +231,13 @@ figure.effect-zoe:hover p.icon-links i:first-child {
 }
 
 .products{
-	display: block;
+	display: inline-block;
 	position: relative;
 	top: 5vh;
 	margin-bottom:15vh;
 	clear: both;
 }
+
 .borders{
 	border: 1px solid #F2F2F2;
 	background-color: #fff;
@@ -265,3 +266,66 @@ figure.effect-zoe:hover p.icon-links i:first-child {
 	color: #878787;
 }
 /*===========================================================PRODUCT GRID COMPLETE=============================================================*/
+.filter_box{
+	display: inline-block;
+	position: relative;
+	top: -65vh;
+	font-family: "lucida grande";
+	border:1px solid #dedede;
+	width: 20vw;
+	height: 70vh;
+	margin-left: 20px;
+	border-radius: 5px;
+	z-index: 1;
+	padding: 15px 25px;
+	background-color: #fff;
+}
+.filter_box > span{
+	font-size: 2.5vh;
+	width: 100%;
+}
+
+.icon-addon {
+    position: relative;
+    color: #555;
+    display: block;
+}
+
+.icon-addon:after,
+.icon-addon:before {
+    display: table;
+    content: " ";
+}
+
+.icon-addon:after {
+    clear: both;
+}
+
+.icon-addon.addon-md .glyphicon,
+.icon-addon .glyphicon, 
+.icon-addon.addon-md .fa,
+.icon-addon .fa {
+    position: absolute;
+    z-index: 2;
+    left: 10px;
+    font-size: 14px;
+    width: 20px;
+    margin-left: -2.5px;
+    text-align: center;
+    padding: 10px 0;
+    top: 1px
+}
+
+.icon-addon.addon-md .form-control,
+.icon-addon .form-control {
+    padding-left: 30px;
+    /*float: left;*/
+    font-weight: normal;
+}
+
+.icon-addon .form-control:focus + .glyphicon,
+.icon-addon:hover .glyphicon,
+.icon-addon .form-control:focus + .fa,
+.icon-addon:hover .fa {
+    color: #482E8B;
+}

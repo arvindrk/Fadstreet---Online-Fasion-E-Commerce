@@ -1,4 +1,4 @@
-var app = angular.module('fadStreetApp',['ngCookies', 'ngRoute', 'ngMaterial', 'ngFileReader', 'ngMessages', 'material.svgAssetsCache']);
+var app = angular.module('fadStreetApp',['ngCookies', 'ngRoute', 'ngMaterial', 'ngFileReader']);
 
 ///////////////////////////////////////////////////////////NAVTAB CONTROLLER///////////////////////////////////////////////////////////////////
 
@@ -30,6 +30,12 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
       var men = $cookies.get('menStatus');
       var women = $cookies.get('womenStatus');
       var showToastOnce = true;
+      $scope.show_container = "container";
+      
+      $scope.rangeFilter = {};
+      $scope.rangeFilter.start_value = 500;
+      $scope.rangeFilter.end_value = 4000;
+
       $( window ).resize(function() {
         if(window.innerWidth <= 550){
           $("#brandLogo").hide();
@@ -60,9 +66,39 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
         $scope.men();
       else
         $scope.women();
+
+      $("#range").ionRangeSlider({
+          type: "double",
+          min: 100,
+          max: 5000,
+          from: 500,
+          to: 2500,
+          step: 10,
+          onStart: function (data) {
+              // console.log(data);
+          },
+          onChange:  function (data) {
+              // console.log(data);
+              $scope.rangeFilter.start_value = data.from;
+              $scope.rangeFilter.end_value = data.to;
+              console.log($scope.rangeFilter.start_value + " " + $scope.rangeFilter.end_value);
+          },
+          onFinish:  function (data) {
+              // console.log(data);
+          },
+          onUpdate:  function (data) {
+              // console.log(data);
+              $scope.rangeFilter.start_value = data.from;
+              $scope.rangeFilter.end_value = data.to;
+              console.log($scope.rangeFilter.start_value + " " + $scope.rangeFilter.end_value);
+          }
+      });
     }
 
     $scope.setDefault = function(){
+      $scope.show_container = "container";
+      $scope.show_filterBox = false;
+      $("#main_container").attr("align","center");
       $scope.selected_filters = [];
       $scope.base_filter = true;
       $scope.filter_selected = false;
@@ -138,7 +174,6 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
         method: 'GET',
         url: 'http://13.75.44.45/userLogin/api/users/products'
       }).then(function successCallback(response) {
-          // console.log(response.data);
           $scope.products = response.data;
         }, function errorCallback(response) {
           console.log(response);
@@ -151,7 +186,6 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
         method: 'GET',
         url: 'http://13.75.44.45/userLogin/api/users/filterSearch'
       }).then(function successCallback(response) {
-          // console.log(response.data);
           $scope.filters = [];
           if($scope.women_active == 'active'){
             for (var i = 0; i < 9; i++) {
@@ -170,7 +204,6 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
 
     $scope.end_of_filter = false;
     $scope.getNewFilters = function(data1,data2){
-      // console.log(data);
       var payload = {};
       payload.firstLevel = data1;
       payload.currentLevel = data2;
@@ -191,23 +224,28 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
     }
 
     $scope.selected_filters = [];
-    $scope.select = function(data,product){
+    $scope.selectFilter = function(data,product){
       $scope.filter_selected = true;
       $scope.filter_close = true;
       $scope.base_layer = false;
-      $(".filter_icons").css({ top: '4vh' });
-      $(".filter_icons").css({ left: '2vh' });
+
+      $(".filter_icons").css({ 'top': '4vh' });
+      $(".filter_icons").css({ 'left': '2vh' });
+      $scope.show_container = "container-fluid";
+      $scope.show_filterBox = true;
+      $('#main_container').removeAttr('align');
+      $(".products").css({ 'width': '75vw'});
 
       if($scope.selected_filters.indexOf($scope.filters[data]) == -1){
         var filterUrl = 'http://13.75.44.45/userLogin/api/users/filter/'+data;
-        $http({
-          method: 'POST',
-          url: filterUrl
-        }).then(function successCallback(response) {
-            $scope.products = response.data;
-          }, function errorCallback(response) {
-            console.log(response);
-          });
+        // $http({
+        //   method: 'POST',
+        //   url: filterUrl
+        // }).then(function successCallback(response) {
+        //     $scope.products = response.data;
+        //   }, function errorCallback(response) {
+        //     console.log(response);
+        //   });
         
         $scope.base_filter = false;
         // TO CHECK IF SKIP IS NOT ADDED TO THE SELECTED FILTERS LIST
@@ -221,6 +259,10 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
         if(product.nextLevel == "pattern"){
           $scope.end_of_filter = true;
           $scope.rightArrow = false;
+        }
+        else{
+          $scope.end_of_filter = false;
+          $scope.rightArrow = true;
         }
 
         $scope.base_filter = true;
@@ -261,8 +303,7 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
       var payload = {};
       payload.productId = data;
       payload.username = $cookies.get('activeUser');
-      console.log(payload);
-      // console.log($scope.like_local + " " + $scope.unlike_local);
+
       if($scope.like_local == true){
         console.log("CALLING LIKE");
         $http({
@@ -323,6 +364,17 @@ app.controller('navtabController', ['$scope','$cookies','$http','$location','$wi
     window.onscroll = function () {
       var initial = 270;
       var current = window.pageYOffset;
+
+      var el = $('.filter_box'); 
+      var isPositionFixed = (el.css('position') == 'fixed');
+      if ($(this).scrollTop() > 320 && !isPositionFixed && !$scope.base_layer){ 
+        $('.filter_box').css({'position': 'fixed', 'top': '80px'});
+        $(".products").css({ 'left': '23vw'});
+      }
+      if ($(this).scrollTop() < 320 && isPositionFixed && !$scope.base_layer){
+        $('.filter_box').css({'position': 'relative', 'top': '-65vh'}); 
+        $(".products").css({ 'left': '0'});
+      }
 
       if(current > 1000)
         $('.scrollTop').addClass('scrollShow').removeClass('scrollHide');

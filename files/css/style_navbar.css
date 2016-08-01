@@ -7,6 +7,7 @@
 }
 .nav{
 	padding-top: 1vh;
+	z-index: 1000;
 }
 .nav > li{
 	position: relative;
@@ -42,7 +43,7 @@
 }
 .brand #brandLogo{
 	position: relative;
-	left: -3.5vw;
+	left: -2.5vw;
 }
 .nav-right{
 	display: block;
@@ -88,6 +89,7 @@ header {
 	position: relative;
 	min-height: 35vh;
 	background-color: #efefef;
+	z-index: 10;
 }
 .filter_heading{
 	font-family: "lucida grande";
@@ -154,6 +156,8 @@ header {
     font-size: 15px;
     display: inline-block;
     cursor: pointer;
+    position: relative;
+    right: 20px;
 }
 /*===========================================================ICON FILTER AREA END==============================================================*/
 
@@ -310,6 +314,7 @@ footer{
 	text-align: left;
 	margin-top: 10vh;
 	padding: 50px 0px;
+	z-index: 0;
 }
 .footer_head{
 	color: #5b5353;
